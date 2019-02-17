@@ -1,4 +1,5 @@
-Copyright (c) 2019 Bartosz Polaczyk
+/*
+ Copyright (c) 2019 Bartosz Polaczyk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -17,3 +18,41 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+*/
+
+protocol Defaultable {
+    static var defaultValue:Self {get}
+}
+
+extension Bool:Defaultable {
+    static let defaultValue = false
+}
+
+
+extension Int:Defaultable {
+    static let defaultValue = 0
+}
+
+extension String:Defaultable {
+    static let defaultValue = ""
+}
+
+extension UInt:Defaultable {
+    static var defaultValue:UInt = 0
+}
+
+extension Array:Defaultable {
+    static var defaultValue:Array<Element> {return []}
+}
+
+extension Dictionary:Defaultable {
+    static var defaultValue:Dictionary<Key, Value> {return [:]}
+}
+
+extension Optional:Defaultable {
+    static var defaultValue:Optional<Wrapped> {return nil}
+}
+
+extension URL: Defaultable {
+    static var defaultValue: URL = URL.init(fileURLWithPath: "/")
+}

@@ -1,0 +1,16 @@
+PODS:
+  - StubKit (0.1.0)
+
+DEPENDENCIES:
+  - StubKit (from `../`)
+
+EXTERNAL SOURCES:
+  StubKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  StubKit: d5db99d89f63cd81e94086def788159b9a8d21fe
+
+PODFILE CHECKSUM: f855c063b8722940d5fc17bcc6ca5db51131db4f
+
+COCOAPODS: 1.5.0

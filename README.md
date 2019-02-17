@@ -22,7 +22,7 @@ pod 'StubKit'
 
 ## Author
 
-polac24, polac24@gmail.com
+Bartosz Polaczyk, polac24@gmail.com
 
 ## License
 
