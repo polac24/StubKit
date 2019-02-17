@@ -20,29 +20,74 @@
  THE SOFTWARE.
  */
 
-protocol Recorder: class {
+public protocol Recorder: class {
     associatedtype Element
-    
+
     init()
     func record(_ t:Element)
     subscript(_ i:Int)->Element? {get}
     var count: Int {get}
+    func clean()
 }
 
-class ArgRecords<T>: Recorder {
-    private var history:[T] = []
-    
-    required init(){}
-    
-    func record(_ t:T){
-        history.append(t)
+protocol RecorderInternal: Recorder {
+    associatedtype ElementInternal
+
+    var history:[ElementInternal] {get set}
+    var observers: [RecordObserver<ElementInternal>] {get set}
+    var historyOffset: Int {get set}
+    func map(_: Element) -> (ElementInternal)
+    func inverseMap(_: ElementInternal) -> (Element)
+    func add(observer: RecordObserver<Element>) 
+}
+
+extension RecorderInternal {
+    public func record(_ t:Element){
+        history.append(map(t))
+        let index = count
+        observers.removeAll(where: {$0.onRecord(v: map(t), index: index)})
     }
     
-    subscript(_ i:Int)->T?{
-        guard i < history.count else {return nil}
-        return history[i]
+    public subscript(_ i:Int) -> Element?{
+        if i < historyOffset {
+            return nil
+        }
+        guard i < (historyOffset + history.count) else {return nil}
+        return inverseMap(history[i])
     }
-    var count: Int {
-        return history.count
+    
+    public var count: Int {
+        return history.count + historyOffset
     }
+    
+    public func clean() {
+        historyOffset += history.count
+        history = []
+    }
+    
+    public func add(observer: RecordObserver<Element>) {
+        observers.append(RecordObserver({ (e, i) -> (Bool) in
+            #warning("cycle break needed")
+            return observer.onRecord(v:self.inverseMap(e), index: i)
+        }))
+    }
+}
+
+public class ArgRecords<T>: RecorderInternal {
+    func map(_ v: T) -> (T) {
+        return v
+    }
+    
+    func inverseMap(_ v: T) -> (T) {
+        return v
+    }
+    
+    public typealias  Element = T
+    typealias  ElementInternal = T
+
+    var history:[T] = []
+    var historyOffset = 0
+    var observers = [RecordObserver<T>]()
+    
+    public required init(){}
 }

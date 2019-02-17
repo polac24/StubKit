@@ -20,29 +20,15 @@
  THE SOFTWARE.
  */
 
-public class ArgWeakRecords<T:AnyObject>: RecorderInternal{
-    public typealias Element = T
-    typealias ElementInternal = WeakBox<T>
-    
-    var history: [WeakBox<T>]  = []
-    var observers: [RecordObserver<WeakBox<T>>] = []
-    var historyOffset: Int = 0
-    
-    func map(_ v: T) -> (WeakBox<T>) {
-        return WeakBox(v)
-    }
-    
-    func inverseMap(_ box: WeakBox<T>) -> (T) {
-        #warning("Force unwrapp gracefull handle needed")
-        return box.value!
-    }
-    
-    required public init(){}
-}
 
-class WeakBox<T:AnyObject> {
-    weak var value: T?
-    init(_ value: T?) {
-        self.value = value
+class RecordObserver<T>{
+    private let onRecordFunction: (T,Int) -> (Bool)
+    
+    init(_ recordObserver: @escaping (T,Int) -> (Bool)){
+        onRecordFunction = recordObserver
+    }
+    
+    func onRecord(v: T, index: Int) -> Bool {
+        return onRecordFunction(v, index)
     }
 }

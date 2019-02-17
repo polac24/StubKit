@@ -20,29 +20,20 @@
  THE SOFTWARE.
  */
 
-public class ArgWeakRecords<T:AnyObject>: RecorderInternal{
-    public typealias Element = T
-    typealias ElementInternal = WeakBox<T>
-    
-    var history: [WeakBox<T>]  = []
-    var observers: [RecordObserver<WeakBox<T>>] = []
-    var historyOffset: Int = 0
-    
-    func map(_ v: T) -> (WeakBox<T>) {
-        return WeakBox(v)
-    }
-    
-    func inverseMap(_ box: WeakBox<T>) -> (T) {
-        #warning("Force unwrapp gracefull handle needed")
-        return box.value!
-    }
-    
-    required public init(){}
-}
 
-class WeakBox<T:AnyObject> {
-    weak var value: T?
-    init(_ value: T?) {
-        self.value = value
+import XCTest
+
+extension Recorder where Element: Equatable, Self: RecorderInternal {
+    func expectationFor(value: Element, index: Int) -> XCTestExpectation {
+        let newExpectation = XCTestExpectation(description: "Expectation for \(value) called at index: \(index)")
+        let observer = RecordObserver<Element> { (ele, indice) in
+            if ele == value {
+                newExpectation.fulfill()
+                return true
+            }
+            return false
+        }
+        add(observer: observer)
+        return newExpectation
     }
 }
