@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'StubKit_Example' do
+  pod 'StubKit', :path => '../'
+
+  target 'StubKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
