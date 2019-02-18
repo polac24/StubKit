@@ -20,39 +20,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-protocol Defaultable {
+public protocol DefaultProvidable {
     static var defaultValue:Self {get}
 }
 
 
-extension Bool:Defaultable {
-    static let defaultValue = false
+extension Bool: DefaultProvidable {
+    public static let defaultValue = false
 }
 
-extension Int:Defaultable {
-    static let defaultValue = 0
+extension Int: DefaultProvidable {
+    public static let defaultValue = 0
 }
 
-extension String:Defaultable {
-    static let defaultValue = ""
+extension String: DefaultProvidable {
+    public static let defaultValue = ""
 }
 
-extension UInt:Defaultable {
-    static var defaultValue:UInt = 0
+extension UInt: DefaultProvidable {
+    public static var defaultValue:UInt = 0
 }
 
-extension Array:Defaultable {
-    static var defaultValue:Array<Element> {return []}
+extension Array: DefaultProvidable {
+    public static var defaultValue:Array<Element> {return []}
 }
 
-extension Dictionary:Defaultable {
-    static var defaultValue:Dictionary<Key, Value> {return [:]}
+extension Dictionary: DefaultProvidable {
+    public static var defaultValue:Dictionary<Key, Value> {return [:]}
 }
 
-extension Optional:Defaultable {
-    static var defaultValue:Optional<Wrapped> {return nil}
+extension Optional: DefaultProvidable {
+    public static var defaultValue:Optional<Wrapped> {return nil}
 }
 
-extension URL: Defaultable {
-    static var defaultValue: URL = URL(fileURLWithPath: "/")
+extension URL : DefaultProvidable {
+    public static var defaultValue: URL = URL(fileURLWithPath: "/")
 }

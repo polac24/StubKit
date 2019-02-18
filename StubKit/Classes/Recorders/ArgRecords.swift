@@ -20,29 +20,20 @@
  THE SOFTWARE.
  */
 
-protocol Recorder: class {
-    associatedtype Element
-    
-    init()
-    func record(_ t:Element)
-    subscript(_ i:Int)->Element? {get}
-    var count: Int {get}
-}
-
-class ArgRecords<T>: Recorder {
+public class ArgRecords<T>: Recorder {
     private var history:[T] = []
     
-    required init(){}
+    required public init(){}
     
-    func record(_ t:T){
+    public func record(_ t:T){
         history.append(t)
     }
     
-    subscript(_ i:Int)->T?{
+    public subscript(_ i:Int)->T?{
         guard i < history.count else {return nil}
         return history[i]
     }
-    var count: Int {
+    public var count: Int {
         return history.count
     }
 }

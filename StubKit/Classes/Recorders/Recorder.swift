@@ -20,28 +20,11 @@
  THE SOFTWARE.
  */
 
-public class ArgWeakRecords<T:AnyObject>: Recorder{
-    private var weakHistory:[WeakBox<T>] = []
+public protocol Recorder: class {
+    associatedtype Element
     
-    required public init(){}
-
-
-    public func record(_ t:T){
-        weakHistory.append(WeakBox(t))
-    }
-    
-    public subscript(_ i: Int) -> T? {
-        guard i < weakHistory.count else { return nil }
-        return weakHistory[i].value
-    }
-    public var count: Int {
-        return weakHistory.count
-    }
-}
-
-private class WeakBox<T:AnyObject> {
-    weak var value: T?
-    init(_ value: T?) {
-        self.value = value
-    }
+    init()
+    func record(_ t:Element)
+    subscript(_ i:Int)->Element? {get}
+    var count: Int {get}
 }

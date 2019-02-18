@@ -21,10 +21,10 @@
  */
 
 
-func stub<I,O>(of: (I)->(O), file: StaticString = #file, line: UInt = #line) -> (I)->(O) {
+public func stub<I,O>(of: (I)->(O), file: StaticString = #file, line: UInt = #line) -> (I)->(O) {
     fatalError("Unexpected stub call", file:file, line: line)
 }
 
-func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UInt = #line) -> (I) throws ->(O) {
+public func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UInt = #line) -> (I) throws ->(O) {
     fatalError("Unexpected stub call", file:file, line: line)
 }

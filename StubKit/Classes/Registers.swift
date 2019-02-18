@@ -20,28 +20,22 @@
  THE SOFTWARE.
  */
 
-public class ArgWeakRecords<T:AnyObject>: Recorder{
-    private var weakHistory:[WeakBox<T>] = []
-    
-    required public init(){}
-
-
-    public func record(_ t:T){
-        weakHistory.append(WeakBox(t))
-    }
-    
-    public subscript(_ i: Int) -> T? {
-        guard i < weakHistory.count else { return nil }
-        return weakHistory[i].value
-    }
-    public var count: Int {
-        return weakHistory.count
-    }
+public func registerStub<I,O>(alwaysReturn defaultValue: O) -> (I) -> (O){
+    return { _ in defaultValue }
+}
+public func registerStub<I,O:DefaultProvidable>(alwaysReturn defaultValue: O = O.defaultValue) -> (I) -> (O){
+    return { _ in defaultValue }
+}
+public func registerStub<I>() -> (I) -> (){
+    return { _ in }
 }
 
-private class WeakBox<T:AnyObject> {
-    weak var value: T?
-    init(_ value: T?) {
-        self.value = value
-    }
+public func registerStub<I,O>(alwaysReturn defaultValue: O) -> (I) throws -> (O){
+    return { _ in defaultValue }
+}
+public func registerStub<I,O:DefaultProvidable>(alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws -> (O){
+    return { _ in defaultValue }
+}
+public func registerStub<I,O>(alwaysThrow error: Error) -> (I) throws -> (O){
+    return { _ in throw error }
 }

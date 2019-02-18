@@ -20,31 +20,31 @@
  THE SOFTWARE.
  */
 
-func niceStub<I,O>(of: (I)->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
+public func niceStub<I,O>(of: (I)->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
     return { _ in defaultValue }
 }
 
-func niceStub<I,O:Defaultable>(of: (I)->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
+public func niceStub<I,O:DefaultProvidable>(of: (I)->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
     return { _ in defaultValue }
 }
 
-func niceStub<I>(of: (I)->()) -> (I)->() {
+public func niceStub<I>(of: (I)->()) -> (I)->() {
     return niceStub(of: of, alwaysReturn: ())
 }
 
-func niceStub<I,O>(of: (I) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
+public func niceStub<I,O>(of: (I) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
     return { _ in defaultValue }
 }
 
-func niceStub<I>(of: (I) throws ->()) -> (I) throws ->() {
+public func niceStub<I>(of: (I) throws ->()) -> (I) throws ->() {
     return niceStub(of: of, alwaysReturn: ())
 }
 
-func niceStub<I,O:Defaultable>(of: (I) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
+public func niceStub<I,O:DefaultProvidable>(of: (I) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
     return { _ in defaultValue }
 }
 
-func niceStub<I,O>(of: (I) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
+public func niceStub<I,O>(of: (I) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
     return { _ in
         throw defaultThrow
     }
