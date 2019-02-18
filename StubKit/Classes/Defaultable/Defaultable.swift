@@ -24,10 +24,10 @@ protocol Defaultable {
     static var defaultValue:Self {get}
 }
 
+
 extension Bool:Defaultable {
     static let defaultValue = false
 }
-
 
 extension Int:Defaultable {
     static let defaultValue = 0
@@ -54,5 +54,5 @@ extension Optional:Defaultable {
 }
 
 extension URL: Defaultable {
-    static var defaultValue: URL = URL.init(fileURLWithPath: "/")
+    static var defaultValue: URL = URL(fileURLWithPath: "/")
 }

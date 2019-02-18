@@ -28,8 +28,16 @@ func niceStub<I,O:Defaultable>(of: (I)->(O), alwaysReturn defaultValue: O = O.de
     return { _ in defaultValue }
 }
 
+func niceStub<I>(of: (I)->()) -> (I)->() {
+    return niceStub(of: of, alwaysReturn: ())
+}
+
 func niceStub<I,O>(of: (I) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
     return { _ in defaultValue }
+}
+
+func niceStub<I>(of: (I) throws ->()) -> (I) throws ->() {
+    return niceStub(of: of, alwaysReturn: ())
 }
 
 func niceStub<I,O:Defaultable>(of: (I) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {

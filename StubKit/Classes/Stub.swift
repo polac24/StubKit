@@ -22,9 +22,9 @@
 
 
 func stub<I,O>(of: (I)->(O), file: StaticString = #file, line: UInt = #line) -> (I)->(O) {
-    fatalError("Missing stub declaration", file:file, line: line)
+    fatalError("Unexpected stub call", file:file, line: line)
 }
 
 func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UInt = #line) -> (I) throws ->(O) {
-    fatalError("Missing stub declaration", file:file, line: line)
+    fatalError("Unexpected stub call", file:file, line: line)
 }
