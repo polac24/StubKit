@@ -14,6 +14,7 @@
 		101FEA53221B50D400C70FE6 /* ArgRecordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */; };
 		101FEA55221B53F200C70FE6 /* WeakScopeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */; };
 		101FEA57221B54CE00C70FE6 /* ArgWeakRecordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */; };
+		101FEA59221B588700C70FE6 /* StubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA58221B588700C70FE6 /* StubTests.swift */; };
 		B708CF2F8B8116C27AA1600B /* Pods_StubKitExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9338E823F996B129794FE /* Pods_StubKitExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgRecordsTests.swift; sourceTree = "<group>"; };
 		101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakScopeWorker.swift; sourceTree = "<group>"; };
 		101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgWeakRecordsTests.swift; sourceTree = "<group>"; };
+		101FEA58221B588700C70FE6 /* StubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubTests.swift; sourceTree = "<group>"; };
 		15E889CDDEE965D3C70C01AF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1B93A751141B070872CAFC47 /* Pods_StubKitExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StubKitExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		44840F7C04F4328BCA0FE9C4 /* Pods_StubKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StubKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 				101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */,
 				101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */,
 				101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */,
+				101FEA58221B588700C70FE6 /* StubTests.swift */,
 			);
 			path = StubKitExampleTests;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			files = (
 				101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */,
 				101FEA55221B53F200C70FE6 /* WeakScopeWorker.swift in Sources */,
+				101FEA59221B588700C70FE6 /* StubTests.swift in Sources */,
 				101FEA53221B50D400C70FE6 /* ArgRecordsTests.swift in Sources */,
 				101FEA57221B54CE00C70FE6 /* ArgWeakRecordsTests.swift in Sources */,
 			);
