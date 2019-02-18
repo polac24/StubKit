@@ -23,65 +23,55 @@
 import XCTest
 import StubKit
 
-class SpiesTests: XCTestCase {
+class ArgRecordsTests: XCTestCase {
 
+    private var testMock: TestMock!
     
-    func testNiceConformance() {
-        let testMock = TestMock()
-        testMock.returnBoolAction = registerStub()
+    override func setUp() {
+        testMock = TestMock()
+        testMock.takeObjectAction = registerStub()
+    }
+    
+    override func tearDown() {
+        testMock = nil
+    }
+    
+    func testSpyKeepsStrongArgReference() {
+        let weakArgs = spyCalls(of: &testMock.takeObjectAction)
+        let scopeResult = applyWeak(NSObject()) {
+            testMock.takeObject($0)
+        }
         
-        XCTAssertFalse(testMock.returnBool())
+        XCTAssertEqual(weakArgs.count, 1)
+        XCTAssertNotNil(scopeResult)
     }
-    func testNiceIntConformance() {
-        let testMock = TestMock()
-        testMock.returnIntAction = registerStub()
+    
+    func testReleasedArgSpy_deallocArguments() {
+        let scopeResult = applyWeak(NSObject()) {
+            var weakArgs = spyCalls(of: &testMock.takeObjectAction)
+            testMock.takeObject($0)
+        }
         
-        XCTAssertEqual(testMock.returnInt(), 0)
+        XCTAssertNil(scopeResult)
     }
     
-    func testDefaultableRegister_allowsToSpecifyCustomReturn() {
-        let testMock = TestMock()
-        testMock.returnIntAction = registerStub(alwaysReturn: 1)
-        
-        XCTAssertEqual(testMock.returnInt(), 1)
+    func testReassignedArgSpy_deallocArguments() {
+        var weakArgs = spyCalls(of: &testMock.takeObjectAction)
+        let scopeResult = applyWeak(NSObject()) {
+            testMock.takeObject($0)
+            weakArgs = spyCalls(of: &testMock.takeObjectAction)
+        }
+        XCTAssertNil(scopeResult)
     }
-    
-    func testInternalConformanceToDefaultable() {
-        let testMock = TestMock()
-        testMock.returnsInternalAction = registerStub()
-    }
-    
 }
 
 private protocol TestProtocol {
     func takeObject(_ obj:AnyObject)
-    func returnsInternal() -> InternalType
-    func returnBool()->Bool
-    func returnInt()->Int
-}
-
-struct InternalType: DefaultProvidable {
-    static var defaultValue =  InternalType()
 }
 
 private class TestMock: TestProtocol {
-    lazy var returnsInternalAction = stub(of:returnsInternal)
-    func returnsInternal() -> InternalType {
-        return returnsInternalAction(())
-    }
-    
     lazy var takeObjectAction = stub(of: takeObject)
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }
-    lazy var returnBoolAction = stub(of: returnBool)
-    func returnBool() -> Bool {
-        return returnBoolAction(())
-    }
-    lazy var returnIntAction = stub(of: returnInt)
-    func returnInt() -> Int {
-        return returnIntAction(())
-    }
-    
-    
 }

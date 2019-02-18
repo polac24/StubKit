@@ -23,65 +23,38 @@
 import XCTest
 import StubKit
 
-class SpiesTests: XCTestCase {
-
+class ArgWeakRecordsTests: XCTestCase {
     
-    func testNiceConformance() {
-        let testMock = TestMock()
-        testMock.returnBoolAction = registerStub()
-        
-        XCTAssertFalse(testMock.returnBool())
-    }
-    func testNiceIntConformance() {
-        let testMock = TestMock()
-        testMock.returnIntAction = registerStub()
-        
-        XCTAssertEqual(testMock.returnInt(), 0)
+    private var testMock: TestMock!
+    
+    override func setUp() {
+        testMock = TestMock()
+        testMock.takeObjectAction = registerStub()
     }
     
-    func testDefaultableRegister_allowsToSpecifyCustomReturn() {
-        let testMock = TestMock()
-        testMock.returnIntAction = registerStub(alwaysReturn: 1)
-        
-        XCTAssertEqual(testMock.returnInt(), 1)
+    override func tearDown() {
+        testMock = nil
     }
     
-    func testInternalConformanceToDefaultable() {
-        let testMock = TestMock()
-        testMock.returnsInternalAction = registerStub()
+    func testWeakSpyDoesntKeepStrongArgReference() {
+        let weakArgs = spyWeaklyCalls(of: &testMock.takeObjectAction)
+        let scopeResult = applyWeak(NSObject()) {
+            testMock.takeObject($0)
+        }
+        
+        XCTAssertEqual(weakArgs.count, 1)
+        XCTAssertNil(scopeResult)
     }
     
 }
 
 private protocol TestProtocol {
     func takeObject(_ obj:AnyObject)
-    func returnsInternal() -> InternalType
-    func returnBool()->Bool
-    func returnInt()->Int
-}
-
-struct InternalType: DefaultProvidable {
-    static var defaultValue =  InternalType()
 }
 
 private class TestMock: TestProtocol {
-    lazy var returnsInternalAction = stub(of:returnsInternal)
-    func returnsInternal() -> InternalType {
-        return returnsInternalAction(())
-    }
-    
     lazy var takeObjectAction = stub(of: takeObject)
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }
-    lazy var returnBoolAction = stub(of: returnBool)
-    func returnBool() -> Bool {
-        return returnBoolAction(())
-    }
-    lazy var returnIntAction = stub(of: returnInt)
-    func returnInt() -> Int {
-        return returnIntAction(())
-    }
-    
-    
 }
