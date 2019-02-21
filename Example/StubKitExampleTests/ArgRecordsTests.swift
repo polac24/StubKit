@@ -48,7 +48,7 @@ class ArgRecordsTests: XCTestCase {
     
     func testReleasedArgSpy_deallocArguments() {
         let scopeResult = applyWeak(NSObject()) {
-            var weakArgs = spyCalls(of: &testMock.takeObjectAction)
+            _ = spyCalls(of: &testMock.takeObjectAction)
             testMock.takeObject($0)
         }
         
@@ -56,10 +56,10 @@ class ArgRecordsTests: XCTestCase {
     }
     
     func testReassignedArgSpy_deallocArguments() {
-        var weakArgs = spyCalls(of: &testMock.takeObjectAction)
+        _ = spyCalls(of: &testMock.takeObjectAction)
         let scopeResult = applyWeak(NSObject()) {
             testMock.takeObject($0)
-            weakArgs = spyCalls(of: &testMock.takeObjectAction)
+            _ = spyCalls(of: &testMock.takeObjectAction)
         }
         XCTAssertNil(scopeResult)
     }

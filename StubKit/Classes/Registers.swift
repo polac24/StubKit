@@ -29,13 +29,6 @@ public func registerStub<I,O:DefaultProvidable>(alwaysReturn defaultValue: O = O
 public func registerStub<I>() -> (I) -> (){
     return { _ in }
 }
-
-public func registerStub<I,O>(alwaysReturn defaultValue: O) -> (I) throws -> (O){
-    return { _ in defaultValue }
-}
-public func registerStub<I,O:DefaultProvidable>(alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws -> (O){
-    return { _ in defaultValue }
-}
 public func registerStub<I,O>(alwaysThrow error: Error) -> (I) throws -> (O){
     return { _ in throw error }
 }
