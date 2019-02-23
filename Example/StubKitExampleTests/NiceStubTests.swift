@@ -99,7 +99,7 @@ class NiceStubTests: XCTestCase {
         _ = testMock.takeAutoclosureString("C")
     }
     func testtakeAutoclosureStringWithOtherDoesntCrash() {
-        _ = testMock.takeAutoclosureString("D")
+        _ = testMock.takeAutoclosureStringWithOther("D", other: "Other")
     }
 }
 
