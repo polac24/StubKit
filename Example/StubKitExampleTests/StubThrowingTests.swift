@@ -41,29 +41,7 @@ class StubThrowingTests: XCTestCase {
 
 
 
-
-private protocol TestProtocolThrowing {
-    func takeObjectThrowing(_ obj:AnyObject) throws
-    func returnObjectThrowing() throws -> AnyObject
-    func takeValueTypeThrowing(_ struct: MyStructGlobal) throws
-    func returnValueTypeThrowing() throws -> MyStructGlobal
-    func takeDefaultableValueTypeThrowing(_ number: Int) throws
-    func returnDefautableValueTypeThrowing() throws -> Int
-    func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStructGlobal) throws
-    func returnCustomDefautableValueTypeThrowing() throws -> DefautableStructGlobal
-    func takeTwoArgsThrowing(v1: Int, v2: String) throws
-    func returnTupleThrowing() throws -> (Int, String)
-    func takeTupleNamedThrowing(_ tuple: (v1: Int, v2: String)) throws
-    func returnTupleNamedThrowing() throws -> (v1: Int, v2: String)
-    func takeEscapingThrowing(_: @escaping (Int) -> (String)) throws
-    func takeNonscapingThrowing(_: (Int) -> (String)) throws
-    func returnFunctionThrowing() throws -> ((Int) -> (String))
-    func takeAutoclosureStringThrowing(_: @autoclosure () -> (String)) throws
-    func takeAutoclosureStringWithOtherThrowing(_: @autoclosure () -> (String), other: String) throws
-    
-}
-
-private class TestMockThrowing: TestProtocolThrowing {
+private class TestMockThrowing: TestProtocolGlobalThrowing {
     
     lazy var takeValueTypeThrowingAction = stub(of: takeValueTypeThrowing)
     func takeValueTypeThrowing(_ myStruct: MyStructGlobal) throws {

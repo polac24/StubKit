@@ -20,23 +20,22 @@
  THE SOFTWARE.
  */
 
-import XCTest
-import StubKit
-
-class StubTests: XCTestCase {
-    
-    private var testMock: TestStubMockGlobal!
-    
-    override func setUp() {
-        testMock = TestStubMockGlobal()
-    }
-    
-    override func tearDown() {
-        testMock = nil
-    }
-    
-    func testRuntimeDoesntCrash() {
-        
-    }
-    
+protocol TestProtocolGlobal {
+    func takeObject(_ obj:AnyObject)
+    func returnObject() -> AnyObject
+    func takeValueType(_ struct: MyStructGlobal)
+    func returnValueType() -> MyStructGlobal
+    func takeDefaultableValueType(_ number: Int)
+    func returnDefautableValueType() -> Int
+    func takeCustomDefaultableValueType(_ number: DefautableStructGlobal)
+    func returnCustomDefautableValueType() -> DefautableStructGlobal
+    func takeTwoArgs(v1: Int, v2: String)
+    func returnTuple() -> (Int, String)
+    func takeTupleNamed(_ tuple: (v1: Int, v2: String))
+    func returnTupleNamed() -> (v1: Int, v2: String)
+    func takeEscaping(_: @escaping (Int) -> (String))
+    func takeNonscaping(_: (Int) -> (String))
+    func returnFunction() -> ((Int) -> (String))
+    func takeAutoclosureString(_: @autoclosure () -> (String))
+    func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
 }

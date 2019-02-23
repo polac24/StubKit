@@ -20,23 +20,10 @@
  THE SOFTWARE.
  */
 
-import XCTest
 import StubKit
 
-class StubTests: XCTestCase {
-    
-    private var testMock: TestStubMockGlobal!
-    
-    override func setUp() {
-        testMock = TestStubMockGlobal()
-    }
-    
-    override func tearDown() {
-        testMock = nil
-    }
-    
-    func testRuntimeDoesntCrash() {
-        
-    }
-    
+struct MyStructGlobal: Equatable {}
+struct DefautableStructGlobal {}
+extension DefautableStructGlobal: DefaultProvidable {
+    static var defaultValue = DefautableStructGlobal()
 }

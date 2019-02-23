@@ -28,10 +28,10 @@ extension String: Error {}
 class RegisterTests: XCTestCase {
 
     
-    private var testMock: TestMockGlobal!
+    private var testMock: TestStubMockGlobal!
     
     override func setUp() {
-        testMock = TestMockGlobal()
+        testMock = TestStubMockGlobal()
     }
     
     override func tearDown() {
@@ -111,26 +111,6 @@ class RegisterTests: XCTestCase {
         XCTAssertThrowsError(try testMock.returnValueTypeThrowing())
     }
 }
-//
-//protocol TestProtocol {
-//    func takeObject(_ obj:AnyObject)
-//    func returnObject() -> AnyObject
-//    func takeValueType(_ struct: MyStruct)
-//    func returnValueType() -> MyStruct
-//    func takeDefaultableValueType(_ number: Int)
-//    func returnDefautableValueType() -> Int
-//    func takeCustomDefaultableValueType(_ number: DefautableStruct)
-//    func returnCustomDefautableValueType() -> DefautableStruct
-//    func takeTwoArgs(v1: Int, v2: String)
-//    func returnTuple() -> (Int, String)
-//    func takeTupleNamed(_ tuple: (v1: Int, v2: String))
-//    func returnTupleNamed() -> (v1: Int, v2: String)
-//    func takeEscaping(_: @escaping (Int) -> (String))
-//    func takeNonscaping(_: (Int) -> (String))
-//    func returnFunction() -> ((Int) -> (String))
-//    func takeAutoclosureString(_: @autoclosure () -> (String))
-//    func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
-//}
 
 private protocol TestProtocolThrowing {
     func takeValueTypeThrowing(_ i: Int) throws
