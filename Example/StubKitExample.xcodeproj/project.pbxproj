@@ -15,6 +15,7 @@
 		101FEA59221B588700C70FE6 /* StubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA58221B588700C70FE6 /* StubTests.swift */; };
 		1054B198221F435100F7224B /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054B197221F435100F7224B /* Dummy.swift */; };
 		1054B1A3221F4EC100F7224B /* StubKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1054B1A2221F4EC100F7224B /* StubKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		10A1F0B822213D6A0046A49B /* StubThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		101FEA58221B588700C70FE6 /* StubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubTests.swift; sourceTree = "<group>"; };
 		1054B197221F435100F7224B /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		1054B1A2221F4EC100F7224B /* StubKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StubKit.framework; path = "DerivedData/StubKitExample/Build/Products/Debug-iphonesimulator/StubKit/StubKit.framework"; sourceTree = "<group>"; };
+		10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubThrowingTests.swift; sourceTree = "<group>"; };
 		15E889CDDEE965D3C70C01AF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		455150DF30D081B8E2481DB1 /* Pods-StubKitExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StubKitExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StubKitExampleTests/Pods-StubKitExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* SpiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiesTests.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */,
 				101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */,
 				101FEA58221B588700C70FE6 /* StubTests.swift */,
+				10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */,
 			);
 			path = StubKitExampleTests;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */,
+				10A1F0B822213D6A0046A49B /* StubThrowingTests.swift in Sources */,
 				101FEA55221B53F200C70FE6 /* WeakScopeWorker.swift in Sources */,
 				101FEA59221B588700C70FE6 /* StubTests.swift in Sources */,
 				101FEA53221B50D400C70FE6 /* ArgRecordsTests.swift in Sources */,
