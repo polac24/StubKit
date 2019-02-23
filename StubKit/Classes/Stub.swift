@@ -29,7 +29,11 @@ public func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UI
     fatalError("Unexpected stub call", file:file, line: line)
 }
 
-// Temporary workaround
+// Temporary workaround for autoclosure support
 public func stub<I,O>(of: (@autoclosure () -> (I)) -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) -> (O) {
+    fatalError("Unexpected stub call", file:file, line: line)
+}
+
+public func stub<I,O>(of: (@autoclosure () -> (I)) throws -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) throws -> (O) {
     fatalError("Unexpected stub call", file:file, line: line)
 }
