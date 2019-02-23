@@ -40,22 +40,17 @@ class StubThrowingTests: XCTestCase {
 }
 
 
-private struct MyStruct {}
-private struct DefautableStruct {}
-extension DefautableStruct: DefaultProvidable {
-    static var defaultValue = DefautableStruct()
-}
 
 
 private protocol TestProtocolThrowing {
     func takeObjectThrowing(_ obj:AnyObject) throws
     func returnObjectThrowing() throws -> AnyObject
-    func takeValueTypeThrowing(_ struct: MyStruct) throws
-    func returnValueTypeThrowing() throws -> MyStruct
+    func takeValueTypeThrowing(_ struct: MyStructGlobal) throws
+    func returnValueTypeThrowing() throws -> MyStructGlobal
     func takeDefaultableValueTypeThrowing(_ number: Int) throws
     func returnDefautableValueTypeThrowing() throws -> Int
-    func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStruct) throws
-    func returnCustomDefautableValueTypeThrowing() throws -> DefautableStruct
+    func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStructGlobal) throws
+    func returnCustomDefautableValueTypeThrowing() throws -> DefautableStructGlobal
     func takeTwoArgsThrowing(v1: Int, v2: String) throws
     func returnTupleThrowing() throws -> (Int, String)
     func takeTupleNamedThrowing(_ tuple: (v1: Int, v2: String)) throws
@@ -71,20 +66,20 @@ private protocol TestProtocolThrowing {
 private class TestMockThrowing: TestProtocolThrowing {
     
     lazy var takeValueTypeThrowingAction = stub(of: takeValueTypeThrowing)
-    func takeValueTypeThrowing(_ myStruct: MyStruct) throws {
+    func takeValueTypeThrowing(_ myStruct: MyStructGlobal) throws {
         return try takeValueTypeThrowingAction(myStruct)
     }
     
     lazy var returnValueTypeThrowingAction = stub(of: returnValueTypeThrowing)
-    func returnValueTypeThrowing() throws  -> MyStruct {
+    func returnValueTypeThrowing() throws  -> MyStructGlobal {
         return try returnValueTypeThrowingAction(())
     }
     lazy var takeCustomDefaultableValueTypeThrowingAction = stub(of: takeCustomDefaultableValueTypeThrowing)
-    func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStruct) throws  {
+    func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStructGlobal) throws  {
         return try takeCustomDefaultableValueTypeThrowingAction(number)
     }
     lazy var returnCustomDefautableValueTypeThrowingAction = stub(of: returnCustomDefautableValueTypeThrowing)
-    func returnCustomDefautableValueTypeThrowing() throws  -> DefautableStruct {
+    func returnCustomDefautableValueTypeThrowing() throws  -> DefautableStructGlobal {
         return try returnCustomDefautableValueTypeThrowingAction(())
     }
     

@@ -25,10 +25,10 @@ import StubKit
 
 class StubTests: XCTestCase {
     
-    private var testMock: TestMock!
+    private var testMock: TestMockGlobal!
     
     override func setUp() {
-        testMock = TestMock()
+        testMock = TestMockGlobal()
     }
     
     override func tearDown() {
@@ -41,21 +41,21 @@ class StubTests: XCTestCase {
 }
 
 
-private struct MyStruct {}
-private struct DefautableStruct {}
-extension DefautableStruct: DefaultProvidable {
-    static var defaultValue = DefautableStruct()
+struct MyStructGlobal: Equatable {}
+struct DefautableStructGlobal {}
+extension DefautableStructGlobal: DefaultProvidable {
+    static var defaultValue = DefautableStructGlobal()
 }
 
-private protocol TestProtocol {
+protocol TestProtocolGlobal {
     func takeObject(_ obj:AnyObject)
     func returnObject() -> AnyObject
-    func takeValueType(_ struct: MyStruct)
-    func returnValueType() -> MyStruct
+    func takeValueType(_ struct: MyStructGlobal)
+    func returnValueType() -> MyStructGlobal
     func takeDefaultableValueType(_ number: Int)
     func returnDefautableValueType() -> Int
-    func takeCustomDefaultableValueType(_ number: DefautableStruct)
-    func returnCustomDefautableValueType() -> DefautableStruct
+    func takeCustomDefaultableValueType(_ number: DefautableStructGlobal)
+    func returnCustomDefautableValueType() -> DefautableStructGlobal
     func takeTwoArgs(v1: Int, v2: String)
     func returnTuple() -> (Int, String)
     func takeTupleNamed(_ tuple: (v1: Int, v2: String))
@@ -67,23 +67,23 @@ private protocol TestProtocol {
     func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
 }
 
-private class TestMock: TestProtocol {
+class TestMockGlobal: TestProtocolGlobal {
     
     lazy var takeValueTypeAction = stub(of: takeValueType)
-    func takeValueType(_ myStruct: MyStruct) {
+    func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)
     }
     
     lazy var returnValueTypeAction = stub(of: returnValueType)
-    func returnValueType() -> MyStruct {
+    func returnValueType() -> MyStructGlobal {
         return returnValueTypeAction(())
     }
     lazy var takeCustomDefaultableValueTypeAction = stub(of: takeCustomDefaultableValueType)
-    func takeCustomDefaultableValueType(_ number: DefautableStruct) {
+    func takeCustomDefaultableValueType(_ number: DefautableStructGlobal) {
         return takeCustomDefaultableValueTypeAction(number)
     }
     lazy var returnCustomDefautableValueTypeAction = stub(of: returnCustomDefautableValueType)
-    func returnCustomDefautableValueType() -> DefautableStruct {
+    func returnCustomDefautableValueType() -> DefautableStructGlobal {
         return returnCustomDefautableValueTypeAction(())
     }
 
