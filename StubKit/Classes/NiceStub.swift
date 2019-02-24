@@ -52,7 +52,7 @@ public func niceStub<I,O>(of: (I) throws ->(O), alwaysThrow defaultThrow: Error)
     }
 }
 
-// Autoclosure workarounds
+// Autoclosure workarounds. see [SR-9991]
 public func niceStub<I,O>(of: @escaping (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
     return { _ in defaultValue }
 }

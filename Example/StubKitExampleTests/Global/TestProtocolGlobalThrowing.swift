@@ -37,5 +37,5 @@
     func takeNonscapingThrowing(_: (Int) -> (String)) throws
     func returnFunctionThrowing() throws -> ((Int) -> (String))
     func takeAutoclosureStringThrowing(_: @autoclosure () -> (String)) throws
-    func takeAutoclosureStringWithOtherThrowing(_: @autoclosure () -> (String), other: String) throws
+    func takeAutoclosureStringWithOtherThrowing(_: @escaping @autoclosure () -> (String), other: String) throws
 }
