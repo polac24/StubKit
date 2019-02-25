@@ -156,11 +156,12 @@ class SpyCallsTests: XCTestCase {
         XCTAssertEqual(args.count, 1)
         XCTAssertEqual(args[0]?.1, "Other")
     }
-    func x_testtakeAutoclosureStringWithOtherSpiesAllowsToSpyAutoclosure() {
-        let args = spyCalls(of: &testMock.takeAutoclosureStringWithOtherAction)
+    func testtakeAutoclosureStringWithOtherSpiesAllowsToSpyAutoclosure() {
+        let args = spyCalls(of: &testMock.takeAutoclosureStringWithOtherAction, transform: {($0.0(),$0.1)})
         _ = testMock.takeAutoclosureStringWithOther("D", other: "Other")
         XCTAssertEqual(args.count, 1)
-        XCTAssertEqual(args[0]?.0(), "D") // Prohibited, see SR-9991
+        XCTAssertEqual(args[0]?.0, "D")
+        XCTAssertEqual(args[0]?.1, "Other")
     }
 }
 
