@@ -53,31 +53,31 @@ public func niceStub<I,O>(of: (I) throws ->(O), alwaysThrow defaultThrow: Error)
 }
 
 // Autoclosure workarounds. see [SR-9991]
-public func niceStub<I,O>(of: @escaping (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
+public func niceStub<I,O>(of: (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
     return { _ in defaultValue }
 }
 
-public func niceStub<I,O:DefaultProvidable>(of: @escaping (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
+public func niceStub<I,O:DefaultProvidable>(of: (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
     return { _ in defaultValue }
 }
 
-public func niceStub<I>(of: @escaping (@autoclosure () -> (I))->()) -> (I)->() {
+public func niceStub<I>(of: (@autoclosure () -> (I))->()) -> (I)->() {
     return niceStub(of: of, alwaysReturn: ())
 }
 
-public func niceStub<I,O>(of: @escaping (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
+public func niceStub<I,O>(of: (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
     return { _ in defaultValue }
 }
 
-public func niceStub<I,O:DefaultProvidable>(of: @escaping (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
+public func niceStub<I,O:DefaultProvidable>(of: (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
     return { _ in defaultValue }
 }
 
-public func niceStub<I>(of: @escaping (@autoclosure () -> (I)) throws ->()) -> (I) throws ->() {
+public func niceStub<I>(of: (@autoclosure () -> (I)) throws ->()) -> (I) throws ->() {
     return niceStub(of: of, alwaysReturn: ())
 }
 
-public func niceStub<I,O>(of: @escaping (@autoclosure () -> (I)) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
+public func niceStub<I,O>(of: (@autoclosure () -> (I)) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
     return { _ in
         throw defaultThrow
     }

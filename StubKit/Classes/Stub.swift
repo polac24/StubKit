@@ -30,10 +30,10 @@ public func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UI
 }
 
 // Temporary workaround for autoclosure support
-public func stub<I,O>(of: @escaping (@autoclosure () -> (I)) -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) -> (O) {
+public func stub<I,O>(of: (@autoclosure () -> (I)) -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) -> (O) {
     fatalError("Unexpected stub call", file:file, line: line)
 }
 
-public func stub<I,O>(of: @escaping (@autoclosure () -> (I)) throws -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) throws -> (O) {
+public func stub<I,O>(of: (@autoclosure () -> (I)) throws -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) throws -> (O) {
     fatalError("Unexpected stub call", file:file, line: line)
 }
