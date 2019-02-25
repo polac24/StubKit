@@ -130,12 +130,13 @@ class SpyCallsTests: XCTestCase {
         XCTAssertEqual(args.count, 1)
         XCTAssertEqual(args[0]?(0), "P")
     }
-    // Not supported
-    func x_testtakeNonscapingSpies() {
-        let args = spyCalls(of: &testMock.takeNonscapingAction)
-        _ = testMock.takeNonscaping({_ in return "X"})
+    
+    func testtakeNonscapingSpies() {
+        let args = spyCalls(of: &testMock.takeNonscapingAction, transform: {($0(1),$0(2))})
+        _ = testMock.takeNonscaping({return "\($0)"})
         XCTAssertEqual(args.count, 1)
-        XCTAssertEqual(args[0]?(0), "X") // Provibited
+        XCTAssertEqual(args[0]?.0, "1")
+        XCTAssertEqual(args[0]?.1, "2")
     }
     func testreturnFunctionSpies() {
         let args = spyCalls(of: &testMock.returnFunctionAction)

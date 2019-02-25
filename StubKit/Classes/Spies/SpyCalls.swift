@@ -20,37 +20,50 @@
  THE SOFTWARE.
  */
 
-public func spyCalls<I,O,R: Recorder>(of stub: inout (I) -> (O), recorder: R.Type)  -> R where R.Element == I{
+public func spyCalls<I,O,R: Recorder,T>(of stub: inout (I) -> (O), recorder: R.Type, transform: @escaping (I) -> (T))  -> R where R.Element == T {
     let records = R()
     let originalStub = stub
     stub = { [weak weakRecords = records] arg in
-        weakRecords?.record(arg)
+        weakRecords?.record(transform(arg))
         return originalStub(arg)
     }
     return records
 }
 
-public func spyCalls<I,O>(of stub: inout (I) -> (O)) -> ArgRecords<I> {
-    return spyCalls(of: &stub, recorder: ArgRecords<I>.self)
+public func spyCalls<I,O,T>(of stub: inout (I) -> (O), transform: @escaping (I) -> (T)) -> ArgRecords<T> {
+    return spyCalls(of: &stub, recorder: ArgRecords<T>.self, transform: transform)
 }
-public func spyWeaklyCalls<I: AnyObject,O>(of stub: inout (I) -> (O)) -> ArgWeakRecords<I>{
-    return spyCalls(of: &stub, recorder: ArgWeakRecords<I>.self)
+public func spyWeaklyCalls<I: AnyObject,O,T>(of stub: inout (I) -> (O), transform: @escaping (I) -> (T)) -> ArgWeakRecords<T>{
+    return spyCalls(of: &stub, recorder: ArgWeakRecords<T>.self, transform: transform)
 }
 
-public func spyCalls<I,O,R: Recorder>(of stub: inout (I) throws -> (O), recorder: R.Type)  -> R where R.Element == I{
+public func spyCalls<I,O>(of stub: inout (I) -> (O)) -> ArgRecords<I> {
+    return spyCalls(of: &stub, transform: {$0})
+}
+public func spyWeaklyCalls<I: AnyObject,O>(of stub: inout (I) -> (O)) -> ArgWeakRecords<I>{
+    return spyWeaklyCalls(of: &stub, transform: {$0})
+}
+
+public func spyCalls<I,O,R: Recorder,T>(of stub: inout (I) throws -> (O), recorder: R.Type, transform: @escaping (I) -> (T))  -> R where R.Element == T{
     let records = R()
     let originalStub = stub
     stub = { [weak weakRecords = records] arg in
-        weakRecords?.record(arg)
+        weakRecords?.record(transform(arg))
         return try originalStub(arg)
     }
     return records
 }
 
-public func spyCalls<I,O>(of stub: inout (I) throws -> (O)) -> ArgRecords<I> {
-    return spyCalls(of: &stub, recorder: ArgRecords<I>.self)
+public func spyCalls<I,O,T>(of stub: inout (I) throws -> (O), transform: @escaping (I) -> (T)) -> ArgRecords<T> {
+    return spyCalls(of: &stub, recorder: ArgRecords<T>.self, transform: transform)
 }
-public func spyWeaklyCalls<I: AnyObject,O>(of stub: inout (I) throws -> (O)) -> ArgWeakRecords<I> {
-    return spyCalls(of: &stub, recorder: ArgWeakRecords<I>.self)
+public func spyWeaklyCalls<I: AnyObject,O,T>(of stub: inout (I) throws -> (O), transform: @escaping (I) -> (T)) -> ArgWeakRecords<T> {
+    return spyCalls(of: &stub, recorder: ArgWeakRecords<T>.self, transform: transform)
 }
 
+public func spyCalls<I,O>(of stub: inout (I) throws -> (O)) -> ArgRecords<I> {
+    return spyCalls(of: &stub, transform: {$0})
+}
+public func spyWeaklyCalls<I: AnyObject,O>(of stub: inout (I) throws -> (O)) -> ArgWeakRecords<I> {
+    return spyWeaklyCalls(of: &stub, transform: {$0})
+}
