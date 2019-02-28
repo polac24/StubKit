@@ -20,13 +20,37 @@
  THE SOFTWARE.
  */
 
-public protocol Recorder: class, ExpressibleByArrayLiteral {
-    associatedtype Element
-    
-    init()
-    init(_:[Element])
-    func record(_ t:Element)
-    subscript(_ i:Int)->Element? {get}
-    var count: Int {get}
+
+extension ArgRecords: Equatable where Element: Equatable {
+    public static func == (lhs: ArgRecords<Element>, rhs: ArgRecords<Element>) -> Bool {
+        guard lhs.count == rhs.count else {
+            return false
+        }
+        for i in 0..<rhs.count {
+            if rhs[i] != lhs[i] {
+                return false
+            }
+        }
+        return true
+    }
+}
+extension ArgWeakRecords: Equatable where Element: Equatable {
+    public static func == (lhs: ArgWeakRecords<Element>, rhs: ArgWeakRecords<Element>) -> Bool {
+        guard lhs.count == rhs.count else {
+            return false
+        }
+        for i in 0..<rhs.count {
+            if rhs[i] != lhs[i] {
+                return false
+            }
+        }
+        return true
+    }
+}
+public func ==<T:Recorder> (lhs: Array<T.Element>, rhs: T) -> Bool where T.Element: Equatable, T: Equatable{
+    return T(lhs) == rhs
+}
+public func ==<T:Recorder> (lhs: T, rhs: Array<T.Element>) -> Bool where T.Element: Equatable, T: Equatable{
+    return rhs == lhs
 }
 

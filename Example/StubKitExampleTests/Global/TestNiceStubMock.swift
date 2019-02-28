@@ -26,10 +26,15 @@ import StubKit
 
 class TestNiceStubMock: TestProtocolGlobal {
     
+    
     lazy var takeValueTypeAction = niceStub(of: takeValueType)
     lazy var takeValueTypeActionCustom = niceStub(of: takeValueType, alwaysReturn: Void())
     func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)
+    }
+    lazy var takeObjectEquatableAction = niceStub(of: takeObjectEquatable)
+    func takeObjectEquatable(_ obj: MyClassGlobal) {
+        return takeObjectEquatableAction(obj)
     }
     
     lazy var returnValueTypeAction = niceStub(of: returnValueType, alwaysReturn: MyStructGlobal())

@@ -21,10 +21,16 @@
  */
 
 public class ArgWeakRecords<T:AnyObject>: Recorder{
+    
     private var weakHistory:[WeakBox<T>] = []
     
     required public init(){}
-
+    public required convenience init(arrayLiteral elements: T...) {
+        self.init(elements)
+    }
+    public required init(_ elements: [T]) {
+        weakHistory = elements.map(WeakBox.init)
+    }
 
     public func record(_ t:T){
         weakHistory.append(WeakBox(t))

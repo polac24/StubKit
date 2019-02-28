@@ -29,18 +29,34 @@ extension Bool: DefaultProvidable {
     public static let defaultValue = false
 }
 
-extension Int: DefaultProvidable {
-    public static let defaultValue = 0
-}
 
 extension String: DefaultProvidable {
     public static let defaultValue = ""
 }
 
+//Numerics
+
+extension Int: DefaultProvidable {
+    public static let defaultValue = 0
+}
 extension UInt: DefaultProvidable {
     public static var defaultValue:UInt = 0
 }
+extension Double: DefaultProvidable {
+    public static let defaultValue:Double = 0
+}
+extension Decimal: DefaultProvidable {
+    public static let defaultValue:Decimal = 0
+}
+extension CGFloat: DefaultProvidable {
+    public static let defaultValue:CGFloat = 0
+}
 
+
+// Containers
+extension Data: DefaultProvidable {
+    public static let defaultValue = Data(capacity: 0)
+}
 extension Array: DefaultProvidable {
     public static var defaultValue:Array<Element> {return []}
 }
@@ -48,11 +64,32 @@ extension Array: DefaultProvidable {
 extension Dictionary: DefaultProvidable {
     public static var defaultValue:Dictionary<Key, Value> {return [:]}
 }
+extension Set: DefaultProvidable {
+    public static var defaultValue:Set<Element> {return []}
+}
 
 extension Optional: DefaultProvidable {
     public static var defaultValue:Optional<Wrapped> {return nil}
 }
+extension Date: DefaultProvidable {
+    public static let defaultValue:Date = Date(timeIntervalSince1970: 0)
+}
+extension Calendar: DefaultProvidable {
+    public static let defaultValue = Calendar(identifier: Calendar.Identifier.iso8601)
+}
+extension TimeZone: DefaultProvidable {
+    public static let defaultValue = TimeZone.current
+}
 
+extension Locale: DefaultProvidable {
+    public static let defaultValue = Locale(identifier: "")
+}
 extension URL : DefaultProvidable {
     public static var defaultValue: URL = URL(fileURLWithPath: "/")
+}
+extension URLComponents : DefaultProvidable {
+    public static var defaultValue:URLComponents = URLComponents()
+}
+extension URLQueryItem : DefaultProvidable {
+    public static var defaultValue = URLQueryItem(name: "", value: nil)
 }

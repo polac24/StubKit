@@ -22,6 +22,7 @@
 
 protocol TestProtocolGlobal {
     func takeObject(_ obj:AnyObject)
+    func takeObjectEquatable(_ obj:MyClassGlobal)
     func returnObject() -> AnyObject
     func takeValueType(_ struct: MyStructGlobal)
     func returnValueType() -> MyStructGlobal

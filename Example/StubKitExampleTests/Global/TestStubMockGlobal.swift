@@ -23,11 +23,15 @@ import StubKit
 
 class TestStubMockGlobal: TestProtocolGlobal {
     
+    
     lazy var takeValueTypeAction = stub(of: takeValueType)
     func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)
     }
-    
+    lazy var takeObjectEquatableAction = stub(of: takeObjectEquatable)
+    func takeObjectEquatable(_ obj: MyClassGlobal) {
+        return takeObjectEquatableAction(obj)
+    }
     lazy var returnValueTypeAction = stub(of: returnValueType)
     func returnValueType() -> MyStructGlobal {
         return returnValueTypeAction(())

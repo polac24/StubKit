@@ -21,9 +21,16 @@
  */
 
 public class ArgRecords<T>: Recorder {
+    
     private var history:[T] = []
     
     required public init(){}
+    public required convenience init(arrayLiteral elements: T...) {
+        self.init(elements)
+    }
+    public required init(_ elements: [T]) {
+        history = elements
+    }
     
     public func record(_ t:T){
         history.append(t)
@@ -36,4 +43,5 @@ public class ArgRecords<T>: Recorder {
     public var count: Int {
         return history.count
     }
+    
 }

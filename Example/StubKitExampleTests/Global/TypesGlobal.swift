@@ -27,3 +27,14 @@ struct DefautableStructGlobal {}
 extension DefautableStructGlobal: DefaultProvidable {
     static var defaultValue = DefautableStructGlobal()
 }
+class MyClassGlobal: Equatable {
+    private let value: Int
+    init(_ value: Int = 0) {
+        self.value = value
+    }
+    static func == (lhs: MyClassGlobal, rhs: MyClassGlobal) -> Bool {
+        return lhs.value == rhs.value
+    }
+    
+    
+}
