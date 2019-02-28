@@ -34,7 +34,10 @@
     func takeTupleNamedThrowing(_ tuple: (v1: Int, v2: String)) throws
     func returnTupleNamedThrowing() throws -> (v1: Int, v2: String)
     func takeEscapingThrowing(_: @escaping (Int) -> (String)) throws
+    func takeEscapingArgThrowing(_: @escaping (Int) throws -> (String))
+    func takeTwoEscapingThrowing(_: @escaping (Int) -> (String), _: @escaping (String) -> (Int)) throws
     func takeNonscapingThrowing(_: (Int) -> (String)) throws
+    func takeNonscapingArgThrowing(_: (Int) throws -> (String))
     func returnFunctionThrowing() throws -> ((Int) -> (String))
     func takeAutoclosureStringThrowing(_: @autoclosure () -> (String)) throws
     func takeAutoclosureStringWithOtherThrowing(_: @escaping @autoclosure () -> (String), other: String) throws

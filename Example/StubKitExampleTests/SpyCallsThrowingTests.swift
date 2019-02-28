@@ -130,12 +130,38 @@ class SpyCallsThrowingTests: XCTestCase {
         XCTAssertEqual(args.count, 1)
         XCTAssertEqual(args[0]?(0), "P")
     }
+    func testtakeEscapingArgThrowingSpies() throws {
+        let args = spyCalls(of: &testMock.takeEscapingArgThrowingAction)
+        _ = testMock.takeEscapingArgThrowing({_ in return "P"})
+        XCTAssertEqual(args.count, 1)
+        XCTAssertEqual(try args[0]?(0), "P")
+    }
+    func testtakeTwoEscapingThrowingSpies() throws {
+        let args = spyCalls(of: &testMock.takeTwoEscapingThrowingAction)
+        _ = try testMock.takeTwoEscapingThrowing({_ in return "P"}, {_ in return 1})
+        XCTAssertEqual(args.count, 1)
+        XCTAssertEqual(args[0]?.0(0), "P")
+        XCTAssertEqual(args[0]?.1(""), 1)
+    }
     func testtakeNonscapingSpies() throws {
         let args = spyCalls(of: &testMock.takeNonscapingThrowingAction, transform: {($0(1), $0(2))})
         _ = try testMock.takeNonscapingThrowing({"\($0)"})
         XCTAssertEqual(args.count, 1)
         XCTAssertEqual(args[0]?.0, "1")
         XCTAssertEqual(args[0]?.1, "2")
+    }
+    func testtakeNonscapingArgThrowingSpies() throws {
+        let args = spyCalls(of: &testMock.takeNonscapingArgThrowingAction, transform: {try? ($0(1), $0(2))})
+        _ = testMock.takeNonscapingArgThrowing({"\($0)"})
+        XCTAssertEqual(args.count, 1)
+        XCTAssertEqual(args[0]??.0, "1")
+        XCTAssertEqual(args[0]??.1, "2")
+    }
+    func testtakeNonscapingArgThrowingErrorSpies() throws {
+        let args = spyCalls(of: &testMock.takeNonscapingArgThrowingAction, transform: {try? ($0(1), $0(2))})
+        _ = testMock.takeNonscapingArgThrowing({_ in throw "Error"})
+        XCTAssertEqual(args.count, 1)
+        XCTAssertNil(args[0]?.flatMap({$0}))
     }
     func testreturnFunctionSpies() throws {
         let args = spyCalls(of: &testMock.returnFunctionThrowingAction)

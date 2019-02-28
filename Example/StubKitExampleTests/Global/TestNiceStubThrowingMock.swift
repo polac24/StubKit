@@ -88,10 +88,23 @@ class TestNiceStubThrowingMock: TestProtocolGlobalThrowing {
     func takeEscapingThrowing(_ f: @escaping (Int) -> (String)) throws {
         return try takeEscapingThrowingAction(f)
     }
+    lazy var takeEscapingArgThrowingAction = niceStub(of: takeEscapingArgThrowing)
+    func takeEscapingArgThrowing(_ f: @escaping (Int) throws -> (String)) {
+        return takeEscapingArgThrowingAction(f)
+    }
+    lazy var takeTwoEscapingThrowingAction = niceStub(of: takeTwoEscapingThrowing)
+    func takeTwoEscapingThrowing(_ f1: @escaping (Int) -> (String), _ f2: @escaping (String) -> (Int)) throws {
+        return try takeTwoEscapingThrowingAction((f1,f2))
+    }
+    
     lazy var takeNonscapingThrowingAction = niceStub(of: takeNonscapingThrowing)
     lazy var takeNonscapingThrowingActionCustom = niceStub(of: takeNonscapingThrowing, alwaysReturn: Void())
     func takeNonscapingThrowing(_ f: (Int) -> (String)) throws {
         return try withoutActuallyEscaping(f) { try takeNonscapingThrowingAction($0)}
+    }
+    lazy var takeNonscapingArgThrowingAction = niceStub(of: takeNonscapingArgThrowing)
+    func takeNonscapingArgThrowing(_ f: (Int) throws -> (String)) {
+        return withoutActuallyEscaping(f) { takeNonscapingArgThrowingAction($0) }
     }
     lazy var returnFunctionThrowingAction = niceStub(of: returnFunctionThrowing, alwaysReturn: {"\($0)"})
     func returnFunctionThrowing() throws -> ((Int) -> (String)) {

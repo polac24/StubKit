@@ -89,6 +89,10 @@ class TestNiceStubMock: TestProtocolGlobal {
     func takeEscaping(_ f: @escaping (Int) -> (String)) {
         return takeEscapingAction(f)
     }
+    lazy var takeTwoEscapingAction = niceStub(of: takeTwoEscaping)
+    func takeTwoEscaping(_ f1: @escaping (Int) -> (String), _ f2: @escaping (String) -> (Int)) {
+        return takeTwoEscapingAction((f1,f2))
+    }
     lazy var takeNonscapingAction = niceStub(of: takeNonscaping)
     lazy var takeNonscapingActionCustom = niceStub(of: takeNonscaping, alwaysReturn: Void())
     func takeNonscaping(_ f: (Int) -> (String)) {

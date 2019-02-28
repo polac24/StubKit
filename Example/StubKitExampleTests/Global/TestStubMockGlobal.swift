@@ -75,6 +75,10 @@ class TestStubMockGlobal: TestProtocolGlobal {
     func takeEscaping(_ f: @escaping (Int) -> (String)) {
         return takeEscapingAction(f)
     }
+    lazy var takeTwoEscapingAction = stub(of: takeTwoEscaping)
+    func takeTwoEscaping(_ f1: @escaping (Int) -> (String), _ f2: @escaping (String) -> (Int)) {
+        return takeTwoEscapingAction((f1,f2))
+    }
     lazy var takeNonscapingAction = stub(of: takeNonscaping)
     func takeNonscaping(_ f: (Int) -> (String)) {
         return withoutActuallyEscaping(f) { takeNonscapingAction($0)}
@@ -95,5 +99,14 @@ class TestStubMockGlobal: TestProtocolGlobal {
     func takeAutoclosureStringWithOther(_ closure: @autoclosure () -> (String), other: String) {
         return takeAutoclosureStringWithOtherAction((closure(), other))
     }
+    // not supported. For more details, see https://forums.swift.org/t/array-splatting-for-variadic-parameters/7175
+    /*lazy var takeVarArgsAction = stub(of: takeVarArgs)
+    func takeVarArgs(_ arg: Int...) {
+        return takeVarArgsAction(arg)
+    }
+    lazy var takeVarArgsAndOtherAction = stub(of: takeVarArgsAndOther)
+    func takeVarArgsAndOther(_ arg: Int..., other: String) {
+        return takeVarArgsAndOtherAction((arg, other))
+    }*/
 }
 

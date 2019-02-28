@@ -131,6 +131,14 @@ class SpyCallsTests: XCTestCase {
         XCTAssertEqual(args[0]?(0), "P")
     }
     
+    func testtakeTwoEscapingSpies() {
+        let args = spyCalls(of: &testMock.takeTwoEscapingAction)
+        _ = testMock.takeTwoEscaping({_ in return "P"}, {_ in 1} )
+        XCTAssertEqual(args.count, 1)
+        XCTAssertEqual(args[0]?.0(1), "P")
+        XCTAssertEqual(args[0]?.1("1"), 1)
+    }
+    
     func testtakeNonscapingSpies() {
         let args = spyCalls(of: &testMock.takeNonscapingAction, transform: {($0(1),$0(2))})
         _ = testMock.takeNonscaping({return "\($0)"})

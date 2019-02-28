@@ -34,8 +34,12 @@ protocol TestProtocolGlobal {
     func takeTupleNamed(_ tuple: (v1: Int, v2: String))
     func returnTupleNamed() -> (v1: Int, v2: String)
     func takeEscaping(_: @escaping (Int) -> (String))
+    func takeTwoEscaping(_: @escaping (Int) -> (String), _: @escaping (String) -> (Int))
     func takeNonscaping(_: (Int) -> (String))
     func returnFunction() -> ((Int) -> (String))
     func takeAutoclosureString(_: @autoclosure () -> (String))
     func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
+// Not supported
+//    func takeVarArgs(_: Int...)
+//    func takeVarArgsAndOther(_: Int..., other: String)
 }
