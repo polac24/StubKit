@@ -58,6 +58,7 @@
 /* Begin PBXFileReference section */
 		10067930222851CF007386A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1006793322288058007386A7 /* RecorderEquatableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderEquatableTests.swift; sourceTree = "<group>"; };
+		10067935222BE178007386A7 /* documentation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = documentation.md; path = ../docs/documentation.md; sourceTree = "<group>"; };
 		101FEA3A221B4EE400C70FE6 /* StubKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StubKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		101FEA3C221B4EE400C70FE6 /* StubKitExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StubKitExample.h; sourceTree = "<group>"; };
 		101FEA3D221B4EE400C70FE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -171,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				10067930222851CF007386A7 /* README.md */,
+				10067935222BE178007386A7 /* documentation.md */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				101FEA3B221B4EE400C70FE6 /* StubKitExample */,
 				101FEA46221B4EE400C70FE6 /* StubKitExampleTests */,
