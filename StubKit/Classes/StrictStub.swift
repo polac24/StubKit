@@ -20,23 +20,20 @@
  THE SOFTWARE.
  */
 
-import XCTest
-import StubKit
 
-class StubTests: XCTestCase {
-    
-    private var testMock: TestStrictStubMockGlobal!
-    
-    override func setUp() {
-        testMock = TestStrictStubMockGlobal()
-    }
-    
-    override func tearDown() {
-        testMock = nil
-    }
-    
-    func testRuntimeDoesntCrash() {
-        
-    }
-    
+public func strictStub<I,O>(of: (I)->(O), file: StaticString = #file, line: UInt = #line) -> (I)->(O) {
+    fatalError("Unexpected stub call", file:file, line: line)
+}
+
+public func strictStub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UInt = #line) -> (I) throws ->(O) {
+    fatalError("Unexpected stub call", file:file, line: line)
+}
+
+// Temporary workaround for autoclosure support
+public func strictStub<I,O>(of: (@autoclosure () -> (I)) -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) -> (O) {
+    fatalError("Unexpected stub call", file:file, line: line)
+}
+
+public func strictStub<I,O>(of: (@autoclosure () -> (I)) throws -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) throws -> (O) {
+    fatalError("Unexpected stub call", file:file, line: line)
 }

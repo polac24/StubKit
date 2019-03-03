@@ -43,87 +43,87 @@ class StubThrowingTests: XCTestCase {
 
 private class TestMockThrowing: TestProtocolGlobalThrowing {
     
-    lazy var takeValueTypeThrowingAction = stub(of: takeValueTypeThrowing)
+    lazy var takeValueTypeThrowingAction = strictStub(of: takeValueTypeThrowing)
     func takeValueTypeThrowing(_ myStruct: MyStructGlobal) throws {
         return try takeValueTypeThrowingAction(myStruct)
     }
     
-    lazy var returnValueTypeThrowingAction = stub(of: returnValueTypeThrowing)
+    lazy var returnValueTypeThrowingAction = strictStub(of: returnValueTypeThrowing)
     func returnValueTypeThrowing() throws  -> MyStructGlobal {
         return try returnValueTypeThrowingAction(())
     }
-    lazy var takeCustomDefaultableValueTypeThrowingAction = stub(of: takeCustomDefaultableValueTypeThrowing)
+    lazy var takeCustomDefaultableValueTypeThrowingAction = strictStub(of: takeCustomDefaultableValueTypeThrowing)
     func takeCustomDefaultableValueTypeThrowing(_ number: DefautableStructGlobal) throws  {
         return try takeCustomDefaultableValueTypeThrowingAction(number)
     }
-    lazy var returnCustomDefautableValueTypeThrowingAction = stub(of: returnCustomDefautableValueTypeThrowing)
+    lazy var returnCustomDefautableValueTypeThrowingAction = strictStub(of: returnCustomDefautableValueTypeThrowing)
     func returnCustomDefautableValueTypeThrowing() throws  -> DefautableStructGlobal {
         return try returnCustomDefautableValueTypeThrowingAction(())
     }
     
-    lazy var returnObjectThrowingAction = stub(of: returnObjectThrowing)
+    lazy var returnObjectThrowingAction = strictStub(of: returnObjectThrowing)
     func returnObjectThrowing() throws  -> AnyObject {
         return try returnObjectThrowingAction(())
     }
     
-    lazy var takeDefaultableValueTypeThrowingAction = stub(of: takeDefaultableValueTypeThrowing)
+    lazy var takeDefaultableValueTypeThrowingAction = strictStub(of: takeDefaultableValueTypeThrowing)
     func takeDefaultableValueTypeThrowing(_ number: Int) throws  {
         try takeDefaultableValueTypeThrowingAction(number)
     }
     
-    lazy var returnDefautableValueTypeThrowingAction = stub(of: returnDefautableValueTypeThrowing)
+    lazy var returnDefautableValueTypeThrowingAction = strictStub(of: returnDefautableValueTypeThrowing)
     func returnDefautableValueTypeThrowing() throws  -> Int {
         return try returnDefautableValueTypeThrowingAction(())
     }
-    lazy var takeTwoArgsThrowingAction = stub(of: takeTwoArgsThrowing)
+    lazy var takeTwoArgsThrowingAction = strictStub(of: takeTwoArgsThrowing)
     func takeTwoArgsThrowing(v1: Int, v2: String) throws  {
         return try takeTwoArgsThrowingAction((v1, v2))
     }
-    lazy var returnTupleThrowingAction = stub(of: returnTupleThrowing)
+    lazy var returnTupleThrowingAction = strictStub(of: returnTupleThrowing)
     func returnTupleThrowing() throws  -> (Int, String) {
         return try returnTupleThrowingAction(())
     }
-    lazy var takeTupleNamedThrowingAction = stub(of: takeTupleNamedThrowing)
+    lazy var takeTupleNamedThrowingAction = strictStub(of: takeTupleNamedThrowing)
     func takeTupleNamedThrowing(_ tuple: (v1: Int, v2: String)) throws {
         return try takeTupleNamedThrowingAction(tuple)
     }
-    lazy var returnTupleNamedThrowingAction = stub(of: returnTupleNamedThrowing)
+    lazy var returnTupleNamedThrowingAction = strictStub(of: returnTupleNamedThrowing)
     func returnTupleNamedThrowing() throws -> (v1: Int, v2: String) {
         return try returnTupleNamedThrowingAction(())
     }
-    lazy var takeEscapingThrowingAction = stub(of: takeEscapingThrowing)
+    lazy var takeEscapingThrowingAction = strictStub(of: takeEscapingThrowing)
     func takeEscapingThrowing(_ f: @escaping (Int) -> (String)) throws {
         return try takeEscapingThrowingAction(f)
     }
-    lazy var takeEscapingArgThrowingAction = stub(of: takeEscapingArgThrowing)
+    lazy var takeEscapingArgThrowingAction = strictStub(of: takeEscapingArgThrowing)
     func takeEscapingArgThrowing(_ f: @escaping (Int) throws -> (String)) {
         return takeEscapingArgThrowingAction(f)
     }
-    lazy var takeTwoEscapingThrowingAction = stub(of: takeTwoEscapingThrowing)
+    lazy var takeTwoEscapingThrowingAction = strictStub(of: takeTwoEscapingThrowing)
     func takeTwoEscapingThrowing(_ f1: @escaping (Int) -> (String), _ f2: @escaping (String) -> (Int)) throws {
         return try takeTwoEscapingThrowing(f1,f2)
     }
-    lazy var takeNonscapingThrowingAction = stub(of: takeNonscapingThrowing)
+    lazy var takeNonscapingThrowingAction = strictStub(of: takeNonscapingThrowing)
     func takeNonscapingThrowing(_ f: (Int) -> (String)) throws {
         return try withoutActuallyEscaping(f) { try takeNonscapingThrowingAction($0)}
     }
-    lazy var takeNonscapingArgThrowingAction = stub(of: takeNonscapingArgThrowing)
+    lazy var takeNonscapingArgThrowingAction = strictStub(of: takeNonscapingArgThrowing)
     func takeNonscapingArgThrowing(_ f: (Int) throws -> (String)) {
         return withoutActuallyEscaping(f) { takeNonscapingArgThrowingAction($0)}
     }
-    lazy var returnFunctionThrowingAction = stub(of: returnFunctionThrowing)
+    lazy var returnFunctionThrowingAction = strictStub(of: returnFunctionThrowing)
     func returnFunctionThrowing() throws -> ((Int) -> (String)) {
         return try returnFunctionThrowingAction(())
     }
-    lazy var takeObjectThrowingAction = stub(of: takeObjectThrowing)
+    lazy var takeObjectThrowingAction = strictStub(of: takeObjectThrowing)
     func takeObjectThrowing(_ obj: AnyObject) throws {
         return try takeObjectThrowingAction(obj)
     }
-    lazy var takeAutoclosureStringThrowingAction = stub(of: takeAutoclosureStringThrowing)
+    lazy var takeAutoclosureStringThrowingAction = strictStub(of: takeAutoclosureStringThrowing)
     func takeAutoclosureStringThrowing(_ closure: @autoclosure () -> (String)) throws {
         return try takeAutoclosureStringThrowingAction(closure())
     }
-    lazy var takeAutoclosureStringWithOtherThrowingAction = stub(of: takeAutoclosureStringWithOtherThrowing)
+    lazy var takeAutoclosureStringWithOtherThrowingAction = strictStub(of: takeAutoclosureStringWithOtherThrowing)
     func takeAutoclosureStringWithOtherThrowing(_ closure: @autoclosure () -> (String), other: String) throws {
         return try takeAutoclosureStringWithOtherThrowingAction((closure(), other))
     }

@@ -25,10 +25,10 @@ import StubKit
 
 class NiceStubThrowingTests: XCTestCase {
     
-    private var testMock: TestNiceStubThrowingMock!
+    private var testMock: TestStubThrowingMock!
     
     override func setUp() {
-        testMock = TestNiceStubThrowingMock()
+        testMock = TestStubThrowingMock()
     }
     
     override func tearDown() {

@@ -30,7 +30,7 @@ protocol Database {
 
 // Mock creation
 class DatabaseStub: Database {    
-  lazy var addUserAction = niceStub(of: addUser)  
+  lazy var addUserAction = stub(of: addUser)  
   func addUser(name: String) -> Bool {     
     return addUserAction(name)    
   }
@@ -46,7 +46,7 @@ XCTAssertEqual(addUserSpy, ["User1"])
 ```
 
 To prepare a mock:
-1. create a lazy instance variable for each function of your protocol and initialize its initial value using provided in StubKit `stub` or `niceStub` function
+1. create a lazy instance variable for each function of your protocol and initialize its initial value using provided in StubKit `stub` or `strictStub` function
 2. In a body of a protocol function, call that dedicated variable with all received arguments. 
 3. In the test body, you define a spy object that tracks all calls and its arguments 
 

@@ -19,12 +19,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+
+import XCTest
 import StubKit
 
-class TestStubMockGlobal: TestProtocolGlobal {
+
+class TestStubMock: TestProtocolGlobal {
     
     
     lazy var takeValueTypeAction = stub(of: takeValueType)
+    lazy var takeValueTypeActionCustom = stub(of: takeValueType, alwaysReturn: Void())
     func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)
     }
@@ -32,50 +36,61 @@ class TestStubMockGlobal: TestProtocolGlobal {
     func takeObjectEquatable(_ obj: MyClassGlobal) {
         return takeObjectEquatableAction(obj)
     }
-    lazy var returnValueTypeAction = stub(of: returnValueType)
+    
+    lazy var returnValueTypeAction = stub(of: returnValueType, alwaysReturn: MyStructGlobal())
     func returnValueType() -> MyStructGlobal {
         return returnValueTypeAction(())
     }
     lazy var takeCustomDefaultableValueTypeAction = stub(of: takeCustomDefaultableValueType)
+    lazy var takeCustomDefaultableValueTypeActionCustom = stub(of: takeCustomDefaultableValueType, alwaysReturn: Void())
     func takeCustomDefaultableValueType(_ number: DefautableStructGlobal) {
         return takeCustomDefaultableValueTypeAction(number)
     }
     lazy var returnCustomDefautableValueTypeAction = stub(of: returnCustomDefautableValueType)
+    lazy var returnCustomDefautableValueTypeActionCustom = stub(of: returnCustomDefautableValueType, alwaysReturn: DefautableStructGlobal())
     func returnCustomDefautableValueType() -> DefautableStructGlobal {
         return returnCustomDefautableValueTypeAction(())
     }
     
-    lazy var returnObjectAction = stub(of: returnObject)
+    lazy var returnObjectAction = stub(of: returnObject, alwaysReturn: NSObject())
     func returnObject() -> AnyObject {
         return returnObjectAction(())
     }
     
     lazy var takeDefaultableValueTypeAction = stub(of: takeDefaultableValueType)
+    lazy var takeDefaultableValueTypeActionCustom = stub(of: takeDefaultableValueType, alwaysReturn: Void())
     func takeDefaultableValueType(_ number: Int) {
         takeDefaultableValueTypeAction(number)
     }
     
     lazy var returnDefautableValueTypeAction = stub(of: returnDefautableValueType)
+    lazy var returnDefautableValueTypeActionCustom = stub(of: returnDefautableValueType, alwaysReturn: 1)
     func returnDefautableValueType() -> Int {
         return returnDefautableValueTypeAction(())
     }
+    func returnDefautableValueTypeCustom() -> Int {
+        return returnDefautableValueTypeActionCustom(())
+    }
     lazy var takeTwoArgsAction = stub(of: takeTwoArgs)
+    lazy var takeTwoArgsActionCustom = stub(of: takeTwoArgs, alwaysReturn: Void())
     func takeTwoArgs(v1: Int, v2: String) {
         return takeTwoArgsAction((v1, v2))
     }
-    lazy var returnTupleAction = stub(of: returnTuple)
+    lazy var returnTupleAction = stub(of: returnTuple, alwaysReturn: (0,""))
     func returnTuple() -> (Int, String) {
         return returnTupleAction(())
     }
     lazy var takeTupleNamedAction = stub(of: takeTupleNamed)
+    lazy var takeTupleNamedActionCustom = stub(of: takeTupleNamed, alwaysReturn: Void())
     func takeTupleNamed(_ tuple: (v1: Int, v2: String)) {
         return takeTupleNamedAction(tuple)
     }
-    lazy var returnTupleNamedAction = stub(of: returnTupleNamed)
+    lazy var returnTupleNamedAction = stub(of: returnTupleNamed, alwaysReturn: (0,""))
     func returnTupleNamed() -> (v1: Int, v2: String) {
         return returnTupleNamedAction(())
     }
     lazy var takeEscapingAction = stub(of: takeEscaping)
+    lazy var takeEscapingActionCustom = stub(of: takeEscaping, alwaysReturn: Void())
     func takeEscaping(_ f: @escaping (Int) -> (String)) {
         return takeEscapingAction(f)
     }
@@ -84,33 +99,29 @@ class TestStubMockGlobal: TestProtocolGlobal {
         return takeTwoEscapingAction((f1,f2))
     }
     lazy var takeNonscapingAction = stub(of: takeNonscaping)
+    lazy var takeNonscapingActionCustom = stub(of: takeNonscaping, alwaysReturn: Void())
     func takeNonscaping(_ f: (Int) -> (String)) {
         return withoutActuallyEscaping(f) { takeNonscapingAction($0)}
     }
-    lazy var returnFunctionAction = stub(of: returnFunction)
+    lazy var returnFunctionAction = stub(of: returnFunction, alwaysReturn: {"\($0)"})
     func returnFunction() -> ((Int) -> (String)) {
         return returnFunctionAction(())
     }
     lazy var takeObjectAction = stub(of: takeObject)
+    lazy var takeObjectActionCustom = stub(of: takeObject, alwaysReturn: Void())
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }
     lazy var takeAutoclosureStringAction = stub(of: takeAutoclosureString)
+    lazy var takeAutoclosureStringActionCustom = stub(of: takeAutoclosureString, alwaysReturn: Void())
     func takeAutoclosureString(_ closure: @autoclosure () -> (String)) {
         return takeAutoclosureStringAction(closure())
     }
     lazy var takeAutoclosureStringWithOtherAction = stub(of: takeAutoclosureStringWithOther)
+    lazy var takeAutoclosureStringWithOtherActionCustom = stub(of: takeAutoclosureStringWithOther, alwaysReturn: Void())
     func takeAutoclosureStringWithOther(_ closure: @autoclosure () -> (String), other: String) {
         return takeAutoclosureStringWithOtherAction((closure(), other))
     }
-    // not supported. For more details, see https://forums.swift.org/t/array-splatting-for-variadic-parameters/7175
-    /*lazy var takeVarArgsAction = stub(of: takeVarArgs)
-    func takeVarArgs(_ arg: Int...) {
-        return takeVarArgsAction(arg)
-    }
-    lazy var takeVarArgsAndOtherAction = stub(of: takeVarArgsAndOther)
-    func takeVarArgsAndOther(_ arg: Int..., other: String) {
-        return takeVarArgsAndOtherAction((arg, other))
-    }*/
 }
+
 

@@ -20,20 +20,65 @@
  THE SOFTWARE.
  */
 
-
-public func stub<I,O>(of: (I)->(O), file: StaticString = #file, line: UInt = #line) -> (I)->(O) {
-    fatalError("Unexpected stub call", file:file, line: line)
+public func stub<I,O>(of: (I)->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
+    return { _ in defaultValue }
 }
 
-public func stub<I,O>(of: (I) throws ->(O), file: StaticString = #file, line: UInt = #line) -> (I) throws ->(O) {
-    fatalError("Unexpected stub call", file:file, line: line)
+public func stub<I,O:DefaultProvidable>(of: (I)->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
+    return { _ in defaultValue }
 }
 
-// Temporary workaround for autoclosure support
-public func stub<I,O>(of: (@autoclosure () -> (I)) -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) -> (O) {
-    fatalError("Unexpected stub call", file:file, line: line)
+public func stub<I>(of: (I)->()) -> (I)->() {
+    return stub(of: of, alwaysReturn: ())
 }
 
-public func stub<I,O>(of: (@autoclosure () -> (I)) throws -> (O), file: StaticString = #file, line: UInt = #line) -> (@autoclosure () -> (I)) throws -> (O) {
-    fatalError("Unexpected stub call", file:file, line: line)
+
+
+public func stub<I,O>(of: (I) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I,O:DefaultProvidable>(of: (I) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I>(of: (I) throws ->()) -> (I) throws ->() {
+    return stub(of: of, alwaysReturn: ())
+}
+
+public func stub<I,O>(of: (I) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
+    return { _ in
+        throw defaultThrow
+    }
+}
+
+// Autoclosure workarounds. see [SR-9991]
+public func stub<I,O>(of: (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O) -> (I)->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I,O:DefaultProvidable>(of: (@autoclosure () -> (I))->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I)->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I>(of: (@autoclosure () -> (I))->()) -> (I)->() {
+    return stub(of: of, alwaysReturn: ())
+}
+
+public func stub<I,O>(of: (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O) -> (I) throws ->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I,O:DefaultProvidable>(of: (@autoclosure () -> (I)) throws ->(O), alwaysReturn defaultValue: O = O.defaultValue) -> (I) throws ->(O) {
+    return { _ in defaultValue }
+}
+
+public func stub<I>(of: (@autoclosure () -> (I)) throws ->()) -> (I) throws ->() {
+    return stub(of: of, alwaysReturn: ())
+}
+
+public func stub<I,O>(of: (@autoclosure () -> (I)) throws ->(O), alwaysThrow defaultThrow: Error) -> (I) throws ->(O) {
+    return { _ in
+        throw defaultThrow
+    }
 }

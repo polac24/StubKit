@@ -28,10 +28,10 @@ extension String: Error {}
 class RegisterTests: XCTestCase {
 
     
-    private var testMock: TestStubMockGlobal!
+    private var testMock: TestStrictStubMockGlobal!
     
     override func setUp() {
-        testMock = TestStubMockGlobal()
+        testMock = TestStrictStubMockGlobal()
     }
     
     override func tearDown() {
@@ -119,11 +119,11 @@ private protocol TestProtocolThrowing {
 
 private class TestMockThrowing: TestProtocolThrowing {
 
-    lazy var takeValueTypeThrowingAction = stub(of: takeValueTypeThrowing)
+    lazy var takeValueTypeThrowingAction = strictStub(of: takeValueTypeThrowing)
     func takeValueTypeThrowing(_ i: Int) throws {
         return try takeValueTypeThrowingAction(i)
     }
-    lazy var returnValueTypeThrowingAction = stub(of: returnValueTypeThrowing)
+    lazy var returnValueTypeThrowingAction = strictStub(of: returnValueTypeThrowing)
     func returnValueTypeThrowing() throws -> Int {
         return try returnValueTypeThrowingAction(())
     }

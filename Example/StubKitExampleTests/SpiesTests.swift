@@ -65,20 +65,20 @@ struct InternalType: DefaultProvidable {
 }
 
 private class TestMock: TestProtocol {
-    lazy var returnsInternalAction = stub(of:returnsInternal)
+    lazy var returnsInternalAction = strictStub(of:returnsInternal)
     func returnsInternal() -> InternalType {
         return returnsInternalAction(())
     }
     
-    lazy var takeObjectAction = stub(of: takeObject)
+    lazy var takeObjectAction = strictStub(of: takeObject)
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }
-    lazy var returnBoolAction = stub(of: returnBool)
+    lazy var returnBoolAction = strictStub(of: returnBool)
     func returnBool() -> Bool {
         return returnBoolAction(())
     }
-    lazy var returnIntAction = stub(of: returnInt)
+    lazy var returnIntAction = strictStub(of: returnInt)
     func returnInt() -> Int {
         return returnIntAction(())
     }

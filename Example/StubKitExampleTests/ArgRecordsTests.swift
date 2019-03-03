@@ -70,7 +70,7 @@ private protocol TestProtocol {
 }
 
 private class TestMock: TestProtocol {
-    lazy var takeObjectAction = stub(of: takeObject)
+    lazy var takeObjectAction = strictStub(of: takeObject)
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }

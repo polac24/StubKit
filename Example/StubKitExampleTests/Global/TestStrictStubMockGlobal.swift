@@ -19,109 +19,98 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
-import XCTest
 import StubKit
 
-
-class TestNiceStubMock: TestProtocolGlobal {
+class TestStrictStubMockGlobal: TestProtocolGlobal {
     
     
-    lazy var takeValueTypeAction = niceStub(of: takeValueType)
-    lazy var takeValueTypeActionCustom = niceStub(of: takeValueType, alwaysReturn: Void())
+    lazy var takeValueTypeAction = strictStub(of: takeValueType)
     func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)
     }
-    lazy var takeObjectEquatableAction = niceStub(of: takeObjectEquatable)
+    lazy var takeObjectEquatableAction = strictStub(of: takeObjectEquatable)
     func takeObjectEquatable(_ obj: MyClassGlobal) {
         return takeObjectEquatableAction(obj)
     }
-    
-    lazy var returnValueTypeAction = niceStub(of: returnValueType, alwaysReturn: MyStructGlobal())
+    lazy var returnValueTypeAction = strictStub(of: returnValueType)
     func returnValueType() -> MyStructGlobal {
         return returnValueTypeAction(())
     }
-    lazy var takeCustomDefaultableValueTypeAction = niceStub(of: takeCustomDefaultableValueType)
-    lazy var takeCustomDefaultableValueTypeActionCustom = niceStub(of: takeCustomDefaultableValueType, alwaysReturn: Void())
+    lazy var takeCustomDefaultableValueTypeAction = strictStub(of: takeCustomDefaultableValueType)
     func takeCustomDefaultableValueType(_ number: DefautableStructGlobal) {
         return takeCustomDefaultableValueTypeAction(number)
     }
-    lazy var returnCustomDefautableValueTypeAction = niceStub(of: returnCustomDefautableValueType)
-    lazy var returnCustomDefautableValueTypeActionCustom = niceStub(of: returnCustomDefautableValueType, alwaysReturn: DefautableStructGlobal())
+    lazy var returnCustomDefautableValueTypeAction = strictStub(of: returnCustomDefautableValueType)
     func returnCustomDefautableValueType() -> DefautableStructGlobal {
         return returnCustomDefautableValueTypeAction(())
     }
     
-    lazy var returnObjectAction = niceStub(of: returnObject, alwaysReturn: NSObject())
+    lazy var returnObjectAction = strictStub(of: returnObject)
     func returnObject() -> AnyObject {
         return returnObjectAction(())
     }
     
-    lazy var takeDefaultableValueTypeAction = niceStub(of: takeDefaultableValueType)
-    lazy var takeDefaultableValueTypeActionCustom = niceStub(of: takeDefaultableValueType, alwaysReturn: Void())
+    lazy var takeDefaultableValueTypeAction = strictStub(of: takeDefaultableValueType)
     func takeDefaultableValueType(_ number: Int) {
         takeDefaultableValueTypeAction(number)
     }
     
-    lazy var returnDefautableValueTypeAction = niceStub(of: returnDefautableValueType)
-    lazy var returnDefautableValueTypeActionCustom = niceStub(of: returnDefautableValueType, alwaysReturn: 1)
+    lazy var returnDefautableValueTypeAction = strictStub(of: returnDefautableValueType)
     func returnDefautableValueType() -> Int {
         return returnDefautableValueTypeAction(())
     }
-    func returnDefautableValueTypeCustom() -> Int {
-        return returnDefautableValueTypeActionCustom(())
-    }
-    lazy var takeTwoArgsAction = niceStub(of: takeTwoArgs)
-    lazy var takeTwoArgsActionCustom = niceStub(of: takeTwoArgs, alwaysReturn: Void())
+    lazy var takeTwoArgsAction = strictStub(of: takeTwoArgs)
     func takeTwoArgs(v1: Int, v2: String) {
         return takeTwoArgsAction((v1, v2))
     }
-    lazy var returnTupleAction = niceStub(of: returnTuple, alwaysReturn: (0,""))
+    lazy var returnTupleAction = strictStub(of: returnTuple)
     func returnTuple() -> (Int, String) {
         return returnTupleAction(())
     }
-    lazy var takeTupleNamedAction = niceStub(of: takeTupleNamed)
-    lazy var takeTupleNamedActionCustom = niceStub(of: takeTupleNamed, alwaysReturn: Void())
+    lazy var takeTupleNamedAction = strictStub(of: takeTupleNamed)
     func takeTupleNamed(_ tuple: (v1: Int, v2: String)) {
         return takeTupleNamedAction(tuple)
     }
-    lazy var returnTupleNamedAction = niceStub(of: returnTupleNamed, alwaysReturn: (0,""))
+    lazy var returnTupleNamedAction = strictStub(of: returnTupleNamed)
     func returnTupleNamed() -> (v1: Int, v2: String) {
         return returnTupleNamedAction(())
     }
-    lazy var takeEscapingAction = niceStub(of: takeEscaping)
-    lazy var takeEscapingActionCustom = niceStub(of: takeEscaping, alwaysReturn: Void())
+    lazy var takeEscapingAction = strictStub(of: takeEscaping)
     func takeEscaping(_ f: @escaping (Int) -> (String)) {
         return takeEscapingAction(f)
     }
-    lazy var takeTwoEscapingAction = niceStub(of: takeTwoEscaping)
+    lazy var takeTwoEscapingAction = strictStub(of: takeTwoEscaping)
     func takeTwoEscaping(_ f1: @escaping (Int) -> (String), _ f2: @escaping (String) -> (Int)) {
         return takeTwoEscapingAction((f1,f2))
     }
-    lazy var takeNonscapingAction = niceStub(of: takeNonscaping)
-    lazy var takeNonscapingActionCustom = niceStub(of: takeNonscaping, alwaysReturn: Void())
+    lazy var takeNonscapingAction = strictStub(of: takeNonscaping)
     func takeNonscaping(_ f: (Int) -> (String)) {
         return withoutActuallyEscaping(f) { takeNonscapingAction($0)}
     }
-    lazy var returnFunctionAction = niceStub(of: returnFunction, alwaysReturn: {"\($0)"})
+    lazy var returnFunctionAction = strictStub(of: returnFunction)
     func returnFunction() -> ((Int) -> (String)) {
         return returnFunctionAction(())
     }
-    lazy var takeObjectAction = niceStub(of: takeObject)
-    lazy var takeObjectActionCustom = niceStub(of: takeObject, alwaysReturn: Void())
+    lazy var takeObjectAction = strictStub(of: takeObject)
     func takeObject(_ obj: AnyObject) {
         return takeObjectAction(obj)
     }
-    lazy var takeAutoclosureStringAction = niceStub(of: takeAutoclosureString)
-    lazy var takeAutoclosureStringActionCustom = niceStub(of: takeAutoclosureString, alwaysReturn: Void())
+    lazy var takeAutoclosureStringAction = strictStub(of: takeAutoclosureString)
     func takeAutoclosureString(_ closure: @autoclosure () -> (String)) {
         return takeAutoclosureStringAction(closure())
     }
-    lazy var takeAutoclosureStringWithOtherAction = niceStub(of: takeAutoclosureStringWithOther)
-    lazy var takeAutoclosureStringWithOtherActionCustom = niceStub(of: takeAutoclosureStringWithOther, alwaysReturn: Void())
+    lazy var takeAutoclosureStringWithOtherAction = strictStub(of: takeAutoclosureStringWithOther)
     func takeAutoclosureStringWithOther(_ closure: @autoclosure () -> (String), other: String) {
         return takeAutoclosureStringWithOtherAction((closure(), other))
     }
+    // not supported. For more details, see https://forums.swift.org/t/array-splatting-for-variadic-parameters/7175
+    /*lazy var takeVarArgsAction = strictStub(of: takeVarArgs)
+    func takeVarArgs(_ arg: Int...) {
+        return takeVarArgsAction(arg)
+    }
+    lazy var takeVarArgsAndOtherAction = strictStub(of: takeVarArgsAndOther)
+    func takeVarArgsAndOther(_ arg: Int..., other: String) {
+        return takeVarArgsAndOtherAction((arg, other))
+    }*/
 }
-
 
