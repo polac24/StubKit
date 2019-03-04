@@ -3,11 +3,29 @@
 
 ## Overview
 
-
+- [Overview](#overview)
 - [API](#api)
-    - [Subbing](#subbing)
-    - [Registration](#registration)
-    - [Argument verification - spy recorder](#argument-verification-spy-recorder)
+  * [Stubbing](#stubbing)
+  * [Stub return value](#stub-return-value)
+    + [Automatic return value](#automatic-return-value)
+    + [Manual return type](#manual-return-type)
+    + [Manual throwing](#manual-throwing)
+  * [Strict Stubbing](#strict-stubbing)
+    + [Ambigious functions stub](#ambigious-functions-stub)
+    + [Registration](#registration)
+      - [Automatic registration](#automatic-registration)
+      - [Manual registration with custom body](#manual-registration-with-custom-body)
+  * [Argument verification - spy recorder](#argument-verification---spy-recorder)
+    + [Spy a single-argument function](#spy-a-single-argument-function)
+    + [Spy a multi-argument function](#spy-a-multi-argument-function)
+    + [Weak spy](#weak-spy)
+    + [Custom spy storage](#custom-spy-storage)
+- [Stubbing hints](#stubbing-hints)
+  * [`@autoclosure`](#--autoclosure-)
+  * [`@escaping`](#--escaping-)
+  * [non-escaping arguments](#non-escaping-arguments)
+  * [throwing function](#throwing-function)
+  * [throwing function argument](#throwing-function-argument)
 - [Limitations](#limitations)
 
 ## API
@@ -106,7 +124,7 @@ StubKit's term "strict stubbing" means that body of a protocol function has to b
 
 ```swift
 protocol Database {
-func addUser(name: String) -> Bool
+    func addUser(name: String) -> Bool
 }
 class DatabaseMock: Database {
     lazy var addUserAction = strictStub(of: addUser)
@@ -134,7 +152,7 @@ databaseMock.addUser(name: "user1") // OK ✅
 
 > Strict stubbing is very restrictive so it recommended to prefer standard stubbing instead.
 
-##### Ambigious functions stub
+#### Ambigious functions stub
 
 If your protocol contains the same name of a function `Ambiguous use of 'addUser'` but with different number of parameters, you can give compiler a hint which to stub by adding full signature with parameters:
 
@@ -253,6 +271,97 @@ let addAccountSpy = spyCalls(of: &databaseStub.addAccountAction, transform: {$0.
 databaseMock.addAccount(givenName: "given", lastName: "last")
 
 let callArg = addUserSpy[0] // "given"
+```
+
+## Stubbing hints
+
+### `@autoclosure`
+
+> Support for @autoclosure in Swift 5.0 will change so this documentation is a subject to change
+
+```swift
+protocol Database {
+    func addUser(name: @autoclosure () -> String)
+}
+class DatabaseMock: Database {
+    lazy var addUserAction = stub(of: addUser)
+    func addUser(name: @autoclosure () -> String) {
+        return addUserAction(name())
+    }
+}
+```
+
+### `@escaping`
+
+Stubbing and spying the function with @escaping argument is really straitforward
+
+```swift
+protocol Database {
+    func addUser(completion: @escaping (Bool) -> ())
+}
+class DatabaseMock: Database {
+    lazy var addUserAction = stub(of: addUser)
+    func addUser(completion: @escaping (Bool) -> ()) {
+        return addUserAction(name)
+    }
+}
+```
+
+### non-escaping arguments
+
+Working with non-escaping functions has some limitations. Because swift opitmization assumes that closure won't be used out of a lifetime of a function's call, you have to manually guarantee that you will obey that restriction by wrapping the non-escping function call by `withoutActuallyEscaping` and **never** save it to the storage when spying:
+
+```swift
+protocol Database {
+    func enumerateUsers(enumeration: (User) -> ())
+}
+class DatabaseMock: Database {
+    lazy var enumerateUsersAction = stub(of: enumerateUsers)
+    func enumerateUsers(enumeration: (User) -> ()) {
+        return withoutActuallyEscaping(f) {
+            enumerateUsersAction($0)
+        }
+    }
+}
+
+let enumerateUsers = spyCalls(of: &databaseStub.enumerateUsersAction, transform: { $0(User()) }) 
+databaseMock.enumerateUsers { user in 
+    // use user
+}
+
+let callCount = enumerateUsers.count // 1
+```
+
+### throwing function
+
+To implement body of a protocol's function that can throw, you just need to prefix a call to an action with `try`
+
+```swift
+protocol Database {
+    func addUser(name: String) throws
+}
+class DatabaseMock: Database {
+    lazy var addUserAction = stub(of: addUser)
+    func addUser(name: String) throws {
+        return try addUserAction(name)
+    }
+}
+```
+
+### throwing function argument 
+
+For argument functions that may throw, no additional keyword is needed:
+
+```swift
+protocol Database {
+    func addUser(completion: @escaping (Bool) throws -> ())
+}
+class DatabaseMock: Database {
+    lazy var addUserAction = stub(of: addUser)
+    func addUser(completion: @escaping (Bool) throws -> ()) {
+        return addUserAction(name)
+    }
+}
 ```
 
 ## Limitations
