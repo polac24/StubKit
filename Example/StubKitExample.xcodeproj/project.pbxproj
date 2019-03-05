@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10010564222EF5BA00917BB1 /* RegisterSequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10010563222EF5BA00917BB1 /* RegisterSequenceTests.swift */; };
 		1006793422288058007386A7 /* RecorderEquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006793322288058007386A7 /* RecorderEquatableTests.swift */; };
 		101FEA4A221B4EE400C70FE6 /* StubKitExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 101FEA3C221B4EE400C70FE6 /* StubKitExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SpiesTests.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		10010563222EF5BA00917BB1 /* RegisterSequenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterSequenceTests.swift; sourceTree = "<group>"; };
 		10067930222851CF007386A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1006793322288058007386A7 /* RecorderEquatableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderEquatableTests.swift; sourceTree = "<group>"; };
 		10067935222BE178007386A7 /* documentation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = documentation.md; path = ../docs/documentation.md; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				101FEA58221B588700C70FE6 /* StubTests.swift */,
 				10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */,
 				10A1F0B922217C130046A49B /* RegisterTests.swift */,
+				10010563222EF5BA00917BB1 /* RegisterSequenceTests.swift */,
 				10A1F0C42221A0730046A49B /* NiceStubTests.swift */,
 				10A1F0C62221A83C0046A49B /* NiceStubThrowingTests.swift */,
 				1047279F22229F8200D04886 /* SpyCallsTests.swift */,
@@ -384,6 +387,7 @@
 				10A1F0BA22217C130046A49B /* RegisterTests.swift in Sources */,
 				101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */,
 				104727A42222A34800D04886 /* TestStubThrowingMock.swift in Sources */,
+				10010564222EF5BA00917BB1 /* RegisterSequenceTests.swift in Sources */,
 				104727A22222A31900D04886 /* TestStubMock.swift in Sources */,
 				104727A62222A37800D04886 /* SpyCallsThrowingTests.swift in Sources */,
 				10A1F0C52221A0730046A49B /* NiceStubTests.swift in Sources */,
