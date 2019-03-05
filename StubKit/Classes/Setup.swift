@@ -20,8 +20,19 @@
  THE SOFTWARE.
  */
 
-public func registerStubSequence<I,O>(of stub: inout (I) -> (O)) -> RegisterSequence<O> {
-    let sequence = RegisterSequence<O>()
+public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) {
+    setupStubSequence(of: &stub).andReturnLater(returnValue)
+}
+public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) {
+    setupStubSequence(of: &stub).andReturnLater(returnValue)
+}
+public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) {
+    setupStubSequence(of: &stub).andThrowLater(error)
+}
+
+
+public func setupStubSequence<I,O>(of stub: inout (I) -> (O)) -> SetupSequence<O> {
+    let sequence = SetupSequence<O>()
     let fallback = stub
     stub = { arg in
         return sequence.nextValue(fallback: fallback, fallbackArg: arg)
@@ -29,8 +40,8 @@ public func registerStubSequence<I,O>(of stub: inout (I) -> (O)) -> RegisterSequ
     return sequence
 }
 
-public func registerStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> RegisterThrowableSequence<O> {
-    let sequence = RegisterThrowableSequence<O>()
+public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> SetupThrowableSequence<O> {
+    let sequence = SetupThrowableSequence<O>()
     let fallback = stub
     stub = { arg in
         return try sequence.nextValue(fallback: fallback, fallbackArg: arg)
@@ -38,22 +49,29 @@ public func registerStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> Regis
     return sequence
 }
 
-public class RegisterSequence<O> {
+public class SetupSequence<O> {
     private var values: [O] = []
-    private var index = 0
+    private var count = 0
     private var endless:Int?
     func nextValue<I>(fallback: (I) ->(O), fallbackArg: I) -> O {
-        guard index != endless else {
-            return values[index]
-        }
-        guard values.count > index else {
+        let valuesIndex = returnIndex(count: count)
+        guard values.count > valuesIndex else {
             return fallback(fallbackArg)
         }
+        _ = fallback(fallbackArg)
         defer {
-            index += 1
+            count += 1
         }
-        return values[index]
+        return values[valuesIndex]
     }
+    
+    private func returnIndex(count: Int) -> Int {
+        guard let endless = endless else {
+            return count
+        }
+        return min(endless, count)
+    }
+
     @discardableResult
     public func andReturn(_ o:O) -> Self {
         values.append(o)
@@ -66,7 +84,7 @@ public class RegisterSequence<O> {
     }
 }
 
-public class RegisterThrowableSequence<O> {
+public class SetupThrowableSequence<O> {
     enum ValueType<O> {
         case value(O)
         case error(Error)
@@ -82,6 +100,7 @@ public class RegisterThrowableSequence<O> {
         }
         defer {
             count += 1
+            _ = try? fallback(fallbackArg)
         }
         switch values[valuesIndex] {
         case .error(let error):
