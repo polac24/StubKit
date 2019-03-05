@@ -10,6 +10,9 @@
     + [Automatic return value](#automatic-return-value)
     + [Manual return type](#manual-return-type)
     + [Manual throwing](#manual-throwing)
+  * [Setup](#setup)
+    + [Standard setup](#standard-setup)
+    + [Sequence setup](#sequence-setup)
   * [Strict Stubbing](#strict-stubbing)
     + [Ambigious functions stub](#ambigious-functions-stub)
     + [Registration](#registration)
@@ -27,6 +30,7 @@
   * [throwing function](#throwing-function)
   * [throwing function argument](#throwing-function-argument)
 - [Limitations](#limitations)
+
 
 ## API
 
@@ -96,7 +100,7 @@ Type | Default value
 
 If some return type cannot conform to `DefaultProvidable` (e.g. for a tuple) or your stub should return other value than default one, you can manually specify it while stubbing:
 
-```
+```swift
 class DatabaseMock: Database {
     lazy var addUserAction = stub(of: addUser, alwaysReturn: true)
     func addUser(name: String) -> Bool {
@@ -109,13 +113,76 @@ class DatabaseMock: Database {
 
 You can customize your stub behaviour to always throw a specific error as:
 
-```
+```swift
 class DatabaseMock: Database {
     lazy var addUserThrowingAction = stub(of: addUser, alwaysThrow: DatabaseError())
     func addUserThrowing(name: String) throws -> Bool {
         return addUserAction(name)
     }
 }
+```
+
+### Setup
+
+Setup provides a control over return value of the function. Setup can be specified several times to override previously setup or registered return value while keeping spies still attached. 
+
+#### Standard setup
+
+```swift
+protocol Database {
+    func addUser(name: String) -> Bool
+}
+class DatabaseMock: Database {
+    lazy var addUserAction = stub(of: addUser)
+    func addUser(name: String) -> Bool {
+        return addUserAction(name)
+    }
+}
+
+
+/// Testcase body
+
+// default behaviour
+databaseMock.addUser(name: "user1") // false
+
+// custom return value
+setupStub(of: &databaseMock.addUserAction, return: true)
+databaseMock.addUser(name: "user1") // true
+
+// override return value
+setupStub(of: &databaseMock.addUserAction, return: false)
+databaseMock.addUser(name: "user1") // false
+```
+
+#### Sequence setup
+
+Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`andReturn`/`andThrow`) or all subsequente calls (`andReturnLater`/`andThrowLater`):
+
+```swift
+// custom return value
+setupStubSequence(of: &databaseMock.addUserAction)
+    .andReturn(true) // 1
+    .andReturn(true) // 2
+    .andReturn(false) // 3
+    .andReturnLater(true) // 4+
+    
+databaseMock.addUser(name: "user1") // 1: true
+databaseMock.addUser(name: "user1") // 2: true
+databaseMock.addUser(name: "user1") // 3: false
+databaseMock.addUser(name: "user1") // 4: true
+databaseMock.addUser(name: "user1") // 5: true
+```
+
+> If you don't end up stub sequence, previous setup value will be returned
+
+```swift
+setupStub(of: &databaseMock.addUserAction, return: true) // 2+
+setupStubSequence(of: &databaseMock.addUserAction)
+.andReturn(false) // 1
+
+databaseMock.addUser(name: "user1") // 1: false
+databaseMock.addUser(name: "user1") // 2: true
+databaseMock.addUser(name: "user1") // 3: true
 ```
 
 ### Strict Stubbing
@@ -141,12 +208,6 @@ databaseMock.addUser(name: "user1") // crash 💥
 
 // automatic registration
 databaseMock.addUserAction = registerStub(alwaysReturn: true)
-databaseMock.addUser(name: "user1") // OK ✅
-
-// manual registration
-databaseMock.addUserAction = { _ in
-    return false
-}
 databaseMock.addUser(name: "user1") // OK ✅
 ```
 
