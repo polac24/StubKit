@@ -59,6 +59,11 @@ class TestStrictStubMockGlobal: TestProtocolGlobal {
     func returnDefautableValueType() -> Int {
         return returnDefautableValueTypeAction(())
     }
+    
+    lazy var takeAndReturnDefautableValueTypeAction = strictStub(of: takeAndReturnDefautableValueType)
+    func takeAndReturnDefautableValueType(_ number: Int) -> Int {
+        return takeAndReturnDefautableValueTypeAction(number)
+    }
     lazy var takeTwoArgsAction = strictStub(of: takeTwoArgs)
     func takeTwoArgs(v1: Int, v2: String) {
         return takeTwoArgsAction((v1, v2))

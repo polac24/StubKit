@@ -156,15 +156,15 @@ databaseMock.addUser(name: "user1") // false
 
 #### Sequence setup
 
-Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`andReturn`/`andThrow`) or all subsequente calls (`andReturnLater`/`andThrowLater`):
+Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`andReturnOnce`/`andThrowOnce`) or all subsequente calls (`andReturn`/`andThrow`):
 
 ```swift
 // custom return value
 setupStubSequence(of: &databaseMock.addUserAction)
-    .andReturn(true) // 1
-    .andReturn(true) // 2
-    .andReturn(false) // 3
-    .andReturnLater(true) // 4+
+    .andReturnOnce(true) // 1
+    .andReturnOnce(true) // 2
+    .andReturnOnce(false) // 3
+    .andReturn(true) // 4+
     
 databaseMock.addUser(name: "user1") // 1: true
 databaseMock.addUser(name: "user1") // 2: true
@@ -173,16 +173,58 @@ databaseMock.addUser(name: "user1") // 4: true
 databaseMock.addUser(name: "user1") // 5: true
 ```
 
-> If you don't end up stub sequence, previous setup value will be returned
+> If you don't end up stub sequence with infinite return, previous setup value will be returned
 
 ```swift
 setupStub(of: &databaseMock.addUserAction, return: true) // 2+
 setupStubSequence(of: &databaseMock.addUserAction)
-.andReturn(false) // 1
+    .andReturnOnce(false) // 1
 
 databaseMock.addUser(name: "user1") // 1: false
 databaseMock.addUser(name: "user1") // 2: true
 databaseMock.addUser(name: "user1") // 3: true
+```
+
+#### Selective setup
+
+Setup can selectively return custom values, depending on call arguments. You can predicate selecting from 
+* argument comparison (for `Equatable` types)
+* predicate
+* selective argument comparison (for `Equtable`) - support for functions with less than 4 arguments
+
+```swift 
+setupStubSequence(of: &databaseMock.addUserAction, for: "user1")
+    .andReturn(false)
+setupStubSequence(of: &databaseMock.addUserAction, for: "user2")
+    .andReturn(true)
+
+databaseMock.addUser(name: "user1") // false
+databaseMock.addUser(name: "user2") // true
+```
+
+```swift 
+setupStubSequence(of: &databaseMock.addUserAction, for: {$0.count > 0})
+    .andReturn(true)
+
+databaseMock.addUser(name: "") //  false
+databaseMock.addUser(name: "user2") // true
+```
+
+```swift 
+protocol Database {
+    func addAccount(givenName: String, lastName: String) -> Int
+}
+
+setupStubSequence(of: &databaseMock.addUserAction, forFirstArgument: "Tom")
+    .andReturn(1)
+    
+setupStubSequence(of: &databaseMock.addUserAction, forSecondArgument: "Derk")
+    .andReturn(10)
+
+databaseMock.addUser(givenName: "Tom", lastName: "Kerk") //  1
+databaseMock.addUser(givenName: "Ole", lastName: "Derk") // 10
+databaseMock.addUser(givenName: "Ole", lastName: "De") // 0
+databaseMock.addUser(givenName: "TOm", lastName: "Derk") // 10 - Last setup has a predecence
 ```
 
 ### Strict Stubbing

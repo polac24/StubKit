@@ -42,9 +42,9 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterSequenceRecordsReturnOrder() {
         setupStubSequence(of: &testMock.returnDefautableValueTypeAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
         
         let returns = Array(0..<3).map({_ in testMock.returnDefautableValueType()})
         // Assert
@@ -54,9 +54,9 @@ class RegisterSequenceTests: XCTestCase {
     func testRegisterSequenceCallsSpies() {
         let args = spyCalls(of: &testMock.takeDefaultableValueTypeAction)
         setupStubSequence(of: &testMock.takeDefaultableValueTypeAction)
-            .andReturn(Void())
-            .andReturn(Void())
-            .andReturn(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
         
         _ = Array(0..<3).map({testMock.takeDefaultableValueType($0)})
         // Assert
@@ -65,9 +65,9 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterSequenceCanPreceedSpy() {
         setupStubSequence(of: &testMock.takeDefaultableValueTypeAction)
-            .andReturn(Void())
-            .andReturn(Void())
-            .andReturn(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
         let args = spyCalls(of: &testMock.takeDefaultableValueTypeAction)
         
         _ = Array(0..<3).map({testMock.takeDefaultableValueType($0)})
@@ -77,10 +77,10 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterSequenceWithEndlessReturn() {
         setupStubSequence(of: &testMock.returnDefautableValueTypeAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
-            .andReturnLater(3)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
         
         let returns = Array(0..<5).map({_ in testMock.returnDefautableValueType()})
         // Assert
@@ -88,11 +88,11 @@ class RegisterSequenceTests: XCTestCase {
     }
     func testRegisterSequenceWithEndlessReturnAppended() {
         setupStubSequence(of: &testMock.returnDefautableValueTypeAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
-            .andReturnLater(3)
-            .andReturn(4)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
+            .andReturnOnce(4)
         
         let returns = Array(0..<5).map({_ in testMock.returnDefautableValueType()})
         // Assert
@@ -102,8 +102,8 @@ class RegisterSequenceTests: XCTestCase {
     func testRegisterSequenceCallsStandardWhenRunOut() {
         testMock.returnDefautableValueTypeAction = registerStub(alwaysReturn: 10)
         setupStubSequence(of: &testMock.returnDefautableValueTypeAction)
-            .andReturn(-1)
-            .andReturn(-2)
+            .andReturnOnce(-1)
+            .andReturnOnce(-2)
         
         let returns = Array(0..<3).map({_ in testMock.returnDefautableValueType()})
         // Assert
@@ -112,9 +112,9 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterThrowingSequenceKeepsRecordedOrder() throws {
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
         
         let returns = try Array(0..<3).map({_ in try testThrowingMock.returnDefautableValueTypeThrowing()})
         // Assert
@@ -124,9 +124,9 @@ class RegisterSequenceTests: XCTestCase {
     func testRegisterThrowingSequenceCallsSpies() throws {
         let args = spyCalls(of: &testThrowingMock.takeDefaultableValueTypeThrowingAction)
         setupStubSequence(of: &testThrowingMock.takeDefaultableValueTypeThrowingAction)
-            .andReturn(Void())
-            .andReturn(Void())
-            .andReturn(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
+            .andReturnOnce(Void())
         
         _ = try Array(0..<3).map({try testThrowingMock.takeDefaultableValueTypeThrowing($0)})
         // Assert
@@ -135,7 +135,7 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterThrowingSequenceThrows() {
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(1)
+            .andReturnOnce(1)
             .andThrow("Throw")
             .andThrow("Throw2")
         
@@ -146,10 +146,10 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterThrowingSequenceWithEndlessReturn() throws {
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
-            .andReturnLater(3)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
         
         let returns = try Array(0..<5).map({_ in try testThrowingMock.returnDefautableValueTypeThrowing()})
         // Assert
@@ -157,11 +157,11 @@ class RegisterSequenceTests: XCTestCase {
     }
     func testRegisterThrowingSequenceWithEndlessReturnAppended() throws {
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(0)
-            .andReturn(1)
-            .andReturn(2)
-            .andReturnLater(3)
-            .andReturn(4)
+            .andReturnOnce(0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
+            .andReturnOnce(4)
         
         let returns = try Array(0..<5).map({_ in try testThrowingMock.returnDefautableValueTypeThrowing()})
         // Assert
@@ -170,8 +170,8 @@ class RegisterSequenceTests: XCTestCase {
     
     func testRegisterThrowingSequenceWithEndlessThrowAppended() {
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(0)
-            .andThrowLater("Throw")
+            .andReturnOnce(0)
+            .andThrow("Throw")
         
         let returns = Array(0..<3).map({_ in try? testThrowingMock.returnDefautableValueTypeThrowing()})
         // Assert
@@ -181,8 +181,8 @@ class RegisterSequenceTests: XCTestCase {
     func testRegisterThrowingSequenceCallsStandardWhenRunOut() {
         testThrowingMock.returnDefautableValueTypeThrowingAction = registerStub(alwaysReturn: 10)
         setupStubSequence(of: &testThrowingMock.returnDefautableValueTypeThrowingAction)
-            .andReturn(-1)
-            .andThrow("Throw")
+            .andReturnOnce(-1)
+            .andThrowOnce("Throw")
         
         let returns = Array(0..<3).map({_ in try? testThrowingMock.returnDefautableValueTypeThrowing()})
         // Assert
@@ -247,5 +247,116 @@ class RegisterSequenceTests: XCTestCase {
         XCTAssertEqual(returns1, [2,2,2])
         XCTAssertEqual(returns2, [3,3,3])
     }
+    
+    func testSelectiveRegisterSequence() {
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction,for: 0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction,for: 1)
+            .andReturn(4)
+        
+        let inputArgs =  [0,0,1,1,1,0,0,-1,-1,-1]
+        let results = inputArgs.map({testMock.takeAndReturnDefautableValueType($0)})
+        
+        // Assert
+        XCTAssertEqual(results, [1,2,4,4,4,3,3,0,0,0])
+    }
+    
+    func testSelectiveRegisterPassesArgDownForSpys() {
+        let spies = spyCalls(of: &testMock.takeAndReturnDefautableValueTypeAction)
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction,for: 0)
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction,for: 1)
+            .andReturn(4)
+        
+        let inputArgs =  [0,0,1,1,1,0,0,-1,-1,-1]
+        _ = inputArgs.forEach({ _ = testMock.takeAndReturnDefautableValueType($0)})
+
+        // Assert
+        XCTAssertEqual(spies, [0,0,1,1,1,0,0,-1,-1,-1])
+    }
+    
+    func testSelectiveRegisterSequenceForMultipleArguments() {
+        let testMock = MultipleInputMock()
+        
+        setupStubSequence(of: &testMock.takeTwoEquatableValueTypeAction, forFirstArgument: 0)
+            .andReturnOnce(1)
+            .andReturn(3)
+        setupStubSequence(of: &testMock.takeTwoEquatableValueTypeAction, forSecondArgument: "A")
+            .andReturn(4)
+        
+        let inputArgs =  [(0,"B"), (0, "b"), (-1, "A"), (-1, "c")]
+        let results = inputArgs.map({testMock.takeTwoEquatableValueType($0.0, $0.1)})
+        
+        // Assert
+        XCTAssertEqual(results, [1,3,4,0])
+    }
+    
+    func testLastSelectiveRegisterSequenceForMultipleArgumentsHasPriority() {
+        let testMock = MultipleInputMock()
+        
+        setupStubSequence(of: &testMock.takeTwoEquatableValueTypeAction, forFirstArgument: 0)
+            .andReturn(1)
+        setupStubSequence(of: &testMock.takeTwoEquatableValueTypeAction, forSecondArgument: "A")
+            .andReturn(4)
+        
+        let inputArgs =  [(0,"A"), (0, "b")]
+        let results = inputArgs.map({testMock.takeTwoEquatableValueType($0.0, $0.1)})
+        
+        // Assert
+        XCTAssertEqual(results, [4,1])
+    }
+    
+    func testSelectiveRegisterSequenceForOneEquatableArguments() {
+        let testMock = MultipleInputMock()
+        let globalClass = MyClassGlobal()
+        
+        setupStubSequence(of: &testMock.takeOneEquatableAndOneNonEquatableTypeAction, forFirstArgument: 0)
+            .andReturnOnce(1)
+            .andReturn(3)
+        
+        let inputArgs =  [(0,globalClass), (0, globalClass), (-1, globalClass), (-1, globalClass), (0, globalClass)]
+        let results = inputArgs.map({testMock.takeOneEquatableAndOneNonEquatableType($0.0, $0.1)})
+        
+        // Assert
+        XCTAssertEqual(results, [1,3,0,0,3])
+    }
+    
+    func testPredicateSelectiveRegisterPassesArgDownForSpys() {
+        let spies = spyCalls(of: &testMock.takeAndReturnDefautableValueTypeAction)
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction, for: { return $0 == 0})
+            .andReturnOnce(1)
+            .andReturnOnce(2)
+            .andReturn(3)
+        setupStubSequence(of: &testMock.takeAndReturnDefautableValueTypeAction,for: { return $0 == 1})
+            .andReturn(4)
+        
+        let inputArgs =  [0,0,1,1,1,0,0,-1,-1,-1]
+        _ = inputArgs.forEach({ _ = testMock.takeAndReturnDefautableValueType($0)})
+        
+        // Assert
+        XCTAssertEqual(spies, [0,0,1,1,1,0,0,-1,-1,-1])
+    }
 }
 
+fileprivate protocol MultipleInputProtocol{
+    func takeTwoEquatableValueType(_ number:Int, _ name: String) -> Int
+    func takeOneEquatableAndOneNonEquatableType(_ number:Int, _ nonEquatable: MyClassGlobal) -> Int
+}
+
+fileprivate class MultipleInputMock: MultipleInputProtocol {
+    lazy var takeTwoEquatableValueTypeAction = stub(of: takeTwoEquatableValueType)
+    func takeTwoEquatableValueType(_ number: Int, _ name: String) -> Int {
+        return takeTwoEquatableValueTypeAction((number, name))
+    }
+    
+    lazy var takeOneEquatableAndOneNonEquatableTypeAction = stub(of: takeOneEquatableAndOneNonEquatableType)
+    func takeOneEquatableAndOneNonEquatableType(_ number: Int, _ nonEquatable: MyClassGlobal) -> Int {
+        return takeOneEquatableAndOneNonEquatableTypeAction((number, nonEquatable))
+    }
+    
+    
+}

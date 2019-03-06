@@ -28,6 +28,7 @@ protocol TestProtocolGlobal {
     func returnValueType() -> MyStructGlobal
     func takeDefaultableValueType(_ number: Int)
     func returnDefautableValueType() -> Int
+    func takeAndReturnDefautableValueType(_ number:Int) -> Int
     func takeCustomDefaultableValueType(_ number: DefautableStructGlobal)
     func returnCustomDefautableValueType() -> DefautableStructGlobal
     func takeTwoArgs(v1: Int, v2: String)

@@ -71,6 +71,10 @@ class TestStubMock: TestProtocolGlobal {
     func returnDefautableValueTypeCustom() -> Int {
         return returnDefautableValueTypeActionCustom(())
     }
+    lazy var takeAndReturnDefautableValueTypeAction = stub(of: takeAndReturnDefautableValueType)
+    func takeAndReturnDefautableValueType(_ number: Int) -> Int {
+        return takeAndReturnDefautableValueTypeAction(number)
+    }
     lazy var takeTwoArgsAction = stub(of: takeTwoArgs)
     lazy var takeTwoArgsActionCustom = stub(of: takeTwoArgs, alwaysReturn: Void())
     func takeTwoArgs(v1: Int, v2: String) {

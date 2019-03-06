@@ -20,49 +20,36 @@
  THE SOFTWARE.
  */
 
-public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).andReturnLater(returnValue)
-}
-public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).andReturnLater(returnValue)
-}
-public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) {
-    setupStubSequence(of: &stub).andThrowLater(error)
-}
 
-
-public func setupStubSequence<I,O>(of stub: inout (I) -> (O)) -> SetupSequence<O> {
-    let sequence = SetupSequence<O>()
-    let fallback = stub
-    stub = { arg in
-        return sequence.nextValue(fallback: fallback, fallbackArg: arg)
+enum MatchRepresentaion<I,O> {
+    case all(O)
+    case value(I, O)
+    func matches(_ v:I) -> Bool {
+        return true
     }
-    return sequence
-}
-
-public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> SetupThrowableSequence<O> {
-    let sequence = SetupThrowableSequence<O>()
-    let fallback = stub
-    stub = { arg in
-        return try sequence.nextValue(fallback: fallback, fallbackArg: arg)
+    func returnValue() -> O {
+        switch self {
+        case .all(let v), .value(_, let v):
+            return v
+        }
     }
-    return sequence
 }
 
-public class SetupSequence<O> {
-    private var values: [O] = []
+public class SetupSequence<I,O> {
+    
+    var values: [MatchRepresentaion<I,O>] = []
     private var count = 0
     private var endless:Int?
-    func nextValue<I>(fallback: (I) ->(O), fallbackArg: I) -> O {
+    func nextValue(fallback: (I) ->(O), fallbackArg: I) -> O {
         let valuesIndex = returnIndex(count: count)
-        guard values.count > valuesIndex else {
+        guard values.count > valuesIndex && values[valuesIndex].matches(fallbackArg) else {
             return fallback(fallbackArg)
         }
         _ = fallback(fallbackArg)
         defer {
             count += 1
         }
-        return values[valuesIndex]
+        return values[valuesIndex].returnValue()
     }
     
     private func returnIndex(count: Int) -> Int {
@@ -71,38 +58,48 @@ public class SetupSequence<O> {
         }
         return min(endless, count)
     }
-
+    
     @discardableResult
-    public func andReturn(_ o:O) -> Self {
-        values.append(o)
+    public func andReturnOnce(_ o:O) -> Self {
+        values.append(.all(o))
         return self
     }
     @discardableResult
-    public func andReturnLater(_ o:O) -> Self {
+    public func andReturn(_ o:O) -> Self {
         endless = values.count
-        return andReturn(o)
+        return andReturnOnce(o)
+    }
+}
+extension MatchRepresentaion where I: Equatable  {
+    func matches(_ v:I) -> Bool {
+        switch self{
+        case .all:
+            return true
+        case .value(let i, _):
+            return i == v
+        }
     }
 }
 
-public class SetupThrowableSequence<O> {
+public class SetupThrowableSequence<I,O> {
     enum ValueType<O> {
         case value(O)
         case error(Error)
     }
-    private var values: [ValueType<O>] = []
+    private var values: [MatchRepresentaion<I,ValueType<O>>] = []
     private var count = 0
     private var endless:Int?
     
-    func nextValue<I>(fallback: (I) throws ->(O), fallbackArg: I) throws -> O {
+    func nextValue(fallback: (I) throws ->(O), fallbackArg: I) throws -> O {
         let valuesIndex = returnIndex(count: count)
-        guard values.count > valuesIndex else {
+        guard values.count > valuesIndex && values[valuesIndex].matches(fallbackArg) else {
             return try fallback(fallbackArg)
         }
         defer {
             count += 1
             _ = try? fallback(fallbackArg)
         }
-        switch values[valuesIndex] {
+        switch values[valuesIndex].returnValue() {
         case .error(let error):
             throw error
         case .value(let value):
@@ -118,27 +115,29 @@ public class SetupThrowableSequence<O> {
     }
     
     @discardableResult
-    public func andReturn(_ o:O) -> Self {
-        values.append(.value(o))
+    public func andReturnOnce(_ o:O) -> Self {
+        values.append(.all(.value(o)))
         return self
     }
+    
     @discardableResult
-    public func andReturnLater(_ o:O) -> Self {
+    public func andReturn(_ o:O) -> Self {
         endless = values.count
-        return andReturn(o)
+        return andReturnOnce(o)
+    }
+    
+    @discardableResult
+    public func andThrowOnce(_ e:Error) -> Self {
+        values.append(.all(.error(e)))
+        return self
     }
     
     @discardableResult
     public func andThrow(_ e:Error) -> Self {
-        values.append(.error(e))
-        return self
-    }
-    @discardableResult
-    public func andThrowLater(_ e:Error) -> Self {
         guard endless == nil else {
             return self
         }
         endless = values.count
-        return andThrow(e)
+        return andThrowOnce(e)
     }
 }
