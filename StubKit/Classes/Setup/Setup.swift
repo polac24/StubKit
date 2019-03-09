@@ -21,13 +21,13 @@
  */
 
 public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).andReturn(returnValue)
+    setupStubSequence(of: &stub).returns(returnValue)
 }
 public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).andReturn(returnValue)
+    setupStubSequence(of: &stub).returns(returnValue)
 }
 public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) {
-    setupStubSequence(of: &stub).andThrow(error)
+    setupStubSequence(of: &stub).throws(error)
 }
 
 
@@ -39,50 +39,40 @@ public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> SetupThr
     return setupStubSequence(of: &stub, for: {_ in true})
 }
 
-public func setupStubSequence<I:Equatable,O>(of stub: inout (I) -> (O), for expectedValue: I) -> SetupSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {$0 == expectedValue})
-}
-public func setupStubSequence<I:Equatable,O>(of stub: inout (I) throws -> (O), for expectedValue: I) -> SetupThrowableSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {$0 == expectedValue})
+public func setupStubSequence<I1,I2,O>(of stub: inout ((I1,I2)) -> (O)) -> SetupSequence2<I1,I2,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence2.self)
 }
 
-public func setupStubSequence<I1:Equatable, I2,O>(of stub: inout ((I1,I2)) -> (O), forFirstArgument expectedValue: I1) -> SetupSequence<(I1,I2),O> {
-    return setupStubSequence(of: &stub, for: {$0.0 == expectedValue})
-}
-public func setupStubSequence<I1:Equatable, I2,O>(of stub: inout ((I1,I2)) throws -> (O), forFirstArgument expectedValue: I1) -> SetupThrowableSequence<(I1,I2),O> {
-    return setupStubSequence(of: &stub, for: {$0.0 == expectedValue})
+public func setupStubSequence<I1,I2,I3,O>(of stub: inout ((I1,I2,I3)) -> (O)) -> SetupSequence3<I1,I2,I3,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence3.self)
 }
 
-public func setupStubSequence<I1, I2:Equatable,O>(of stub: inout ((I1,I2)) -> (O), forSecondArgument expectedValue: I2) -> SetupSequence<(I1,I2),O> {
-    return setupStubSequence(of: &stub, for: {$0.1 == expectedValue})
-}
-public func setupStubSequence<I1, I2:Equatable,O>(of stub: inout ((I1,I2)) throws -> (O), forSecondArgument expectedValue: I2) -> SetupThrowableSequence<(I1,I2),O> {
-    return setupStubSequence(of: &stub, for: {$0.1 == expectedValue})
+public func setupStubSequence<I1,I2,I3,I4,O>(of stub: inout ((I1,I2,I3,I4)) -> (O)) -> SetupSequence4<I1,I2,I3,I4,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence4.self)
 }
 
-public func setupStubSequence<I1:Equatable, I2, I3,O>(of stub: inout ((I1,I2,I3)) -> (O), forFirstArgument expectedValue: I1) -> SetupSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.0 == expectedValue})
-}
-public func setupStubSequence<I1:Equatable, I2, I3,O>(of stub: inout ((I1,I2,I3)) throws -> (O), forFirstArgument expectedValue: I1) -> SetupThrowableSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.0 == expectedValue})
+public func setupStubSequence<I1,I2,O>(of stub: inout ((I1,I2)) throws -> (O)) -> SetupThrowableSequence<(I1,I2),O> {
+    return setupStubSequence(of: &stub, for: {_ in true})
 }
 
-public func setupStubSequence<I1, I2:Equatable, I3,O>(of stub: inout ((I1,I2,I3)) -> (O), forFirstArgument expectedValue: I2) -> SetupSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.1 == expectedValue})
-}
-public func setupStubSequence<I1, I2:Equatable, I3,O>(of stub: inout ((I1,I2,I3)) throws -> (O), forFirstArgument expectedValue: I2) -> SetupThrowableSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.1 == expectedValue})
+public func setupStubSequence<I1,I2,I3,O>(of stub: inout ((I1,I2,I3)) throws -> (O)) -> SetupThrowableSequence3<I1,I2,I3,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence3.self)
 }
 
-public func setupStubSequence<I1, I2, I3:Equatable,O>(of stub: inout ((I1,I2,I3)) -> (O), forFirstArgument expectedValue: I3) -> SetupSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.2 == expectedValue})
-}
-public func setupStubSequence<I1, I2, I3:Equatable,O>(of stub: inout ((I1,I2,I3)) throws -> (O), forFirstArgument expectedValue: I3) -> SetupThrowableSequence<(I1,I2,I3),O> {
-    return setupStubSequence(of: &stub, for: {$0.2 == expectedValue})
+public func setupStubSequence<I1,I2,I3,I4,O>(of stub: inout ((I1,I2,I3,I4)) throws -> (O)) -> SetupThrowableSequence4<I1,I2,I3,I4,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence4.self)
 }
 
 public func setupStubSequence<I,O>(of stub: inout (I) -> (O), for predicate: @escaping (I) -> Bool ) -> SetupSequence<I,O> {
-    let sequence = SetupSequence<I,O>()
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence.self)
+}
+
+public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O), for predicate: @escaping (I) -> Bool ) -> SetupThrowableSequence<I,O> {
+    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence.self)
+}
+
+func setupStubSequence<I,O,T:SetupSequence<I,O>>(of stub: inout (I) -> (O), for predicate: @escaping (I) -> Bool, type: T.Type) -> T {
+    let sequence = T()
     let fallback = stub
     stub = { arg in
         if predicate(arg) {
@@ -93,8 +83,8 @@ public func setupStubSequence<I,O>(of stub: inout (I) -> (O), for predicate: @es
     return sequence
 }
 
-public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O), for predicate: @escaping (I) -> Bool ) -> SetupThrowableSequence<I,O> {
-    let sequence = SetupThrowableSequence<I,O>()
+func setupStubSequence<I,O,T:SetupThrowableSequence<I,O>>(of stub: inout (I) throws -> (O), for predicate: @escaping (I) -> Bool, type: T.Type ) -> T {
+    let sequence = T()
     let fallback = stub
     stub = { arg in
         if predicate(arg) {
