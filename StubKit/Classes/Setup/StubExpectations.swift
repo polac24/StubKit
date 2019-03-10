@@ -31,14 +31,38 @@ public enum StubExpectation {
 
 extension StubExpectation {
     public func meets(count: Int) -> Bool {
-        switch self{
-        case .never: return count == 0
-        case .once: return count == 1
-        case .atLeastOnce: return count > 0
-        case .times(let times): return count == times
-        case .atLeastTimes(let times): return count >= times
-        case .noMoreThan(let times): return count <= times
+        return notMetDescription(count: count) == nil
+    }
+    
+    public func notMetDescription(count: Int) -> String? {
+        switch (self, count) {
+        case (.never, 0): return nil
+        case (.once, 1): return nil
+        case (.atLeastOnce, let i) where i>0: return nil
+        case (.times(let timesExpected), let times) where timesExpected == times: return nil
+        case (.atLeastTimes(let timesExpected), let times) where times >= timesExpected: return nil
+        case (.noMoreThan(let timesExpected), let times) where times <= timesExpected: return nil
+        default:
+            return "Called \(timesDescription(count)) while expected \(expectationDescription)"
         }
+    }
+    
+    private var expectationDescription: String {
+        switch self {
+        case .never: return "never"
+        case .once: return "once"
+        case .atLeastOnce: return "at least once"
+        case .times(let times): return "exactly \(times)"
+        case .atLeastTimes(let times): return "at least \(times) (or more)"
+        case .noMoreThan(let times): return "at maximum \(times) (or less)"
+        }
+    }
+    
+    private func timesDescription(_ count:Int) -> String {
+        if [1].contains(count) {
+            return "\(count) time"
+        }
+        return "\(count) times"
     }
 }
 
