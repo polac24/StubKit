@@ -32,6 +32,7 @@ class StubExpectationTests: XCTestCase {
         XCTAssert(tested.meets(count: 0))
         XCTAssertFalse(tested.meets(count: 1))
         XCTAssertFalse(tested.meets(count: 3))
+        XCTAssertEqual(tested.notMetDescription(count: 3),"Called 3 times while expected never")
     }
     
     func testOnceAllowsOnlyOne() {
@@ -40,6 +41,7 @@ class StubExpectationTests: XCTestCase {
         XCTAssertFalse(tested.meets(count: 0))
         XCTAssert(tested.meets(count: 1))
         XCTAssertFalse(tested.meets(count: 3))
+        XCTAssertEqual(tested.notMetDescription(count: 3),"Called 3 times while expected once")
     }
     
     func testAtLeastOnceAllowsMoreThanZero() {
@@ -48,6 +50,7 @@ class StubExpectationTests: XCTestCase {
         XCTAssertFalse(tested.meets(count: 0))
         XCTAssert(tested.meets(count: 1))
         XCTAssert(tested.meets(count: 3))
+        XCTAssertEqual(tested.notMetDescription(count: 0),"Called 0 times while expected at least once")
     }
     
     func testTimesAllowsGivenNumber() {
@@ -60,6 +63,7 @@ class StubExpectationTests: XCTestCase {
         
         XCTAssert(tested0.meets(count: 0))
         XCTAssertFalse(tested0.meets(count: 1))
+        XCTAssertEqual(tested0.notMetDescription(count: 3),"Called 3 times while expected exactly 0")
     }
     
     func testAtLeastTimesAllowsSameAnfHigherNumber() {
@@ -68,6 +72,7 @@ class StubExpectationTests: XCTestCase {
         XCTAssert(tested.meets(count: 3))
         XCTAssertFalse(tested.meets(count: 2))
         XCTAssert(tested.meets(count: 4))
+        XCTAssertEqual(tested.notMetDescription(count: 2),"Called 2 times while expected at least 3 (or more)")
     }
     
     func testNoMoreThanAllowsSameAnfHigherNumber() {
@@ -77,6 +82,13 @@ class StubExpectationTests: XCTestCase {
         XCTAssert(tested.meets(count: 1))
         XCTAssert(tested.meets(count: 3))
         XCTAssertFalse(tested.meets(count: 4))
+        XCTAssertEqual(tested.notMetDescription(count: 4),"Called 4 times while expected at maximum 3 (or less)")
+    }
+    
+    func testDescriptionFormatsOneTimeCorrectly() {
+        let tested = StubExpectation.times(3)
+
+        XCTAssertEqual(tested.notMetDescription(count: 1),"Called 1 time while expected exactly 3")
     }
 
 }

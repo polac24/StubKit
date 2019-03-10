@@ -76,10 +76,14 @@ public class SetupSequence<I,O> {
         expectations.append(expectation)
         return self
     }
+    private func verificationFailuresLazy() -> LazyCollection<[String]> {
+        return expectations.compactMap({$0.notMetDescription(count: filteredCount)}).lazy
+    }
     public func verify() -> Bool {
-        return expectations.allSatisfy { expectation -> Bool in
-            return expectation.meets(count: filteredCount)
-        }
+        return verificationFailuresLazy().isEmpty
+    }
+    public func verificationFailures() -> [String] {
+        return Array(verificationFailuresLazy())
     }
 }
 
@@ -89,6 +93,7 @@ public class SetupThrowableSequence<I,O> {
         case error(Error)
     }
     private var values: [ValueType<O>] = []
+    private var expectations: [StubExpectation]  = []
     var filters: [((I) -> Bool)] = []
     private var filteredCount = 0
     private var count = 0
@@ -149,6 +154,19 @@ public class SetupThrowableSequence<I,O> {
         }
         endless = values.count
         return throwsOnce(e)
+    }
+    public func expect(_ expectation: StubExpectation) -> Self {
+        expectations.append(expectation)
+        return self
+    }
+    private func verificationFailuresLazy() -> LazyCollection<[String]> {
+        return expectations.compactMap({$0.notMetDescription(count: filteredCount)}).lazy
+    }
+    public func verify() -> Bool {
+        return verificationFailuresLazy().isEmpty
+    }
+    public func verificationFailures() -> [String] {
+        return Array(verificationFailuresLazy())
     }
 }
 
