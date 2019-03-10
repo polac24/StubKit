@@ -23,7 +23,10 @@ import StubKit
 
 class TestStrictStubMockGlobal: TestProtocolGlobal {
     
-    
+    lazy var simpleFunctionAction = strictStub(of: simpleFunction)
+    func simpleFunction() {
+        return simpleFunctionAction(())
+    }
     lazy var takeValueTypeAction = strictStub(of: takeValueType)
     func takeValueType(_ myStruct: MyStructGlobal) {
         return takeValueTypeAction(myStruct)

@@ -21,6 +21,7 @@
  */
 
 protocol TestProtocolGlobal {
+    func simpleFunction()
     func takeObject(_ obj:AnyObject)
     func takeObjectEquatable(_ obj:MyClassGlobal)
     func returnObject() -> AnyObject
