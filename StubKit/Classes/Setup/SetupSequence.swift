@@ -21,41 +21,38 @@
  */
 
 
-enum MatchRepresentaion<I,O> {
-    case all(O)
-    case value(I, O)
-    func matches(_ v:I) -> Bool {
-        return true
-    }
-    func returnValue() -> O {
-        switch self {
-        case .all(let v), .value(_, let v):
-            return v
-        }
-    }
-}
-
 public class SetupSequence<I,O> {
     
-    var values: [MatchRepresentaion<I,O>] = []
+    /// Oredered sequence of values to return
+    private var values: [O] = []
+    /// Checks required to analyse this setup
     var filters: [((I) -> Bool)] = []
+    /// Assigned expectations to verify
+    private var expectations: [StubExpectation]  = []
+    /// Number of times arguments matched
+    private var filteredCount = 0
+    /// Number of times return has been used
     private var count = 0
-    private var endless:Int?
+    /// Position after which returns the same value forever
+    private var endless: Int?
     
     required init(){}
     
+    
     func nextValue(fallback: (I) ->(O), fallbackArg: I) -> O {
+        guard filters.allSatisfy({$0(fallbackArg)}) else {
+            return fallback(fallbackArg)
+        }
+        filteredCount += 1
         let valuesIndex = returnIndex(count: count)
-        guard values.count > valuesIndex &&
-            values[valuesIndex].matches(fallbackArg) &&
-            filters.allSatisfy({$0(fallbackArg)}) else {
+        guard values.count > valuesIndex else {
             return fallback(fallbackArg)
         }
         _ = fallback(fallbackArg)
         defer {
             count += 1
         }
-        return values[valuesIndex].returnValue()
+        return values[valuesIndex]
     }
     
     private func returnIndex(count: Int) -> Int {
@@ -67,7 +64,7 @@ public class SetupSequence<I,O> {
     
     @discardableResult
     public func returnsOnce(_ o:O) -> Self {
-        values.append(.all(o))
+        values.append(o)
         return self
     }
     @discardableResult
@@ -75,14 +72,13 @@ public class SetupSequence<I,O> {
         endless = values.count
         return returnsOnce(o)
     }
-}
-extension MatchRepresentaion where I: Equatable  {
-    func matches(_ v:I) -> Bool {
-        switch self{
-        case .all:
-            return true
-        case .value(let i, _):
-            return i == v
+    public func expect(_ expectation: StubExpectation) -> Self {
+        expectations.append(expectation)
+        return self
+    }
+    public func verify() -> Bool {
+        return expectations.allSatisfy { expectation -> Bool in
+            return expectation.meets(count: filteredCount)
         }
     }
 }
@@ -92,25 +88,28 @@ public class SetupThrowableSequence<I,O> {
         case value(O)
         case error(Error)
     }
-    private var values: [MatchRepresentaion<I,ValueType<O>>] = []
+    private var values: [ValueType<O>] = []
     var filters: [((I) -> Bool)] = []
+    private var filteredCount = 0
     private var count = 0
     private var endless:Int?
     
     required init(){}
 
     func nextValue(fallback: (I) throws ->(O), fallbackArg: I) throws -> O {
+        guard filters.allSatisfy({$0(fallbackArg)}) else {
+            return try fallback(fallbackArg)
+        }
+        filteredCount += 1
         let valuesIndex = returnIndex(count: count)
-        guard values.count > valuesIndex &&
-            values[valuesIndex].matches(fallbackArg) &&
-            filters.allSatisfy({$0(fallbackArg)}) else {
+        guard values.count > valuesIndex else {
             return try fallback(fallbackArg)
         }
         defer {
             count += 1
             _ = try? fallback(fallbackArg)
         }
-        switch values[valuesIndex].returnValue() {
+        switch values[valuesIndex] {
         case .error(let error):
             throw error
         case .value(let value):
@@ -127,7 +126,7 @@ public class SetupThrowableSequence<I,O> {
     
     @discardableResult
     public func returnsOnce(_ o:O) -> Self {
-        values.append(.all(.value(o)))
+        values.append(.value(o))
         return self
     }
     
@@ -139,7 +138,7 @@ public class SetupThrowableSequence<I,O> {
     
     @discardableResult
     public func throwsOnce(_ e:Error) -> Self {
-        values.append(.all(.error(e)))
+        values.append(.error(e))
         return self
     }
     
@@ -170,13 +169,3 @@ extension SetupThrowableSequence where I:Equatable{
         return self
     }
 }
-
-//extension SetupSequence{
-//    public func whenFirst<I1:Equatable,I2>(_ i:I1) -> SetupSequence<I,O> where I == (I1,I2){
-//        return self
-//    }
-//    public func whenSecond<I1,I2:Equatable>(_ i:I2) -> SetupSequence<I,O> where I == (I1,I2){
-//        return self
-//    }
-//}
-
