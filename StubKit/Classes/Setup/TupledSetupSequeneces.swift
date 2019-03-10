@@ -98,7 +98,7 @@ extension SetupSequence4 where I3: Equatable {
 }
 
 extension SetupSequence4 where I4: Equatable {
-    public func whenThird(_ i:I4) -> Self{
+    public func whenForth(_ i:I4) -> Self{
         filters.append { v -> Bool in
             v.3 == i
         }
