@@ -13,16 +13,19 @@
   * [Setup](#setup)
     + [Standard setup](#standard-setup)
     + [Sequence setup](#sequence-setup)
+    + [Selective setup](#selective-setup)
   * [Strict Stubbing](#strict-stubbing)
     + [Ambigious functions stub](#ambigious-functions-stub)
     + [Registration](#registration)
       - [Automatic registration](#automatic-registration)
       - [Manual registration with custom body](#manual-registration-with-custom-body)
-  * [Argument verification - spy recorder](#argument-verification---spy-recorder)
-    + [Spy a single-argument function](#spy-a-single-argument-function)
-    + [Spy a multi-argument function](#spy-a-multi-argument-function)
-    + [Weak spy](#weak-spy)
-    + [Custom spy storage](#custom-spy-storage)
+  * [Argument verification](#argument-verification)
+    + [Spy recorder](#spy-recorder)
+      - [Spy a single-argument function](#spy-a-single-argument-function)
+      - [Spy a multi-argument function](#spy-a-multi-argument-function)
+      - [Weak spy](#weak-spy)
+      - [Custom spy storage](#custom-spy-storage)
+    + [Sequence verification](#sequence-verification)
 - [Stubbing hints](#stubbing-hints)
   * [`@autoclosure`](#--autoclosure-)
   * [`@escaping`](#--escaping-)
@@ -123,19 +126,19 @@ class DatabaseMock: Database {
 ```
 
 ### Setup
+Using registration (for `strictStub`) and standard (nice) `stub` your function will always return the same value unilt you reregistere it with a new value. Although registrating the stub again sounds like a problem solver, keep in mind that all the assigned spies would then be unattached and skip spying arguments. Therefore StupKit provides a setup feature that can dynamically configures return value of a function without reregistration.
 
-Setup provides a control over return value of the function. Setup can be specified several times to override previously setup or registered return value while keeping spies still attached. 
 
 #### Standard setup
 
 ```swift
 protocol Database {
-    func addUser(name: String) -> Bool
+    func addAccount(givenName: String, lastName: String) -> Int
 }
 class DatabaseMock: Database {
-    lazy var addUserAction = stub(of: addUser)
-    func addUser(name: String) -> Bool {
-        return addUserAction(name)
+    lazy var addAccountAction = stub(of: addAccount)
+    func addAccount(givenName: String, lastName: String) -> Int {
+        return addAccountAction(name)
     }
 }
 
@@ -143,59 +146,63 @@ class DatabaseMock: Database {
 /// Testcase body
 
 // default behaviour
-databaseMock.addUser(name: "user1") // false
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 0
 
 // custom return value
-setupStub(of: &databaseMock.addUserAction, return: true)
-databaseMock.addUser(name: "user1") // true
+setupStub(of: &databaseMock.addAccountAction, return: 1)
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 1
 
 // override return value
-setupStub(of: &databaseMock.addUserAction, return: false)
-databaseMock.addUser(name: "user1") // false
+setupStub(of: &databaseMock.addAccountAction, return: 2)
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 2
 ```
 
 #### Sequence setup
 
-Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`andReturnOnce`/`andThrowOnce`) or all subsequente calls (`andReturn`/`andThrow`):
+Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`returnsOnce`/`throwsOnce`) or all subsequente calls (`returns`/`throws`):
 
 ```swift
 // custom return value
-setupStubSequence(of: &databaseMock.addUserAction)
-    .andReturnOnce(true) // 1
-    .andReturnOnce(true) // 2
-    .andReturnOnce(false) // 3
-    .andReturn(true) // 4+
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .returnsOnce(1) // 1
+    .returnsOnce(2) // 2
+    .returnsOnce(3) // 3
+    .returns(0) // 4+
     
-databaseMock.addUser(name: "user1") // 1: true
-databaseMock.addUser(name: "user1") // 2: true
-databaseMock.addUser(name: "user1") // 3: false
-databaseMock.addUser(name: "user1") // 4: true
-databaseMock.addUser(name: "user1") // 5: true
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed1") // 1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed2") // 2
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed3") // 3
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed4") // 0 
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed5")) // 0
 ```
 
-> If you don't end up stub sequence with infinite return, previous setup value will be returned
+> If you don't end up stub sequence with infinite return, previous setup value has a precedance
 
 ```swift
-setupStub(of: &databaseMock.addUserAction, return: true) // 2+
-setupStubSequence(of: &databaseMock.addUserAction)
-    .andReturnOnce(false) // 1
+setupStubSequence(of: &databaseMock.addAccountAction).returns(-1) // 2+
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .returnsOnce(1) // 1
+    .returnsOnce(2) // 1
 
-databaseMock.addUser(name: "user1") // 1: false
-databaseMock.addUser(name: "user1") // 2: true
-databaseMock.addUser(name: "user1") // 3: true
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 2
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // -1
 ```
+
 
 #### Selective setup
 
 Setup can selectively return custom values, depending on call arguments. You can predicate selecting from 
-* argument comparison (for `Equatable` types)
-* predicate
-* selective argument comparison (for `Equtable`) - support for functions with less than 4 arguments
+* predicate 
+* single-argument comparison (for `Equatable` types)
+* selective argument comparison - support for functions with less than 5 arguments (e.g. `whenFirst`, `whenForth`)
 
 ```swift 
-setupStubSequence(of: &databaseMock.addUserAction, for: "user1")
-    .andReturn(false)
-setupStubSequence(of: &databaseMock.addUserAction, for: "user2")
+setupStubSequence(of: &databaseMock.addUserAction)
+    .when("user1")
+    .returns(false)
+setupStubSequence(of: &databaseMock.addUserAction)
+    .when("user2")
     .andReturn(true)
 
 databaseMock.addUser(name: "user1") // false
@@ -203,8 +210,9 @@ databaseMock.addUser(name: "user2") // true
 ```
 
 ```swift 
-setupStubSequence(of: &databaseMock.addUserAction, for: {$0.count > 0})
-    .andReturn(true)
+setupStubSequence(of: &databaseMock.addUserAction)
+    .when({$0.count > 0})
+    .returns(true)
 
 databaseMock.addUser(name: "") //  false
 databaseMock.addUser(name: "user2") // true
@@ -215,16 +223,23 @@ protocol Database {
     func addAccount(givenName: String, lastName: String) -> Int
 }
 
-setupStubSequence(of: &databaseMock.addUserAction, forFirstArgument: "Tom")
-    .andReturn(1)
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("Tom")
+    .returns(1)
     
-setupStubSequence(of: &databaseMock.addUserAction, forSecondArgument: "Derk")
-    .andReturn(10)
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("Derk")
+    .returns(10)
+    
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("Tom")
+    .whenFirst("Derk")
+    .returns(100)
 
 databaseMock.addUser(givenName: "Tom", lastName: "Kerk") //  1
 databaseMock.addUser(givenName: "Ole", lastName: "Derk") // 10
 databaseMock.addUser(givenName: "Ole", lastName: "De") // 0
-databaseMock.addUser(givenName: "TOm", lastName: "Derk") // 10 - Last setup has a predecence
+databaseMock.addUser(givenName: "Tom", lastName: "Derk") // 100 - Last setup has a predecence
 ```
 
 ### Strict Stubbing
@@ -322,13 +337,15 @@ databaseMock.addUserAction = { _ in
 }
 ```
 
-### Argument verification - spy recorder
+### Argument verification 
+
+#### Spy recorder
 
 Once you have mock ready, you can track all of its calls and arguments by introducing a spy. `ArgRecords<T>` is a generic class that records them. For a mock functions that contain several parameteres, `T` will become a tuple with corresponding number of items. 
 
 > `ArgRecords` has a custom subscript function which returns `Optional<T>`. Thanks to that, subscripted value can be safely passed to `XCTAssertEqual` without crashing the app when spied functions hasn't been yet called.
 
-#### Spy a single-argument function
+##### Spy a single-argument function
 
 ```swift
 // addUserSpy is ArgRecords<String> as `addUser` has a single String argument 
@@ -339,7 +356,7 @@ let callArg = addUserSpy[0] // "user1"
 let callCount = addUserSpy.count // 1
 ```
 
-#### Spy a multi-argument function
+##### Spy a multi-argument function
 
 ```swift
 // addAccountSpy is ArgRecords<(String, String)> as `addAccount` has two String parameters 
@@ -351,7 +368,7 @@ let callGivenNameArg = addUserSpy[0].0 // "given"
 let callLastNameArg = addUserSpy[0].1 // "last"
 ```
 
-#### Weak spy
+##### Weak spy
 
 By default, a spy keeps a strong reference to all arguments passed to the spied function. If that negatively interefers with your scenario, you can leverage weakly referenced spy:
 
@@ -364,7 +381,7 @@ let callArg = addSomeClassSpy[0] // `nil`, unless some other part keeps strong r
 let callCount = addUserSpy.count // 1
 ```
 
-#### Custom spy storage
+##### Custom spy storage
 
 By default, spy keeps track of all arguments passed to the function. To keep only a set them, you can transform it in `transform` function, before it gets stored in a spy object. 
 
@@ -374,6 +391,44 @@ let addAccountSpy = spyCalls(of: &databaseStub.addAccountAction, transform: {$0.
 databaseMock.addAccount(givenName: "given", lastName: "last")
 
 let callArg = addUserSpy[0] // "given"
+```
+
+#### Sequence verification
+
+Setup sequences also can be used for expected arguments verification. 
+
+> Keep in mind that all the **expected** sequences have to be verified by `XCTAssert` or `sequence.verify()`. Deallocation of non-verified sequence is treated as a programmer error and leads to an assertion.
+
+```swift
+
+let tomSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("Tom")
+    .returns(1)
+    .expect(.once)
+    
+    
+let derkSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenSecond("Derk")
+    .expect(.once)
+    
+let tomDerkSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("Tom")
+    .whenSecond("Derk")
+    .expect(.once)
+    
+let notVerifiedSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .expect(.never)
+    
+databaseMock.addUser(givenName: "Tom", lastName: "On")
+databaseMock.addUser(givenName: "John", lastName: "Derk")
+
+XCTAssert(tomSequence) // ✅
+XCTAssertTrue(tomSequence.verify()) // Equivalent to above call
+XCTAssert(derkSequence) // ✅
+XCTAssert(tomDerkSequence) // 🛑 - "Sequence expectation not met: Called 0 times while expected once"
+XCTAssertNotMet(tomDerkSequence) // ✅
+
+💥 // notVerifiedSequence has not been verified
 ```
 
 ## Stubbing hints
