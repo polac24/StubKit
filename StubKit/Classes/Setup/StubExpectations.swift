@@ -20,27 +20,25 @@
  THE SOFTWARE.
  */
 
-public class ArgRecords<T>: Recorder {
-    
-    fileprivate var history:[T] = []
-    
-    required public init(){}
-    public required convenience init(arrayLiteral elements: T...) {
-        self.init(elements)
-    }
-    public required init(_ elements: [T]) {
-        history = elements
-    }
-    
-    public func record(_ t:T){
-        history.append(t)
-    }
-    
-    public subscript(_ i:Int)->T?{
-        guard i < history.count else {return nil}
-        return history[i]
-    }
-    public var count: Int {
-        return history.count
+public enum StubExpectation {
+    case never
+    case once
+    case atLeastOnce
+    case times(Int)
+    case atLeastTimes(Int)
+    case noMoreThan(Int)
+}
+
+extension StubExpectation {
+    public func meets(count: Int) -> Bool {
+        switch self{
+        case .never: return count == 0
+        case .once: return count == 1
+        case .atLeastOnce: return count > 0
+        case .times(let times): return count == times
+        case .atLeastTimes(let times): return count >= times
+        case .noMoreThan(let times): return count <= times
+        }
     }
 }
+
