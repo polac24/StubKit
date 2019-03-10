@@ -20,7 +20,6 @@
  THE SOFTWARE.
  */
 
-
 public class SetupSequence<I,O> {
     
     /// Oredered sequence of values to return
@@ -35,9 +34,16 @@ public class SetupSequence<I,O> {
     private var count = 0
     /// Position after which returns the same value forever
     private var endless: Int?
+    /// Set of expectation parameters required to be verified
+    var expectingVerification: (StaticString, UInt)?
     
     required init(){}
     
+    deinit {
+        if let parameters = expectingVerification {
+            preconditionFailure("Not verfied expectation", file: parameters.0, line: parameters.1)
+        }
+    }
     
     func nextValue(fallback: (I) ->(O), fallbackArg: I) -> O {
         guard filters.allSatisfy({$0(fallbackArg)}) else {
@@ -72,11 +78,13 @@ public class SetupSequence<I,O> {
         endless = values.count
         return returnsOnce(o)
     }
-    public func expect(_ expectation: StubExpectation) -> Self {
+    public func expect(_ expectation: StubExpectation, file: StaticString = #file, line: UInt = #line) -> Self {
+        expectingVerification = (file, line)
         expectations.append(expectation)
         return self
     }
     private func verificationFailuresLazy() -> LazyCollection<[String]> {
+        expectingVerification = nil
         return expectations.compactMap({$0.notMetDescription(count: filteredCount)}).lazy
     }
     public func verify() -> Bool {
@@ -98,8 +106,16 @@ public class SetupThrowableSequence<I,O> {
     private var filteredCount = 0
     private var count = 0
     private var endless:Int?
+    private var expectingVerification: (StaticString, UInt)?
+
     
     required init(){}
+    
+    deinit {
+        if let parameters = expectingVerification {
+            preconditionFailure("Not verfied expectation", file: parameters.0, line: parameters.1)
+        }
+    }
 
     func nextValue(fallback: (I) throws ->(O), fallbackArg: I) throws -> O {
         guard filters.allSatisfy({$0(fallbackArg)}) else {
@@ -155,11 +171,13 @@ public class SetupThrowableSequence<I,O> {
         endless = values.count
         return throwsOnce(e)
     }
-    public func expect(_ expectation: StubExpectation) -> Self {
+    public func expect(_ expectation: StubExpectation, file: StaticString = #file, line: UInt = #line) -> Self {
+        expectingVerification = (file, line)
         expectations.append(expectation)
         return self
     }
     private func verificationFailuresLazy() -> LazyCollection<[String]> {
+        expectingVerification = nil
         return expectations.compactMap({$0.notMetDescription(count: filteredCount)}).lazy
     }
     public func verify() -> Bool {
