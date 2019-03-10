@@ -20,11 +20,13 @@
  THE SOFTWARE.
  */
 
-public class AbstractSetupSequence {
+public class AbstractSetupSequence<I> {
     /// Number of times return has been used
     fileprivate var count = 0
     /// Position after which returns the same value forever
     fileprivate var endless: Int?
+    /// Checks required to analyse this setup
+    var filters: [((I) -> Bool)] = []
     /// Number of times arguments matched
     fileprivate var filteredCount = 0
     /// Assigned expectations to verify
@@ -62,14 +64,16 @@ public class AbstractSetupSequence {
     public func verificationFailures() -> [String] {
         return Array(verificationFailuresLazy())
     }
+    public func when(_ predicate: @escaping (I) -> Bool) -> Self {
+        filters.append(predicate)
+        return self
+    }
 }
 
-public class SetupSequence<I,O>: AbstractSetupSequence {
+public class SetupSequence<I,O>: AbstractSetupSequence<I> {
     
     /// Oredered sequence of values to return
     private var values: [O] = []
-    /// Checks required to analyse this setup
-    var filters: [((I) -> Bool)] = []
     
     required override init(){
         super.init()
@@ -103,15 +107,13 @@ public class SetupSequence<I,O>: AbstractSetupSequence {
     }
 }
 
-public class SetupThrowableSequence<I,O>: AbstractSetupSequence {
+public class SetupThrowableSequence<I,O>: AbstractSetupSequence<I> {
     enum ValueType<O> {
         case value(O)
         case error(Error)
     }
     /// Oredered sequence of values to return
     private var values: [ValueType<O>] = []
-    /// Checks required to analyse this setup
-    var filters: [((I) -> Bool)] = []
 
     
     required override init(){

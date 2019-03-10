@@ -32,65 +32,59 @@ public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error)
 
 
 public func setupStubSequence<I,O>(of stub: inout (I) -> (O)) -> SetupSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {_ in true})
+    return setupStubSequence(of: &stub, type: SetupSequence.self)
 }
 
 public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O)) -> SetupThrowableSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {_ in true})
+    return setupStubSequence(of: &stub, type: SetupThrowableSequence.self)
 }
 
 public func setupStubSequence<I1,I2,O>(of stub: inout ((I1,I2)) -> (O)) -> SetupSequence2<I1,I2,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence2.self)
+    return setupStubSequence(of: &stub, type: SetupSequence2.self)
 }
 
 public func setupStubSequence<I1,I2,I3,O>(of stub: inout ((I1,I2,I3)) -> (O)) -> SetupSequence3<I1,I2,I3,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence3.self)
+    return setupStubSequence(of: &stub, type: SetupSequence3.self)
 }
 
 public func setupStubSequence<I1,I2,I3,I4,O>(of stub: inout ((I1,I2,I3,I4)) -> (O)) -> SetupSequence4<I1,I2,I3,I4,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence4.self)
+    return setupStubSequence(of: &stub, type: SetupSequence4.self)
 }
 
-public func setupStubSequence<I1,I2,O>(of stub: inout ((I1,I2)) throws -> (O)) -> SetupThrowableSequence<(I1,I2),O> {
-    return setupStubSequence(of: &stub, for: {_ in true})
+public func setupStubSequence<I1,I2,O>(of stub: inout ((I1,I2)) throws -> (O)) -> SetupThrowableSequence2<I1,I2,O> {
+    return setupStubSequence(of: &stub, type: SetupThrowableSequence2.self)
 }
 
 public func setupStubSequence<I1,I2,I3,O>(of stub: inout ((I1,I2,I3)) throws -> (O)) -> SetupThrowableSequence3<I1,I2,I3,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence3.self)
+    return setupStubSequence(of: &stub, type: SetupThrowableSequence3.self)
 }
 
 public func setupStubSequence<I1,I2,I3,I4,O>(of stub: inout ((I1,I2,I3,I4)) throws -> (O)) -> SetupThrowableSequence4<I1,I2,I3,I4,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence4.self)
+    return setupStubSequence(of: &stub, type: SetupThrowableSequence4.self)
 }
 
 public func setupStubSequence<I,O>(of stub: inout (I) -> (O), for predicate: @escaping (I) -> Bool ) -> SetupSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupSequence.self)
+    return setupStubSequence(of: &stub, type: SetupSequence.self).when(predicate)
 }
 
 public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O), for predicate: @escaping (I) -> Bool ) -> SetupThrowableSequence<I,O> {
-    return setupStubSequence(of: &stub, for: {_ in true}, type: SetupThrowableSequence.self)
+    return setupStubSequence(of: &stub, type: SetupThrowableSequence.self).when(predicate)
 }
 
-func setupStubSequence<I,O,T:SetupSequence<I,O>>(of stub: inout (I) -> (O), for predicate: @escaping (I) -> Bool, type: T.Type) -> T {
+func setupStubSequence<I,O,T:SetupSequence<I,O>>(of stub: inout (I) -> (O), type: T.Type) -> T {
     let sequence = T()
     let fallback = stub
     stub = { arg in
-        if predicate(arg) {
-            return sequence.nextValue(fallback: fallback, fallbackArg: arg)
-        }
-        return fallback(arg)
+        return sequence.nextValue(fallback: fallback, fallbackArg: arg)
     }
     return sequence
 }
 
-func setupStubSequence<I,O,T:SetupThrowableSequence<I,O>>(of stub: inout (I) throws -> (O), for predicate: @escaping (I) -> Bool, type: T.Type ) -> T {
+func setupStubSequence<I,O,T:SetupThrowableSequence<I,O>>(of stub: inout (I) throws -> (O), type: T.Type ) -> T {
     let sequence = T()
     let fallback = stub
     stub = { arg in
-        if predicate(arg) {
-            return try sequence.nextValue(fallback: fallback, fallbackArg: arg)
-        }
-        return try fallback(arg)
+        return try sequence.nextValue(fallback: fallback, fallbackArg: arg)
     }
     return sequence
 }
