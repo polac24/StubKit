@@ -27,6 +27,10 @@ import StubKit
 class TestStubMock: TestProtocolGlobal {
     
     
+    lazy var simpleFunctionAction = stub(of: simpleFunction)
+    func simpleFunction() {
+        return simpleFunctionAction(())
+    }
     lazy var takeValueTypeAction = stub(of: takeValueType)
     lazy var takeValueTypeActionCustom = stub(of: takeValueType, alwaysReturn: Void())
     func takeValueType(_ myStruct: MyStructGlobal) {

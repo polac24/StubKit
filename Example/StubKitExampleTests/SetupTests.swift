@@ -40,6 +40,13 @@ class RegisterSequenceTests: XCTestCase {
         testThrowingMock = nil
     }
     
+    func testRegisterWorksForSimpleFunction() {
+        setupStubSequence(of: &testMock.simpleFunctionAction).returns(Void())
+        
+        // Assert
+        XCTAssertNoThrow(testMock.simpleFunction())
+    }
+    
     func testRegisterSequenceRecordsReturnOrder() {
         setupStubSequence(of: &testMock.returnDefautableValueTypeAction)
             .returnsOnce(0)

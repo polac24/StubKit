@@ -84,4 +84,20 @@ class VerifyTests: XCTestCase {
         XCTAssertEqual(returnValue, 0)
         XCTAssert(tokenOnce.verify())
     }
+    
+    func testAssertion() {
+        var function: ((()) -> Void) = {_ in }
+        let tokenOnce = setupStubSequence(of: &function).expect(.once)
+        
+        function(())
+        
+        XCTAssert(tokenOnce)
+    }
+    
+    func testAssertionNotMet() {
+        var function: ((()) -> Void) = {_ in }
+        let tokenOnce = setupStubSequence(of: &function).expect(.once)
+        
+        XCTAssertNotMet(tokenOnce)
+    }
 }
