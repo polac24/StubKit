@@ -468,6 +468,26 @@ databaseMock.addUser(givenName: "John", lastName: "Appleseed") // returns 2 (and
 databaseMock.addUser(givenName: "Some", lastName: "Lastname") // returns 3
 ```
 
+#### Custom callbacks
+
+You can attach some custom callbacks to the sequence. Callbacks are executed whenever the sequence matches the predicate:
+
+```swift 
+setupStubSequence(of: &databaseMock.addUserAction)
+    .callback {
+        print("Add user: \($0)")
+    }
+    
+setupStubSequence(of: &databaseMock.addUserAction)
+    .when("user2")
+    .callback { _ in 
+        print("User 2 added")
+    }
+
+databaseMock.addUser(name: "user1") // prints "Add user: user1"
+databaseMock.addUser(name: "user2") // prints "User 2 added" and "Add user: user1"
+
+```
 
 ## Stubbing hints
 

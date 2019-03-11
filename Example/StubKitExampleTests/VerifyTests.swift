@@ -100,4 +100,24 @@ class VerifyTests: XCTestCase {
         
         XCTAssertNotMet(tokenOnce)
     }
+    
+    func testVerificationWorksForThrowingSequences() throws {
+        var function: ((Int) throws -> Void) = {_ in}
+        let token = setupStubSequence(of: &function).when(1).expect(.once)
+        
+        try? function(1)
+        
+        XCTAssert(token.verify())
+    }
+    
+    func testVerificationWorksForThrowingOtherSetup() throws {
+        var function: ((Int) throws -> Void) = {_ in}
+        let token = setupStubSequence(of: &function).when(1).expect(.once)
+        let tokenDuplicate = setupStubSequence(of: &function).when(1).throws("").expect(.once)
+        
+        try? function(1)
+        
+        XCTAssert(token.verify())
+        XCTAssert(tokenDuplicate.verify())
+    }
 }

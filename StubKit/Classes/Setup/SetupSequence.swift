@@ -33,6 +33,8 @@ public class AbstractSetupSequence<I> {
     fileprivate var expectations: [StubExpectation]  = []
     /// Set of expectation parameters required to be verified
     fileprivate var expectingVerification: (StaticString, UInt)?
+    /// All callbacks to perform on match
+    fileprivate var callbacks: [(I) -> Void] = []
     
     fileprivate init(){}
     
@@ -68,6 +70,11 @@ public class AbstractSetupSequence<I> {
         filters.append(predicate)
         return self
     }
+    @discardableResult
+    public func callback(_ callback: @escaping (I) -> Void) -> Self {
+        callbacks.append(callback)
+        return self
+    }
 }
 
 public class SetupSequence<I,O>: AbstractSetupSequence<I> {
@@ -84,6 +91,7 @@ public class SetupSequence<I,O>: AbstractSetupSequence<I> {
             return fallback(fallbackArg)
         }
         filteredCount += 1
+        callbacks.forEach({$0(fallbackArg)})
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
             return fallback(fallbackArg)
@@ -125,11 +133,13 @@ public class SetupThrowableSequence<I,O>: AbstractSetupSequence<I> {
             return try fallback(fallbackArg)
         }
         filteredCount += 1
+        callbacks.forEach({$0(fallbackArg)})
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
             return try fallback(fallbackArg)
         }
         defer {
+            print("111111")
             count += 1
             _ = try? fallback(fallbackArg)
         }

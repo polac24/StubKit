@@ -20,14 +20,14 @@
  THE SOFTWARE.
  */
 
-public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).returns(returnValue)
+public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) -> SetupSequence<I,O> {
+    return setupStubSequence(of: &stub).returns(returnValue)
 }
-public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) {
-    setupStubSequence(of: &stub).returns(returnValue)
+public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) -> SetupThrowableSequence<I,O>  {
+    return setupStubSequence(of: &stub).returns(returnValue)
 }
-public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) {
-    setupStubSequence(of: &stub).throws(error)
+public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) -> SetupThrowableSequence<I,O>  {
+    return setupStubSequence(of: &stub).throws(error)
 }
 
 
