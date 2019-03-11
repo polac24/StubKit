@@ -38,7 +38,7 @@ class VerifyFailingTests: XCTestCase {
         let assertFilename: StaticString = "MyFile.swift"
         let assertLine: UInt = 999
         
-        XCTAssert(tokenOnce, file: assertFilename, line: assertLine)
+        SKTVerify(tokenOnce, file: assertFilename, line: assertLine)
         
         // Assert
         recordFailureAction = {
@@ -50,27 +50,5 @@ class VerifyFailingTests: XCTestCase {
         XCTAssertEqual(args[0]?.2, 999)
         XCTAssertEqual(args[0]?.3, true)
     }
-    
-    func testMetUnexpectedExpectationFails() {
-        var function: ((()) -> Void) = {_ in }
-        let tokenOnce = setupStubSequence(of: &function).expect(.once)
-        let args = spyCalls(of: &recordFailureAction)
-        let assertFilename: StaticString = "MyFile.swift"
-        let assertLine: UInt = 999
-        
-        function(())
-        XCTAssertNotMet(tokenOnce, file: assertFilename, line: assertLine)
-
-        // Assert
-        recordFailureAction = {
-            return super.recordFailure(withDescription: $0.0, inFile: $0.1, atLine: $0.2, expected: $0.3)
-        }
-        XCTAssertEqual(args.count, 1)
-        XCTAssertEqual(args[0]?.0, "failed - Sequence unexpectly meets the requirements:")
-        XCTAssertEqual(args[0]?.1, "MyFile.swift")
-        XCTAssertEqual(args[0]?.2, 999)
-        XCTAssertEqual(args[0]?.3, true)
-    }
-    
     
 }

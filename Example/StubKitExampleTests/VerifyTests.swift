@@ -91,14 +91,7 @@ class VerifyTests: XCTestCase {
         
         function(())
         
-        XCTAssert(tokenOnce)
-    }
-    
-    func testAssertionNotMet() {
-        var function: ((()) -> Void) = {_ in }
-        let tokenOnce = setupStubSequence(of: &function).expect(.once)
-        
-        XCTAssertNotMet(tokenOnce)
+        SKTVerify(tokenOnce)
     }
     
     func testVerificationWorksForThrowingSequences() throws {

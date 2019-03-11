@@ -26,6 +26,8 @@
       - [Weak spy](#weak-spy)
       - [Custom spy storage](#custom-spy-storage)
     + [Sequence verification](#sequence-verification)
+      - [Sequence `returnOnce`/`throwOnce` conflicts](#sequence--returnonce---throwonce--conflicts)
+    + [Custom callbacks](#custom-callbacks)
 - [Stubbing hints](#stubbing-hints)
   * [`@autoclosure`](#--autoclosure-)
   * [`@escaping`](#--escaping-)
@@ -33,7 +35,6 @@
   * [throwing function](#throwing-function)
   * [throwing function argument](#throwing-function-argument)
 - [Limitations](#limitations)
-
 
 ## API
 
@@ -421,16 +422,15 @@ let notVerifiedSequence = setupStubSequence(of: &databaseMock.addAccountAction)
 databaseMock.addUser(givenName: "Tom", lastName: "On")
 databaseMock.addUser(givenName: "John", lastName: "Derk")
 
-XCTAssert(tomSequence) // ✅
+SKTVerify(tomSequence) // ✅
 XCTAssertTrue(tomSequence.verify()) // Equivalent to above call
-XCTAssert(derkSequence) // ✅
-XCTAssert(tomDerkSequence) // 🛑 - "Sequence expectation not met: Called 0 times while expected once"
-XCTAssertNotMet(tomDerkSequence) // ✅
+SKTVerify(derkSequence) // ✅
+SKTVerify(tomDerkSequence) // 🛑 - "Sequence expectation not met: Called 0 times while expected once"
 
 💥 // notVerifiedSequence has not been verified
 ```
 
-> Keep in mind that all the **expected** sequences have to be verified by `XCTAssert` or `sequence.verify()`. Deallocation of non-verified sequence is treated as a programmer error and leads to an assertion.
+> Keep in mind that all the **expected** sequences have to be verified by `SKTVerify` or `sequence.verify()`. Deallocation of non-verified sequence is treated as a programmer error and leads to an assertion.
 
 Setup sequences expectation is always evaluated, no matter if it responsible for a return value or not. Therefore, you can assign several expectations for the same function without conflicts.
 
@@ -448,11 +448,11 @@ let appleseedSequence = setupStubSequence(of: &databaseMock.addAccountAction)
 
 databaseMock.addUser(givenName: "John", lastName: "Appleseed") // returns 1
 
-XCTAssert(johnSequence)  // ✅
-XCTAssert(appleseedSequence) // ✅
+SKTVerify(johnSequence)  // ✅
+SKTVerify(appleseedSequence) // ✅
 ```
 
-#### Sequence `returnOnce`/`throwOnce` conflicts
+##### Sequence `returnOnce`/`throwOnce` conflicts
 
 When configuring sequence by `returnOnce`/`throwOnce` remember that **all** matching sequences consume `Once` behaviour:
 
