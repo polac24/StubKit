@@ -452,6 +452,21 @@ SKTVerify(johnSequence)  // ✅
 SKTVerify(appleseedSequence) // ✅
 ```
 
+##### Expecting range of times
+
+To verify that given function has been called within a range of times, just duplicate the expectations that bounds the range, e.g.:
+
+```swift 
+let verify1_3 = setupStubSequence(of: &databaseMock.addUserAction)
+    .expect(.atLeastTimes(1))
+    .expect(.noMoreThan(3))
+
+databaseMock.addUser(name: "user1")
+databaseMock.addUser(name: "user2")
+
+XCTAssert(verify1_3.verify()) // ✅
+```
+
 ##### Sequence `returnOnce`/`throwOnce` conflicts
 
 When configuring sequence by `returnOnce`/`throwOnce` remember that **all** matching sequences consume `Once` behaviour:
@@ -487,6 +502,45 @@ setupStubSequence(of: &databaseMock.addUserAction)
 databaseMock.addUser(name: "user1") // prints "Add user: user1"
 databaseMock.addUser(name: "user2") // prints "User 2 added" and "Add user: user1"
 
+```
+
+### Async testing - `XCTestExpectation` support
+
+#### Sequence callback fulfillment
+
+Sequences can also fulfill the `XCTestExpectation` every time function's call matches the predicate. In a tandem with  `XCTestExpectation.expectedFulfillmentCount` it is possible to verify number of calls 
+
+```swift 
+let user1Expecation = expectation(description: "Added user1")
+user1Expecation.expectedFulfillmentCount = 2
+
+setupStubSequence(of: &databaseMock.addUserAction).when("user1").callback(user1Expecation)
+
+DispatchQueue.global(qos: .userInitiated).async {
+    databaseMock.addUser(name: "user1")
+    databaseMock.addUser(name: "user2")
+    databaseMock.addUser(name: "user1")
+}
+
+waitForExpectations(timeout: timeout) // ✅
+
+```
+
+#### Expect asynchronously
+
+By default, sequence expectation works synchronously with an explicit verification but additionally, it is possible to attach the  `XCTestExpectation` that gets fulfilled whenever the expectaion becomes valid:
+
+```swift 
+let user1Expecation = expectation(description: "Added user1")
+
+setupStubSequence(of: &databaseMock.addUserAction).expect(.once).callback(user1Expecation)
+
+DispatchQueue.global(qos: .userInitiated).async {
+    databaseMock.addUser(name: "user2")
+    databaseMock.addUser(name: "user1")
+}
+
+waitForExpectations(timeout: timeout) // ✅
 ```
 
 ## Stubbing hints

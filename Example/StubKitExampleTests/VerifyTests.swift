@@ -65,6 +65,21 @@ class VerifyTests: XCTestCase {
         XCTAssert(tokenOnce.verify())
     }
     
+    func testVerificationTwoBounds() {
+        var function: ((Int) -> Void) = {_ in}
+        let verify1_3 = setupStubSequence(of: &function).expect(.atLeastTimes(1)).expect(.noMoreThan(3))
+        let verify4_5 = setupStubSequence(of: &function).expect(.atLeastTimes(4)).expect(.noMoreThan(5))
+        let verify1_2 = setupStubSequence(of: &function).expect(.atLeastTimes(1)).expect(.noMoreThan(2))
+
+        function(1)
+        function(2)
+        function(3)
+        
+        XCTAssert(verify1_3.verify())
+        XCTAssertFalse(verify4_5.verify())
+        XCTAssertFalse(verify1_2.verify())
+    }
+    
     func testVerificationWithReturn() {
         var function: ((Int) -> Int) = {_ in return 0}
         let tokenOnce = setupStubSequence(of: &function).when(1).returns(2).expect(.once)
