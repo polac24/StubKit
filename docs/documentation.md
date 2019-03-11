@@ -146,34 +146,34 @@ class DatabaseMock: Database {
 /// Testcase body
 
 // default behaviour
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 0
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns 0
 
 // custom return value
 setupStub(of: &databaseMock.addAccountAction, return: 1)
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns 1
 
 // override return value
 setupStub(of: &databaseMock.addAccountAction, return: 2)
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 2
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns 2
 ```
 
 #### Sequence setup
 
-Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`returnsOnce`/`throwsOnce`) or all subsequente calls (`returns`/`throws`):
+Besides standard setup that specifies return value for all calls, sequence setup can specify custom return values for a single call (`returnsOnce`/`throwsOnce`) or all subsequent calls (`returns`/`throws`):
 
 ```swift
-// custom return value
+// custom return sequence
 setupStubSequence(of: &databaseMock.addAccountAction)
     .returnsOnce(1) // 1
     .returnsOnce(2) // 2
     .returnsOnce(3) // 3
     .returns(0) // 4+
     
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed1") // 1
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed2") // 2
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed3") // 3
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed4") // 0 
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed5")) // 0
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed1") // returns 1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed2") // returns 2
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed3") // returns 3
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed4") // returns 0 
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed5")) // returns 0
 ```
 
 > If you don't end up stub sequence with infinite return, previous setup value has a precedance
@@ -184,18 +184,18 @@ setupStubSequence(of: &databaseMock.addAccountAction)
     .returnsOnce(1) // 1
     .returnsOnce(2) // 1
 
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 1
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // 2
-databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // -1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns 1
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns 2
+databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns -1
 ```
 
 
 #### Selective setup
 
-Setup can selectively return custom values, depending on call arguments. You can predicate selecting from 
-* predicate 
-* single-argument comparison (for `Equatable` types)
-* selective argument comparison - support for functions with less than 5 arguments (e.g. `whenFirst`, `whenForth`)
+Setup can selectively return custom values, depending on call arguments. You can predicate selecting from:
+* predicate closure
+* single-argument comparison (for `Equatable` argument types)
+* custom argument comparison - support for functions with less than 5 arguments (e.g. `whenFirst`, `whenForth`) where some 
 
 ```swift 
 setupStubSequence(of: &databaseMock.addUserAction)
@@ -203,10 +203,10 @@ setupStubSequence(of: &databaseMock.addUserAction)
     .returns(false)
 setupStubSequence(of: &databaseMock.addUserAction)
     .when("user2")
-    .andReturn(true)
+    .returns(true)
 
-databaseMock.addUser(name: "user1") // false
-databaseMock.addUser(name: "user2") // true
+databaseMock.addUser(name: "user1") // returns false
+databaseMock.addUser(name: "user2") // returns true
 ```
 
 ```swift 
@@ -214,8 +214,8 @@ setupStubSequence(of: &databaseMock.addUserAction)
     .when({$0.count > 0})
     .returns(true)
 
-databaseMock.addUser(name: "") //  false
-databaseMock.addUser(name: "user2") // true
+databaseMock.addUser(name: "") // returns false
+databaseMock.addUser(name: "user2") // returns true
 ```
 
 ```swift 
@@ -233,13 +233,13 @@ setupStubSequence(of: &databaseMock.addAccountAction)
     
 setupStubSequence(of: &databaseMock.addAccountAction)
     .whenFirst("Tom")
-    .whenFirst("Derk")
+    .whenSecond("Derk")
     .returns(100)
 
-databaseMock.addUser(givenName: "Tom", lastName: "Kerk") //  1
-databaseMock.addUser(givenName: "Ole", lastName: "Derk") // 10
-databaseMock.addUser(givenName: "Ole", lastName: "De") // 0
-databaseMock.addUser(givenName: "Tom", lastName: "Derk") // 100 - Last setup has a predecence
+databaseMock.addUser(givenName: "Tom", lastName: "Kerk") // returns 1
+databaseMock.addUser(givenName: "Ole", lastName: "Derk") // return 10
+databaseMock.addUser(givenName: "Ole", lastName: "De") // returns 0
+databaseMock.addUser(givenName: "Tom", lastName: "Derk") // returns 100 - Last setup has a predecence
 ```
 
 ### Strict Stubbing
@@ -395,9 +395,8 @@ let callArg = addUserSpy[0] // "given"
 
 #### Sequence verification
 
-Setup sequences also can be used for expected arguments verification. 
+Setup sequences also can be used for expected arguments verification by assigning an expectation to the sequence. 
 
-> Keep in mind that all the **expected** sequences have to be verified by `XCTAssert` or `sequence.verify()`. Deallocation of non-verified sequence is treated as a programmer error and leads to an assertion.
 
 ```swift
 
@@ -430,6 +429,45 @@ XCTAssertNotMet(tomDerkSequence) // ✅
 
 💥 // notVerifiedSequence has not been verified
 ```
+
+> Keep in mind that all the **expected** sequences have to be verified by `XCTAssert` or `sequence.verify()`. Deallocation of non-verified sequence is treated as a programmer error and leads to an assertion.
+
+Setup sequences expectation is always evaluated, no matter if it responsible for a return value or not. Therefore, you can assign several expectations for the same function without conflicts.
+
+```swift
+
+let johnSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenFirst("John")
+    .returns(1)
+    .expect(.once)
+
+
+let appleseedSequence = setupStubSequence(of: &databaseMock.addAccountAction)
+    .whenSecond("Appleseed")
+    .expect(.once)
+
+databaseMock.addUser(givenName: "John", lastName: "Appleseed") // returns 1
+
+XCTAssert(johnSequence)  // ✅
+XCTAssert(appleseedSequence) // ✅
+```
+
+#### Sequence `returnOnce`/`throwOnce` conflicts
+
+When configuring sequence by `returnOnce`/`throwOnce` remember that **all** matching sequences consume `Once` behaviour:
+
+```swift
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .returnsOnce(1)
+    .returnsOnce(3)
+
+setupStubSequence(of: &databaseMock.addAccountAction)
+    .returnsOnce(2)
+
+databaseMock.addUser(givenName: "John", lastName: "Appleseed") // returns 2 (and consumes 1 in a first sequence)
+databaseMock.addUser(givenName: "Some", lastName: "Lastname") // returns 3
+```
+
 
 ## Stubbing hints
 
