@@ -35,6 +35,8 @@ public class AbstractSetupSequence<I> {
     fileprivate var expectingVerification: (StaticString, UInt)?
     /// All callbacks to perform on match
     fileprivate var callbacks: [(I) -> Void] = []
+    /// All callbacks to perform after the match
+    var postCallbacks: [(I) -> Void] = []
     
     fileprivate init(){}
     
@@ -90,8 +92,11 @@ public class SetupSequence<I,O>: AbstractSetupSequence<I> {
         guard filters.allSatisfy({$0(fallbackArg)}) else {
             return fallback(fallbackArg)
         }
-        filteredCount += 1
         callbacks.forEach({$0(fallbackArg)})
+        filteredCount += 1
+        defer {
+            postCallbacks.forEach({$0(fallbackArg)})
+        }
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
             return fallback(fallbackArg)
@@ -132,14 +137,16 @@ public class SetupThrowableSequence<I,O>: AbstractSetupSequence<I> {
         guard filters.allSatisfy({$0(fallbackArg)}) else {
             return try fallback(fallbackArg)
         }
-        filteredCount += 1
         callbacks.forEach({$0(fallbackArg)})
+        filteredCount += 1
+        defer {
+            postCallbacks.forEach({$0(fallbackArg)})
+        }
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
             return try fallback(fallbackArg)
         }
         defer {
-            print("111111")
             count += 1
             _ = try? fallback(fallbackArg)
         }

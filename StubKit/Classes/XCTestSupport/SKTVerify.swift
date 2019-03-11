@@ -28,3 +28,29 @@ public func SKTVerify<I,O>(_ sequence: SetupSequence<I, O>, file: StaticString =
         XCTFail("Sequence expectation not met: \(failures.joined(separator: ","))", file: file, line: line)
     }
 }
+
+extension AbstractSetupSequence {
+    @discardableResult
+    public func callback(_ expectation: XCTestExpectation) -> Self {
+        callback({_ in expectation.fulfill()})
+        return self
+    }
+    @discardableResult
+    public func attach(_ expectation: XCTestExpectation) -> Self {
+        guard !verify() else {
+            expectation.fulfill()
+            return self
+        }
+        var wasPreviouslyMatched = false
+        callback {[unowned self] _ in
+            wasPreviouslyMatched = self.verify()
+        }
+        postCallbacks.append {[unowned self] _ in
+            guard self.verify(), !wasPreviouslyMatched else {
+                return
+            }
+            expectation.fulfill()
+        }
+        return self
+    }
+}

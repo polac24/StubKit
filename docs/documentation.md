@@ -26,8 +26,12 @@
       - [Weak spy](#weak-spy)
       - [Custom spy storage](#custom-spy-storage)
     + [Sequence verification](#sequence-verification)
+      - [Expecting range of times](#expecting-range-of-times)
       - [Sequence `returnOnce`/`throwOnce` conflicts](#sequence--returnonce---throwonce--conflicts)
     + [Custom callbacks](#custom-callbacks)
+  * [Async testing - `XCTestExpectation` support](#async-testing----xctestexpectation--support)
+    + [Sequence callback fulfillment](#sequence-callback-fulfillment)
+    + [Expect asynchronously](#expect-asynchronously)
 - [Stubbing hints](#stubbing-hints)
   * [`@autoclosure`](#--autoclosure-)
   * [`@escaping`](#--escaping-)
@@ -35,6 +39,7 @@
   * [throwing function](#throwing-function)
   * [throwing function argument](#throwing-function-argument)
 - [Limitations](#limitations)
+
 
 ## API
 
