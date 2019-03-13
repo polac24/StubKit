@@ -120,18 +120,10 @@ XCTAssertEqual(addUserSpy, ["User1","User2","User3","User4"]) //✅
 XCTAssertEqual(addAccountSpy.count, 7) //✅
 ```
 
-To prepare a mock:
-1. create a lazy instance variable for each function of your protocol and initialize its initial value using provided in StubKit `stub` or `strictStub` function
-2. In a body of a protocol function, call that dedicated variable with all received arguments. 
-3. In the test body, you define a spy object that tracks all calls and its arguments 
 
-Mock verification:
-1. Compare spy to the expected array of call arguments
+## Full API Documentation
 
-
-## API Documentation
-
-For API documentation, see external documnet [Documentation](docs/documentation.md)
+For API documentation, see external document: [API Documentation](docs/documentation.md)
 
 ## Requirements
 
