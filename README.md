@@ -1,6 +1,7 @@
 # StubKit
 
-[![CI Status](https://img.shields.io/travis/polac24/StubKit.svg?style=flat)](https://travis-ci.org/polac24/StubKit)
+[![Build Status](https://travis-ci.org/polac24/StubKit.svg?branch=master)](https://travis-ci.org/polac24/StubKit)
+[![codecov](https://codecov.io/gh/polac24/StubKit/branch/master/graph/badge.svg)](https://codecov.io/gh/polac24/StubKit)
 [![Version](https://img.shields.io/cocoapods/v/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
 [![License](https://img.shields.io/cocoapods/l/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
 [![Platform](https://img.shields.io/cocoapods/p/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
