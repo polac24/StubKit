@@ -20,7 +20,6 @@
 		104727A42222A34800D04886 /* TestStubThrowingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104727A32222A34800D04886 /* TestStubThrowingMock.swift */; };
 		104727A62222A37800D04886 /* SpyCallsThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104727A52222A37800D04886 /* SpyCallsThrowingTests.swift */; };
 		1054B198221F435100F7224B /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054B197221F435100F7224B /* Dummy.swift */; };
-		1054B1A3221F4EC100F7224B /* StubKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1054B1A2221F4EC100F7224B /* StubKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		10722780223425F800C68B43 /* VerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072277F223425F800C68B43 /* VerifyTests.swift */; };
 		10A1F0B822213D6A0046A49B /* StubThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */; };
 		10A1F0BA22217C130046A49B /* RegisterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0B922217C130046A49B /* RegisterTests.swift */; };
@@ -47,19 +46,6 @@
 			remoteInfo = StubKitExample;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1054B1A1221F4EB500F7224B /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1054B1A3221F4EC100F7224B /* StubKit.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		10010563222EF5BA00917BB1 /* SetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTests.swift; sourceTree = "<group>"; };
@@ -271,7 +257,6 @@
 				101FEA3E221B4EE400C70FE6 /* Sources */,
 				101FEA3F221B4EE400C70FE6 /* Frameworks */,
 				101FEA40221B4EE400C70FE6 /* Resources */,
-				1054B1A1221F4EB500F7224B /* CopyFiles */,
 			);
 			buildRules = (
 			);
