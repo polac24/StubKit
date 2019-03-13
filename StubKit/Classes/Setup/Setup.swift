@@ -19,13 +19,15 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
+@discardableResult
 public func setupStub<I,O>(of stub: inout (I) -> (O), return returnValue: O) -> SetupSequence<I,O> {
     return setupStubSequence(of: &stub).returns(returnValue)
 }
+@discardableResult
 public func setupStub<I,O>(of stub: inout (I) throws -> (O), return returnValue: O) -> SetupThrowableSequence<I,O>  {
     return setupStubSequence(of: &stub).returns(returnValue)
 }
+@discardableResult
 public func setupStub<I,O>(of stub: inout (I) throws -> (O), throw error: Error) -> SetupThrowableSequence<I,O>  {
     return setupStubSequence(of: &stub).throws(error)
 }
