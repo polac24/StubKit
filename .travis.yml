@@ -4,3 +4,6 @@ xcode_workspace: Example/StubKitExample.xcworkspace
 xcode_scheme: StubKitExample
 podfile: Example/Podfile
 xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone X
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
