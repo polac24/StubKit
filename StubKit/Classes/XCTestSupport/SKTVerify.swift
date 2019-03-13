@@ -22,7 +22,7 @@
 
 import XCTest
 
-public func SKTVerify<I,O>(_ sequence: SetupSequence<I, O>, file: StaticString = #file, line: UInt = #line) {
+public func SKTVerify<I>(_ sequence: AbstractSetupSequence<I>, file: StaticString = #file, line: UInt = #line) {
     let failures = sequence.verificationFailures()
     if !failures.isEmpty {
         XCTFail("Sequence expectation not met: \(failures.joined(separator: ","))", file: file, line: line)

@@ -50,6 +50,8 @@ To prepare a mock that conforms a protocol, you have to manually create a class 
 
 
 ```swift
+import StubKit
+
 protocol Database {
     func addUser(name: String) -> Bool
     func addAccount(givenName: String, lastName: String) -> Bool
