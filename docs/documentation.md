@@ -203,7 +203,7 @@ databaseMock.addAccount(givenName: "John", lastName: "Appleseed") // returns -1
 Setup can selectively return custom values, depending on call arguments. You can predicate selecting from:
 * predicate closure
 * single-argument comparison (for `Equatable` argument types)
-* custom argument comparison - support for functions with less than 5 arguments (e.g. `whenFirst`, `whenForth`) where some 
+* custom argument comparison - support for functions with maxium 4 arity (e.g. `whenFirst`... `whenForth`)
 
 ```swift 
 setupStubSequence(of: &databaseMock.addUserAction)

@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/polac24/StubKit.svg?branch=master)](https://travis-ci.org/polac24/StubKit)
 [![codecov](https://codecov.io/gh/polac24/StubKit/branch/master/graph/badge.svg)](https://codecov.io/gh/polac24/StubKit)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![SPM Compatible](https://img.shields.io/badge/SPM-campatible-green.svg?style=flat)](https://swift.org/package-manager/)
 [![Version](https://img.shields.io/cocoapods/v/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
 [![License](https://img.shields.io/cocoapods/l/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
 [![Platform](https://img.shields.io/cocoapods/p/StubKit.svg?style=flat)](https://cocoapods.org/pods/StubKit)
@@ -14,8 +16,6 @@
 - [API Documentation](docs/documentation.md)
 - [Requirements](#requirements)
 - [Installation](#installation)
-  * [Carthage](#carthage)
-  * [CocoaPods](#cocoapods)
 - [Author](#author)
 - [License](#license)
 
@@ -32,7 +32,7 @@ Stubs created using StubKit provide :
 ## Sample
 
 ```swift 
-// Protocol to work with
+// Sample protocol to work with
 protocol Database {
   func addUser(name: String) -> Int
   func addAccount(givenName: String, lastName: String) throws -> Int
@@ -53,8 +53,9 @@ class DatabaseStub: Database {
 
 // Arange
 let databaseStub = DatabaseStub()
-
-// ------ Calls and arguments verification
+```
+Calls and arguments verification:
+```swift
 let addUserSpy = spyCalls(of: &databaseStub.addUserAction)
 let addAccountSpy = spyCalls(of: &databaseStub.addAccountAction)
 
@@ -65,8 +66,9 @@ XCTAssertEqual(addUserSpy, ["User1"])
 XCTAssertEqual(addAccountSpy.count, 1)
 XCTAssertEqual(addAccountSpy[0]?.0, "John")
 XCTAssertEqual(addAccountSpy[0]?.1, "Appleseed")
-
-// ------ Return control
+```
+Return control on fly
+```swift
 setupStubSequence(of: &databaseStub.addUserAction).returns(11)
 setupStubSequence(of: &databaseStub.addAccountAction)
     .returnsOnce(1)
@@ -75,8 +77,9 @@ setupStubSequence(of: &databaseStub.addAccountAction)
 databaseStub.addUser(name: "User2") // return 11
 databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // returns 1
 databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // throws
-
-// ------ Verify synchronously
+```
+Synchronous mock verification
+```swift
 let user3Squence = setupStubSequence(of: &databaseStub.addUserAction)
     .when("User3")
     .expect(.once)
@@ -96,8 +99,9 @@ SKTVerify(user3Squence) // ✅
 SKTVerify(user3TwiceSquence) // 🛑
 XCTAssert(user3TwiceSquence.verify()) // 🛑 - equivalent to SKTVerify
 SKTVerify(appleseedSquence) // ✅
-
-// ------ Verify asynchronously
+```
+Asynchronous mock verification
+```swift
 setupStubSequence(of: &databaseStub.addUserAction)
     .when("User3")
     .expect(.once)
@@ -115,12 +119,7 @@ DispatchQueue.global(qos: .background).async {
 }
 
 waitForExpectations(timeout: 0.1) //✅
-
-// ------ Final spy
-XCTAssertEqual(addUserSpy, ["User1","User2","User3","User4"]) //✅
-XCTAssertEqual(addAccountSpy.count, 7) //✅
 ```
-
 
 ## Full API Documentation
 
@@ -135,7 +134,21 @@ Swift | StubKit
 
 ## Installation
 
-### Carthage
+<details><summary>Swift Package Manager</summary>
+
+To depend on the StubKit package, you need to declare your dependency in your `Package.swift`:
+
+
+```swift
+// it's early days here so we haven't tagged a version yet, but will soon
+.package(url: "https://github.com/polac24/StubKit.git", .branch("master")),
+```
+
+and to your application/library target, add "StubKit" to your dependencies.
+
+</details>
+
+<details><summary>Carthage</summary>
 
 Add the following line to your `Cartfile`:
 
@@ -145,7 +158,8 @@ github "polac24/StubKit" ~> 0
 
 For detailed instruction to integrate carthage dependency, see [Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application)
 
-### CocoaPods
+</details>
+<details><summary>CocoaPods</summary>
 
 StubKit is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add `StubKit` dependency for your testing target, like:
@@ -156,6 +170,7 @@ target 'StubKitExampleTests' do
     pod 'StubKit'
 end
 ```
+</details>
 
 ## Author
 
