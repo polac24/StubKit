@@ -43,6 +43,24 @@ class NonThrowingGenericStubTests: XCTestCase {
         XCTAssertEqual(spy, [1])
     }
     
+    func testTakingGenericAlternative() {
+        let spy = spyCalls(of: &testMock.takeGenericString)
+        
+        testMock.takeGeneric("T")
+        
+        XCTAssertEqual(spy, ["T"])
+    }
+    
+    func testTakingGenericAlternativeSelectsOnlySpecificType() {
+        let spyBase = spyCalls(of: &testMock.takeGenericBase)
+        let spyDerived = spyCalls(of: &testMock.takeGenericDerived)
+
+        testMock.takeGeneric(DerivedClass())
+        
+        XCTAssertEqual(spyBase.count, 0)
+        XCTAssertEqual(spyDerived.count, 1)
+    }
+    
     func testReturningGeneric() {
         let spy = spyCalls(of: &testMock.returnGenericInt)
         setupStubSequence(of: &testMock.returnGenericInt).returns(3)
@@ -53,6 +71,49 @@ class NonThrowingGenericStubTests: XCTestCase {
         XCTAssertEqual(returned, 3)
     }
     
+    func testTakeGenericReturnStatic() {
+        let spy = spyCalls(of: &testMock.takeGenericReturnStaticInt)
+        
+        _ = testMock.takeGenericReturnStatic(3)
+        
+        XCTAssertEqual(spy, [3])
+    }
+    
+    func testReturnsDefaultGenericValue() {
+        let spy = spyCalls(of: &testMock.returnGenericTakeStaticInt)
+        
+        let returned: Int = testMock.returnGenericTakeStatic("a")
+        
+        XCTAssertEqual(spy, ["a"])
+        XCTAssertEqual(returned, 0)
+    }
+    
+    func testReturnsDefaultValue() {
+        let spy = spyCalls(of: &testMock.returnGenericTakeStaticInt)
+        
+        let returned: Int = testMock.returnGenericTakeStatic("a")
+        
+        XCTAssertEqual(spy, ["a"])
+        XCTAssertEqual(returned, 0)
+    }
+    
+    func testReturningAndTakingGenerics() {
+        let spy = spyCalls(of: &testMock.takeAndReturnGenericsIntStringString)
+        
+        _ = testMock.takeAndReturnGenerics(1, "s") as String
+        
+        XCTAssertEqual(spy.count, 1)
+    }
+    
+    func testGenericFunction() {
+        let spy = spyCalls(of: &testMock.takeGenericEscapingFunctionStringReturnBool)
+        
+        let returned: Bool = testMock.takeGenericEscapingFunction { (_:String) in return 1}
+        
+        XCTAssertEqual(spy.count, 1)
+        XCTAssertEqual(returned, false)
+    }
+    
 }
 
 private protocol TestProtocol {
@@ -61,12 +122,16 @@ private protocol TestProtocol {
     func takeGenericReturnStatic<T>(_ obj:T) -> String
     func returnGenericTakeStatic<T>(_ obj:String) -> T
     func takeAndReturnGenerics<T1,T2,R>(_ obj1:T1, _ obj2: T2) -> R
+    func takeGenericEscapingFunction<T1,R>(_ obj1:@escaping (T1) -> Int) -> R
 }
 
 private class TestMock: TestProtocol {
     lazy var takeGenericInt = stubGeneric(of: takeGeneric).with(first: Int.self).stub
+    lazy var takeGenericString = stubGeneric(of: takeGeneric).with(first: String.self).stub
+    lazy var takeGenericBase = stubGeneric(of: takeGeneric).with(first: BaseClass.self).stub
+    lazy var takeGenericDerived = stubGeneric(of: takeGeneric).with(first: DerivedClass.self).stub
     func takeGeneric<T>(_ obj: T) {
-        return callGeneric((obj), potentials: [takeGenericInt])
+        return callGeneric((obj), potentials: [takeGenericInt, takeGenericString, takeGenericBase, takeGenericDerived])
     }
     
     lazy var returnGenericInt = stubGeneric(of: returnGeneric).with(return: Int.self).stub
@@ -88,4 +153,15 @@ private class TestMock: TestProtocol {
     func takeAndReturnGenerics<T1, T2, R>(_ obj1: T1, _ obj2: T2) -> R {
         return callGeneric((obj1,obj2), potentials: [takeAndReturnGenericsIntStringString])
     }
+    
+    lazy var takeGenericEscapingFunctionStringReturnBool = stubGeneric(of: takeGenericEscapingFunction).with(first: ((String) -> Int).self).with(return: Bool.self).stub
+    func takeGenericEscapingFunction<T1, R>(_ obj1: @escaping (T1) -> Int) -> R {
+        return callGeneric((obj1), potentials: [takeGenericEscapingFunctionStringReturnBool])
+    }
+    
+    // Non defaultable requires strict
+    lazy var returnGenericTakeStaticCustom = stubGeneric(of: returnGenericTakeStatic).with(return: BaseClass.self).strictStub
 }
+
+fileprivate class BaseClass {}
+fileprivate class DerivedClass: BaseClass {}

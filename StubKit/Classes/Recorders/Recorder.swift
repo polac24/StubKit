@@ -20,7 +20,7 @@
  THE SOFTWARE.
  */
 
-public protocol Recorder: class, ExpressibleByArrayLiteral {
+public protocol Recorder: class, CustomDebugStringConvertible, ExpressibleByArrayLiteral {
     associatedtype Element
     
     init()
@@ -30,3 +30,8 @@ public protocol Recorder: class, ExpressibleByArrayLiteral {
     var count: Int {get}
 }
 
+extension Recorder {
+    public var debugDescription: String {
+       return "\((0..<count).compactMap({self[$0]}))"
+    }
+}
