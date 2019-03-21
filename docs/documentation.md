@@ -38,6 +38,8 @@
   * [non-escaping arguments](#non-escaping-arguments)
   * [throwing function](#throwing-function)
   * [throwing function argument](#throwing-function-argument)
+  * [Generic functions](#generic-functions)
+  * [Generic throwing functions](#generic-throwing-functions)
 - [Limitations](#limitations)
 
 
@@ -641,9 +643,71 @@ class DatabaseMock: Database {
 }
 ```
 
+### Generic functions
+
+Whenever your function is generic (do not mix up with generic types, which are really straightforward for stubbing) you cannor create a single, dedicated stub function that is called for it as your codebase can call it with any particular type. Therefore, you need to specialize your mock to handle specific generic specialization. Since swift doesn't support function specialization (e.g. `let printString = print<String>`) so StubKit provides some helpers that try to hint Swift's type inference. 
+
+`stubGeneric` global function builds a `strictStub` (or nice stub using `stub`) according to type hints provided by a developer. Once you prepared a set of specialized function actions, in a concrete generic function `callGenerics` it calls the right specialization with input arguments (or crashes when specialization function is not provided). 
+
+```swift
+protocol Database {
+    func add<User>(user: User) -> Bool
+}
+
+class DatabaseMock: Database {
+    lazy var addStringAction = stubGeneric(of: add).with(first:String.self).stub // type is (String) -> Bool
+    lazy var addIntAction = stubGeneric(of: add).with(first:Int.self).stub // type is (Int) -> Bool
+    
+    func add<User>(user: User) -> Bool {
+        // selects right potential actions of fatalErrors in runtime when generic specialization 
+        // not provided in potentials array
+        return callGeneric(user, potentials: [addStringAction, addIntAction])
+    }
+}
+
+DatabaseMock().add(user: "123") // calls addStringAction
+DatabaseMock().add(user: 0) // calls addIntAction
+```
+
+Optionally, you can make your mock generic and control the expected type on a mock instance creation:
+
+```swift
+
+class DatabaseMock<T>: Database {
+    lazy var addAction = stubGeneric(of: add).with(first: T.self).stub // type is (T) -> Bool
+
+    func add<User>(user: User) -> Bool {
+        return callGeneric(user, potentials: [addAction])
+    }
+}
+
+_ = DatabaseMock<String>().add(user: "123") // calls addAction: (String) -> Bool
+_ = DatabaseMock<Int>().add(user: 123) // calls addAction: (Int) -> Bool
+```
+
+### Generic throwing functions
+
+Continue with the same approach as above, with the replacement of `callGenerics` to `callThrowsGeneric`:
+
+```swift
+protocol Database {
+    func add<User>(user: Int) throwing -> User
+}
+
+class DatabaseMock<T: DefaultProvidable>: Database {
+    lazy var addStringAction = stubGeneric(of: add).with(return: T.self).stub // type is (Int) -> T
+
+    func add<User>(user: Int) throws -> User {
+        return try callThrowsGeneric(user, potentials: [addStringAction, addIntAction])
+    }
+}
+
+try DatabaseMock<String>().add(user: 123) as String // calls addStringAction
+try DatabaseMock<String>().add(user: 123) as Int // crashes (generic `T` and returned type `Int` mismatch)
+```
+
 ## Limitations
 
-- Thread unsafe
-- Generic functions
+- Thread safe - StubKit is thread unsafe
 - Variadic functions
 
