@@ -30,9 +30,6 @@ public class BaseInferer<I,O> {
         self.file = file
         self.function = function
     }
-    func strictStubGenerator<T>() -> T {
-        fatalError("Unexpected generic call in \(function)", file: file, line: line)
-    }
 }
 public class BaseNonThrowingInferer<I,O> : BaseInferer<I,O> {
     public var strictStub: ((I)->(O)) {
@@ -98,7 +95,7 @@ public class GenericInferer5<In1,In2,In3,In4,In5,Out>: BaseNonThrowingInferer<(I
     public func with(second: In2.Type) -> Self { return self }
     public func with(third: In3.Type) -> Self { return self }
     public func with(forth: In4.Type) -> Self { return self }
-    public func with(fifth: In4.Type) -> Self { return self }
+    public func with(fifth: In5.Type) -> Self { return self }
     public func with(return: Out.Type) -> Self { return self }
     
 }

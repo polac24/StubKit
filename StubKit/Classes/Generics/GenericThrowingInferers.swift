@@ -21,7 +21,7 @@
  */
 
 public class BaseThrowingInferer<I,O> : BaseInferer<I,O> {
-    var strictStub: ((I) throws ->(O)) {
+    public var strictStub: ((I) throws ->(O)) {
         return {[file, line, function] _ in
             fatalError("Unexpected generic call in \(function)", file: file, line: line)
         }
@@ -29,7 +29,7 @@ public class BaseThrowingInferer<I,O> : BaseInferer<I,O> {
 }
 
 extension BaseThrowingInferer where O: DefaultProvidable {
-    var stub: (I) throws -> (O) {
+    public var stub: (I) throws -> (O) {
         return { _ in
             O.defaultValue
         }
@@ -37,7 +37,7 @@ extension BaseThrowingInferer where O: DefaultProvidable {
 }
 
 extension BaseThrowingInferer where O == Void{
-    var stub: (I) throws -> (O) {
+    public var stub: (I) throws -> (O) {
         return { _ in }
     }
 }
@@ -84,6 +84,6 @@ public class GenericThrowingInferer5<In1,In2,In3,In4,In5,Out>: BaseThrowingInfer
     public func with(second: In2.Type) -> Self { return self }
     public func with(third: In3.Type) -> Self { return self }
     public func with(forth: In4.Type) -> Self { return self }
-    public func with(fifth: In4.Type) -> Self { return self }
+    public func with(fifth: In5.Type) -> Self { return self }
     public func with(return: Out.Type) -> Self { return self }
 }
