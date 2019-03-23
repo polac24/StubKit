@@ -21,7 +21,7 @@
 
 ## Description
 
-StubKit provides a set of functions that speed up a process of creation of Swift stubs/mocks. It's goal is to require minimal amount of developer's work in mock creation while  leveraging Swift's type system type integrity for safety without meta programming nor code-generation. 
+StubKit provides a set of functions that speed up a process of creation of Swift stubs/mocks. It's goal is to require minimal amount of developer's work in mock creation while  leveraging Swift's type system type integrity for safety without meta programming nor any code-generation. 
 
 Stubs created using StubKit provide :
 * a full introspection of function calls
@@ -59,7 +59,7 @@ Calls and arguments verification:
 let addUserSpy = spyCalls(of: &databaseStub.addUserAction)
 let addAccountSpy = spyCalls(of: &databaseStub.addAccountAction)
 
-try databaseStub.addUser(name: "User1") // return 0 (Int default)
+databaseStub.addUser(name: "User1") // return 0 (Int's default)
 try databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // returns 0
 
 XCTAssertEqual(addUserSpy, ["User1"])
@@ -67,7 +67,7 @@ XCTAssertEqual(addAccountSpy.count, 1)
 XCTAssertEqual(addAccountSpy[0]?.0, "John")
 XCTAssertEqual(addAccountSpy[0]?.1, "Appleseed")
 ```
-Return control on fly
+Control return value on fly
 ```swift
 setupStubSequence(of: &databaseStub.addUserAction).returns(11)
 setupStubSequence(of: &databaseStub.addAccountAction)
@@ -75,8 +75,8 @@ setupStubSequence(of: &databaseStub.addAccountAction)
     .throws(DatabseError.ioError)
 
 databaseStub.addUser(name: "User2") // return 11
-databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // returns 1
-databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // throws
+try databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // returns 1
+try databaseStub.addAccount(givenName: "John", lastName: "Appleseed") // throws `DatabseError.ioError`
 ```
 Synchronous mock verification
 ```swift
@@ -97,8 +97,8 @@ try databaseStub.addAccount(givenName: "Tim", lastName: "Appleseed") // returns 
 
 SKTVerify(user3Squence) // ✅
 SKTVerify(user3TwiceSquence) // 🛑
-XCTAssert(user3TwiceSquence.verify()) // 🛑 - equivalent to SKTVerify
 SKTVerify(appleseedSquence) // ✅
+XCTAssert(appleseedSquence.verify()) // ✅ - equivalent to SKTVerify(appleseedSquence)
 ```
 Asynchronous mock verification
 ```swift
