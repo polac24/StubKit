@@ -1,0 +1,6 @@
+framework module StubKit {
+  umbrella header "StubKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
