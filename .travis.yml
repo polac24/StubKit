@@ -1,7 +1,5 @@
 osx_image: xcode10.1  
 language: objective-c
-before_install: 
-  - bundle install --path vendor/bundle
 xcode_workspace: Example/StubKitExample.xcworkspace
 xcode_scheme: StubKitExample
 podfile: Example/Podfile
@@ -13,6 +11,7 @@ after_success:
 
 deploy:
   provider: script
+  install: bundle install  
   script: bundle exec pod trunk push
   skip_cleanup: true
   on:
