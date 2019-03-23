@@ -11,6 +11,7 @@ after_success:
 
 deploy:
   provider: script
-  script: ./scripts/push.sh
+  script: ./scripts/push.sh 
+  skip_cleanup: true
   on:
     tags: true

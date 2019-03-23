@@ -141,7 +141,7 @@ To depend on the StubKit package, you need to declare your dependency in your `P
 
 ```swift
 // it's early days here so we haven't tagged a version yet, but will soon
-.package(url: "https://github.com/polac24/StubKit.git", .branch("master")),
+.package(url: "https://github.com/polac24/StubKit.git",  from: "0.0.7")
 ```
 
 and to your application/library target, add "StubKit" to your dependencies.
