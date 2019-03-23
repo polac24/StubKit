@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'StubKit'
-  s.version          = '0.0.6'
+  s.version          = '0.0.7'
   s.summary          = 'Library for Swift mocks/stubs generation'
   s.swift_version    = '4.2'
   s.description      = <<-DESC
@@ -17,5 +17,4 @@ StubKit provides a set of functions that speed up a process of creation of Swift
 
   s.source_files = 'StubKit/Classes/**/*'
   s.frameworks = 'XCTest'
-  
 end

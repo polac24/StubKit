@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-bundle install
-bundle exec pod --version
-bundle exec pod lib lint
-bundle exec pod trunk push
+source ~/.rvm/scripts/rvm
+rvm use default
+bundle exec pod trunk push --allow-warnings
