@@ -11,8 +11,7 @@ after_success:
 
 deploy:
   provider: script
-  install: bundle install  
-  script: bundle exec pod trunk push
+  script: ./scripts/push.sh 
   skip_cleanup: true
   on:
     tags: true
