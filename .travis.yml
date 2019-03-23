@@ -7,3 +7,10 @@ xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone X
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+
+deploy:
+  provider: script
+  script: ./scripts/push.sh
+  on:
+    tags: true
