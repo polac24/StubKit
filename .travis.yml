@@ -1,9 +1,8 @@
 osx_image: xcode10.1  
 language: objective-c
-xcode_workspace: Example/StubKitExample.xcworkspace
-xcode_scheme: StubKitExample
-podfile: Example/Podfile
-xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone X
+script:
+  - swift package generate-xcodeproj
+  - xcodebuild test -scheme StubKit-Package -enableCodeCoverage YES | xcpretty
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -11,7 +10,7 @@ after_success:
 
 deploy:
   provider: script
-  script: ./scripts/push.sh 
+  script: ./scripts/push.sh
   skip_cleanup: true
   on:
     tags: true

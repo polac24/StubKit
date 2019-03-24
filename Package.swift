@@ -15,7 +15,7 @@ let package = Package(
         .testTarget(
             name: "StubKitTests",
             dependencies: ["StubKit"],
-            path: "Example/StubKitExampleTests"
+            path: "StubKit/Tests"
         ),
     ]
 )

@@ -7,36 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10010564222EF5BA00917BB1 /* SetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10010563222EF5BA00917BB1 /* SetupTests.swift */; };
-		1006793422288058007386A7 /* RecorderEquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006793322288058007386A7 /* RecorderEquatableTests.swift */; };
 		101FEA4A221B4EE400C70FE6 /* StubKitExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 101FEA3C221B4EE400C70FE6 /* StubKitExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SpiesTests.swift */; };
-		101FEA53221B50D400C70FE6 /* ArgRecordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */; };
-		101FEA55221B53F200C70FE6 /* WeakScopeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */; };
-		101FEA57221B54CE00C70FE6 /* ArgWeakRecordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */; };
-		101FEA59221B588700C70FE6 /* StubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101FEA58221B588700C70FE6 /* StubTests.swift */; };
-		104727A022229F8200D04886 /* SpyCallsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1047279F22229F8200D04886 /* SpyCallsTests.swift */; };
-		104727A22222A31900D04886 /* TestStubMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104727A12222A31900D04886 /* TestStubMock.swift */; };
-		104727A42222A34800D04886 /* TestStubThrowingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104727A32222A34800D04886 /* TestStubThrowingMock.swift */; };
-		104727A62222A37800D04886 /* SpyCallsThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104727A52222A37800D04886 /* SpyCallsThrowingTests.swift */; };
 		1054B198221F435100F7224B /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054B197221F435100F7224B /* Dummy.swift */; };
-		10722780223425F800C68B43 /* VerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072277F223425F800C68B43 /* VerifyTests.swift */; };
-		10A1F0B822213D6A0046A49B /* StubThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */; };
-		10A1F0BA22217C130046A49B /* RegisterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0B922217C130046A49B /* RegisterTests.swift */; };
-		10A1F0BD22219F660046A49B /* TestProtocolGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0BC22219F660046A49B /* TestProtocolGlobal.swift */; };
-		10A1F0BF22219F7A0046A49B /* TypesGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0BE22219F7A0046A49B /* TypesGlobal.swift */; };
-		10A1F0C122219FB40046A49B /* TestStrictStubMockGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0C022219FB40046A49B /* TestStrictStubMockGlobal.swift */; };
-		10A1F0C322219FEC0046A49B /* TestProtocolGlobalThrowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0C222219FEC0046A49B /* TestProtocolGlobalThrowing.swift */; };
-		10A1F0C52221A0730046A49B /* NiceStubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0C42221A0730046A49B /* NiceStubTests.swift */; };
-		10A1F0C72221A83C0046A49B /* NiceStubThrowingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A1F0C62221A83C0046A49B /* NiceStubThrowingTests.swift */; };
-		10A20E132236C54C0044E454 /* SequenceCallbacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A20E122236C54C0044E454 /* SequenceCallbacksTests.swift */; };
-		10A20E152236D3E50044E454 /* AsyncVerificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A20E142236D3E50044E454 /* AsyncVerificationTests.swift */; };
-		10ADABC62240299300800E06 /* TupledSetupSequenecesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ADABC52240299300800E06 /* TupledSetupSequenecesTests.swift */; };
-		10ADABC822402B8100800E06 /* TupledSetupThrowableSequenecesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ADABC722402B8100800E06 /* TupledSetupThrowableSequenecesTests.swift */; };
-		10C1C5DB22350A2700ED3088 /* StubExpectationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1C5DA22350A2700ED3088 /* StubExpectationTests.swift */; };
-		10C1C5E122355C1800ED3088 /* VerifyFailingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1C5E022355C1800ED3088 /* VerifyFailingTests.swift */; };
-		10DDCC8522418F11003D90E7 /* NonThrowingGenericStubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DDCC8422418F11003D90E7 /* NonThrowingGenericStubTests.swift */; };
-		10E65F762243FFE50002031E /* ThrowingGenericStubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E65F752243FFE50002031E /* ThrowingGenericStubTests.swift */; };
 		8D0F827A52A6293F9BC4809E /* Pods_StubKitExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2E39CD1AD7EB2848F2E799 /* Pods_StubKitExample.framework */; };
 		BEE187B288D3893CC1FC972F /* Pods_StubKitExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2B140D858841FF911437E0 /* Pods_StubKitExampleTests.framework */; };
 /* End PBXBuildFile section */
@@ -52,45 +24,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		10010563222EF5BA00917BB1 /* SetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTests.swift; sourceTree = "<group>"; };
 		10067930222851CF007386A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		1006793322288058007386A7 /* RecorderEquatableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderEquatableTests.swift; sourceTree = "<group>"; };
 		10067935222BE178007386A7 /* documentation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = documentation.md; path = ../docs/documentation.md; sourceTree = "<group>"; };
 		101FEA3A221B4EE400C70FE6 /* StubKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StubKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		101FEA3C221B4EE400C70FE6 /* StubKitExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StubKitExample.h; sourceTree = "<group>"; };
 		101FEA3D221B4EE400C70FE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		101FEA42221B4EE400C70FE6 /* StubKitExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StubKitExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		101FEA49221B4EE400C70FE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgRecordsTests.swift; sourceTree = "<group>"; };
-		101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakScopeWorker.swift; sourceTree = "<group>"; };
-		101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgWeakRecordsTests.swift; sourceTree = "<group>"; };
-		101FEA58221B588700C70FE6 /* StubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubTests.swift; sourceTree = "<group>"; };
-		1047279F22229F8200D04886 /* SpyCallsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyCallsTests.swift; sourceTree = "<group>"; };
-		104727A12222A31900D04886 /* TestStubMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStubMock.swift; sourceTree = "<group>"; };
-		104727A32222A34800D04886 /* TestStubThrowingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStubThrowingMock.swift; sourceTree = "<group>"; };
-		104727A52222A37800D04886 /* SpyCallsThrowingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyCallsThrowingTests.swift; sourceTree = "<group>"; };
 		1054B197221F435100F7224B /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		1054B1A2221F4EC100F7224B /* StubKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StubKit.framework; path = "DerivedData/StubKitExample/Build/Products/Debug-iphonesimulator/StubKit/StubKit.framework"; sourceTree = "<group>"; };
-		1072277F223425F800C68B43 /* VerifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyTests.swift; sourceTree = "<group>"; };
-		10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubThrowingTests.swift; sourceTree = "<group>"; };
-		10A1F0B922217C130046A49B /* RegisterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTests.swift; sourceTree = "<group>"; };
-		10A1F0BC22219F660046A49B /* TestProtocolGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProtocolGlobal.swift; sourceTree = "<group>"; };
-		10A1F0BE22219F7A0046A49B /* TypesGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypesGlobal.swift; sourceTree = "<group>"; };
-		10A1F0C022219FB40046A49B /* TestStrictStubMockGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStrictStubMockGlobal.swift; sourceTree = "<group>"; };
-		10A1F0C222219FEC0046A49B /* TestProtocolGlobalThrowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProtocolGlobalThrowing.swift; sourceTree = "<group>"; };
-		10A1F0C42221A0730046A49B /* NiceStubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiceStubTests.swift; sourceTree = "<group>"; };
-		10A1F0C62221A83C0046A49B /* NiceStubThrowingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiceStubThrowingTests.swift; sourceTree = "<group>"; };
-		10A20E122236C54C0044E454 /* SequenceCallbacksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCallbacksTests.swift; sourceTree = "<group>"; };
-		10A20E142236D3E50044E454 /* AsyncVerificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncVerificationTests.swift; sourceTree = "<group>"; };
-		10ADABC52240299300800E06 /* TupledSetupSequenecesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TupledSetupSequenecesTests.swift; sourceTree = "<group>"; };
-		10ADABC722402B8100800E06 /* TupledSetupThrowableSequenecesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TupledSetupThrowableSequenecesTests.swift; sourceTree = "<group>"; };
-		10C1C5DA22350A2700ED3088 /* StubExpectationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubExpectationTests.swift; sourceTree = "<group>"; };
-		10C1C5E022355C1800ED3088 /* VerifyFailingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFailingTests.swift; sourceTree = "<group>"; };
-		10DDCC8422418F11003D90E7 /* NonThrowingGenericStubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonThrowingGenericStubTests.swift; sourceTree = "<group>"; };
-		10E65F752243FFE50002031E /* ThrowingGenericStubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingGenericStubTests.swift; sourceTree = "<group>"; };
 		15E889CDDEE965D3C70C01AF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		455150DF30D081B8E2481DB1 /* Pods-StubKitExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StubKitExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StubKitExampleTests/Pods-StubKitExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* SpiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiesTests.swift; sourceTree = "<group>"; };
 		6F2B140D858841FF911437E0 /* Pods_StubKitExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StubKitExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F2E39CD1AD7EB2848F2E799 /* Pods_StubKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StubKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F4FD1EA4F21A23D12DC39EF /* StubKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = StubKit.podspec; path = ../StubKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -130,58 +73,6 @@
 			path = StubKitExample;
 			sourceTree = "<group>";
 		};
-		101FEA46221B4EE400C70FE6 /* StubKitExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				10DDCC8322418EFA003D90E7 /* Generics */,
-				10A1F0BB22219F590046A49B /* Global */,
-				607FACEB1AFB9204008FA782 /* SpiesTests.swift */,
-				101FEA49221B4EE400C70FE6 /* Info.plist */,
-				101FEA52221B50D400C70FE6 /* ArgRecordsTests.swift */,
-				101FEA54221B53F200C70FE6 /* WeakScopeWorker.swift */,
-				101FEA56221B54CE00C70FE6 /* ArgWeakRecordsTests.swift */,
-				101FEA58221B588700C70FE6 /* StubTests.swift */,
-				10A1F0B722213D6A0046A49B /* StubThrowingTests.swift */,
-				10A1F0B922217C130046A49B /* RegisterTests.swift */,
-				10010563222EF5BA00917BB1 /* SetupTests.swift */,
-				10A1F0C42221A0730046A49B /* NiceStubTests.swift */,
-				10A1F0C62221A83C0046A49B /* NiceStubThrowingTests.swift */,
-				1047279F22229F8200D04886 /* SpyCallsTests.swift */,
-				104727A52222A37800D04886 /* SpyCallsThrowingTests.swift */,
-				1006793322288058007386A7 /* RecorderEquatableTests.swift */,
-				1072277F223425F800C68B43 /* VerifyTests.swift */,
-				10C1C5E022355C1800ED3088 /* VerifyFailingTests.swift */,
-				10C1C5DA22350A2700ED3088 /* StubExpectationTests.swift */,
-				10A20E122236C54C0044E454 /* SequenceCallbacksTests.swift */,
-				10A20E142236D3E50044E454 /* AsyncVerificationTests.swift */,
-				10ADABC52240299300800E06 /* TupledSetupSequenecesTests.swift */,
-				10ADABC722402B8100800E06 /* TupledSetupThrowableSequenecesTests.swift */,
-			);
-			path = StubKitExampleTests;
-			sourceTree = "<group>";
-		};
-		10A1F0BB22219F590046A49B /* Global */ = {
-			isa = PBXGroup;
-			children = (
-				10A1F0BC22219F660046A49B /* TestProtocolGlobal.swift */,
-				10A1F0BE22219F7A0046A49B /* TypesGlobal.swift */,
-				10A1F0C022219FB40046A49B /* TestStrictStubMockGlobal.swift */,
-				10A1F0C222219FEC0046A49B /* TestProtocolGlobalThrowing.swift */,
-				104727A12222A31900D04886 /* TestStubMock.swift */,
-				104727A32222A34800D04886 /* TestStubThrowingMock.swift */,
-			);
-			path = Global;
-			sourceTree = "<group>";
-		};
-		10DDCC8322418EFA003D90E7 /* Generics */ = {
-			isa = PBXGroup;
-			children = (
-				10DDCC8422418F11003D90E7 /* NonThrowingGenericStubTests.swift */,
-				10E65F752243FFE50002031E /* ThrowingGenericStubTests.swift */,
-			);
-			path = Generics;
-			sourceTree = "<group>";
-		};
 		34F9EBBBE49770C035348730 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,7 +90,6 @@
 				10067935222BE178007386A7 /* documentation.md */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				101FEA3B221B4EE400C70FE6 /* StubKitExample */,
-				101FEA46221B4EE400C70FE6 /* StubKitExampleTests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				929275516752F211D58FF670 /* Pods */,
 				34F9EBBBE49770C035348730 /* Frameworks */,
@@ -404,34 +294,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10A1F0BA22217C130046A49B /* RegisterTests.swift in Sources */,
-				101FEA51221B4EF100C70FE6 /* SpiesTests.swift in Sources */,
-				104727A42222A34800D04886 /* TestStubThrowingMock.swift in Sources */,
-				10010564222EF5BA00917BB1 /* SetupTests.swift in Sources */,
-				10722780223425F800C68B43 /* VerifyTests.swift in Sources */,
-				104727A22222A31900D04886 /* TestStubMock.swift in Sources */,
-				104727A62222A37800D04886 /* SpyCallsThrowingTests.swift in Sources */,
-				10A1F0C52221A0730046A49B /* NiceStubTests.swift in Sources */,
-				10A1F0BF22219F7A0046A49B /* TypesGlobal.swift in Sources */,
-				10A20E132236C54C0044E454 /* SequenceCallbacksTests.swift in Sources */,
-				10A1F0B822213D6A0046A49B /* StubThrowingTests.swift in Sources */,
-				10A1F0C122219FB40046A49B /* TestStrictStubMockGlobal.swift in Sources */,
-				10DDCC8522418F11003D90E7 /* NonThrowingGenericStubTests.swift in Sources */,
-				10E65F762243FFE50002031E /* ThrowingGenericStubTests.swift in Sources */,
-				104727A022229F8200D04886 /* SpyCallsTests.swift in Sources */,
-				101FEA55221B53F200C70FE6 /* WeakScopeWorker.swift in Sources */,
-				10C1C5DB22350A2700ED3088 /* StubExpectationTests.swift in Sources */,
-				101FEA59221B588700C70FE6 /* StubTests.swift in Sources */,
-				1006793422288058007386A7 /* RecorderEquatableTests.swift in Sources */,
-				10ADABC822402B8100800E06 /* TupledSetupThrowableSequenecesTests.swift in Sources */,
-				101FEA53221B50D400C70FE6 /* ArgRecordsTests.swift in Sources */,
-				10A1F0BD22219F660046A49B /* TestProtocolGlobal.swift in Sources */,
-				10A20E152236D3E50044E454 /* AsyncVerificationTests.swift in Sources */,
-				101FEA57221B54CE00C70FE6 /* ArgWeakRecordsTests.swift in Sources */,
-				10C1C5E122355C1800ED3088 /* VerifyFailingTests.swift in Sources */,
-				10ADABC62240299300800E06 /* TupledSetupSequenecesTests.swift in Sources */,
-				10A1F0C322219FEC0046A49B /* TestProtocolGlobalThrowing.swift in Sources */,
-				10A1F0C72221A83C0046A49B /* NiceStubThrowingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
