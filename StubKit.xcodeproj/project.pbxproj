@@ -91,6 +91,8 @@
 
 /* Begin PBXFileReference section */
 		1009C3CD22478B0F003A0DDE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1009C3CF22479F05003A0DDE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		1009C3D122479F22003A0DDE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		OBJ_11 /* GenericInferers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericInferers.swift; sourceTree = "<group>"; };
 		OBJ_12 /* GenericStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericStub.swift; sourceTree = "<group>"; };
 		OBJ_13 /* GenericThrowingInferers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericThrowingInferers.swift; sourceTree = "<group>"; };
@@ -163,6 +165,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1009C3CE22479F05003A0DDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1009C3D122479F22003A0DDE /* XCTest.framework */,
+				1009C3CF22479F05003A0DDE /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Generics */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,7 +276,7 @@
 			path = Global;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				1009C3CD22478B0F003A0DDE /* README.md */,
@@ -274,8 +285,8 @@
 				OBJ_33 /* Tests */,
 				OBJ_65 /* docs */,
 				OBJ_69 /* Products */,
+				1009C3CE22479F05003A0DDE /* Frameworks */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_69 /* Products */ = {
@@ -377,7 +388,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_69 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

@@ -1,7 +1,10 @@
 osx_image: xcode10.1  
 language: objective-c
+install: 
+  - echo "No dependencies"
 script:
-  - swift test
+  - swift package generate-xcodeproj
+  - xcodebuild test -scheme StubKit-Package -enableCodeCoverage YES | xcpretty
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -9,7 +12,8 @@ after_success:
 
 deploy:
   provider: script
-  script: ./scripts/push.sh 
+  before_install: bundle install
+  script: ./scripts/push.sh
   skip_cleanup: true
   on:
     tags: true

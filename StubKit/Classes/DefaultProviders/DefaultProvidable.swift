@@ -21,6 +21,7 @@ THE SOFTWARE.
 */
 
 import Foundation
+import CoreGraphics
 
 public protocol DefaultProvidable {
     static var defaultValue:Self {get}
