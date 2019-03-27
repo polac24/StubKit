@@ -123,7 +123,10 @@ class TestStubThrowingMock: TestProtocolGlobalThrowing {
     lazy var takeAutoclosureStringWithOtherThrowingAction = stub(of: takeAutoclosureStringWithOtherThrowing)
     lazy var takeAutoclosureStringWithOtherThrowingActionCustom = stub(of: takeAutoclosureStringWithOtherThrowing, alwaysReturn: Void())
     func takeAutoclosureStringWithOtherThrowing(_ closure: @autoclosure () -> (String), other: String) throws {
-        return try takeAutoclosureStringWithOtherThrowingAction((closure(), other))
+        // Temporary workaround for https://bugs.swift.org/browse/SR-9991
+        return try withoutActuallyEscaping(closure) {
+            try takeAutoclosureStringWithOtherThrowingAction(($0, other))
+        }
     }
 }
 

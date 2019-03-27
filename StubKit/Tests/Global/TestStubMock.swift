@@ -128,7 +128,10 @@ class TestStubMock: TestProtocolGlobal {
     lazy var takeAutoclosureStringWithOtherAction = stub(of: takeAutoclosureStringWithOther)
     lazy var takeAutoclosureStringWithOtherActionCustom = stub(of: takeAutoclosureStringWithOther, alwaysReturn: Void())
     func takeAutoclosureStringWithOther(_ closure: @autoclosure () -> (String), other: String) {
-        return takeAutoclosureStringWithOtherAction((closure(), other))
+        // Temporary workaround for https://bugs.swift.org/browse/SR-9991
+        return withoutActuallyEscaping(closure) {
+            takeAutoclosureStringWithOtherAction(($0, other))
+        }
     }
 }
 
