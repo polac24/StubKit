@@ -129,8 +129,10 @@ For API documentation, see external document: [API Documentation](docs/documenta
 
 Swift | StubKit
 ------------ | -------------
-`4.2` | `~> 0`
-`5.0` | TBD
+`4.2` | `~> 0.0`
+`5.0` | `~> 0.1`
+
+_StubKit does not introduce any changes between Swift 4.2 and Swift 5.0_
 
 ## Installation
 
@@ -152,7 +154,7 @@ and to your application/library target, add "StubKit" to your dependencies.
 Add the following line to your `Cartfile`:
 
 ```
-github "polac24/StubKit" ~> 0.0
+github "polac24/StubKit" ~> 0.1
 ```
 
 For detailed instruction to integrate carthage dependency, see [Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application)

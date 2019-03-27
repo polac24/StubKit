@@ -142,8 +142,8 @@
 		OBJ_63 /* WeakScopeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakScopeWorker.swift; sourceTree = "<group>"; };
 		OBJ_65 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = SOURCE_ROOT; };
 		OBJ_9 /* DefaultProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProvidable.swift; sourceTree = "<group>"; };
-		"StubKit::StubKit::Product" /* StubKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StubKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StubKit::StubKitTests::Product" /* StubKitTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StubKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StubKit::StubKit::Product" /* StubKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StubKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StubKit::StubKitTests::Product" /* StubKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StubKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,12 +380,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"StubKit::StubKit" = {
+						LastSwiftMigration = 1020;
+					};
+					"StubKit::StubKitTests" = {
+						LastSwiftMigration = 1020;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StubKit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -524,7 +533,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StubKitTests;
 			};
 			name = Debug;
@@ -545,7 +554,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StubKitTests;
 			};
 			name = Release;
@@ -615,7 +624,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StubKit;
 			};
 			name = Debug;
@@ -639,7 +648,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StubKit;
 			};
 			name = Release;
