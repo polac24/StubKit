@@ -22,6 +22,7 @@
   * [Argument verification](#argument-verification)
     + [Spy recorder](#spy-recorder)
       - [Spy a single-argument function](#spy-a-single-argument-function)
+      - [Verify a single-equatable-argument function](#verify-a-single-equatable-argument-function)
       - [Spy a multi-argument function](#spy-a-multi-argument-function)
       - [Weak spy](#weak-spy)
       - [Custom spy storage](#custom-spy-storage)
@@ -364,6 +365,15 @@ databaseMock.addUser(name: "user1")
 
 let callArg = addUserSpy[0] // "user1"
 let callCount = addUserSpy.count // 1
+```
+
+###### Verify a single-equatable-argument function
+```swift
+// addUserSpy is ArgRecords<String> as `addUser` has a single String argument 
+let addUserSpy = spyCalls(of: &databaseStub.addUserAction) 
+databaseMock.addUser(name: "user1")
+
+XCTAssertEqual(addUserSpy, ["user1"])
 ```
 
 ##### Spy a multi-argument function
