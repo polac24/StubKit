@@ -129,8 +129,7 @@ For API documentation, see external document: [API Documentation](docs/documenta
 
 Swift | StubKit
 ------------ | -------------
-`4.2` | `~> 0.0`
-`5.0` | `~> 0.1`
+`4.2`, `5.0` | `~> 0.1`
 
 _StubKit does not introduce any changes between Swift 4.2 and Swift 5.0_
 
