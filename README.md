@@ -32,13 +32,13 @@ Stubs created using StubKit provide :
 ## Sample
 
 ```swift 
-// Sample protocol to work with
+// Implementation target: Sample protocol
 protocol Database {
   func addUser(name: String) -> Int
   func addAccount(givenName: String, lastName: String) throws -> Int
 }
 
-// Mock creation
+// Test target: mock creation
 class DatabaseStub: Database {    
   lazy var addUserAction = stub(of: addUser)  
   func addUser(name: String) -> Int {     
@@ -51,7 +51,8 @@ class DatabaseStub: Database {
   }
 }
 
-// Arange
+
+// Test target, testcase Arange
 let databaseStub = DatabaseStub()
 ```
 Calls and arguments verification:
@@ -141,7 +142,7 @@ To depend on the StubKit package, you need to declare your dependency in your `P
 
 
 ```swift
-.package(url: "https://github.com/polac24/StubKit.git",  from: "0.0.9")
+.package(url: "https://github.com/polac24/StubKit.git",  from: "0.1.0")
 ```
 
 and to your application/library target, add "StubKit" to your dependencies.
