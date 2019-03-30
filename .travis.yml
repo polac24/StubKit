@@ -2,6 +2,7 @@ osx_image: xcode10.2
 language: objective-c
 script:
   - swift test --enable-code-coverage
+  - xcrun llvm-cov show  -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata .build/x86_64-apple-macosx/debug/StubKitPackageTests.xctest/Contents/MacOS/StubKitPackageTests  > coverage.txt
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
