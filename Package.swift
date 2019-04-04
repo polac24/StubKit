@@ -18,6 +18,6 @@ let package = Package(
             path: "StubKit/Tests"
         ),
     ],
-    swiftLanguageVersions: [.v4_2,.version("5.0")]
+    swiftLanguageVersions: [.v4_2,.version("5")]
 )
 
