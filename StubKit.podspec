@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'StubKit'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Library for Swift mocks/stubs generation'
   s.swift_version    = '5.0'
   s.description      = <<-DESC
