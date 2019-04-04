@@ -17,6 +17,7 @@ let package = Package(
             dependencies: ["StubKit"],
             path: "StubKit/Tests"
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.v4_2,.version("5")]
 )
 
