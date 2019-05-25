@@ -1,5 +1,5 @@
 PODS:
-  - StubKit (0.0.7)
+  - StubKit (0.1.4)
 
 DEPENDENCIES:
   - StubKit (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  StubKit: 1d8168d4ecaa97806bef12313a279b2520753452
+  StubKit: f13308c294e06b80989cefcfc4eef6f99e3c6418
 
 PODFILE CHECKSUM: 29dcbbb07f157da6e071aff9081a7c7bb23013a3
 

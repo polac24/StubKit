@@ -9,5 +9,5 @@
 import UIKit
 
 class Dummy: NSObject {
-    func a() { print ("something") }
+    func a() -> Int { return 1 }
 }

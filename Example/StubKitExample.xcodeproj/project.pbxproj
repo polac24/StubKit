@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		101FEA4A221B4EE400C70FE6 /* StubKitExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 101FEA3C221B4EE400C70FE6 /* StubKitExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		104B76872299B10400B25EFB /* StubKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1054B1A2221F4EC100F7224B /* StubKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		104B768D2299B13C00B25EFB /* DummyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104B768C2299B13C00B25EFB /* DummyTests.swift */; };
 		1054B198221F435100F7224B /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054B197221F435100F7224B /* Dummy.swift */; };
 		8D0F827A52A6293F9BC4809E /* Pods_StubKitExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2E39CD1AD7EB2848F2E799 /* Pods_StubKitExample.framework */; };
 		BEE187B288D3893CC1FC972F /* Pods_StubKitExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2B140D858841FF911437E0 /* Pods_StubKitExampleTests.framework */; };
@@ -23,6 +25,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		104B76862299B0FD00B25EFB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				104B76872299B10400B25EFB /* StubKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		10067930222851CF007386A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		10067935222BE178007386A7 /* documentation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = documentation.md; path = ../docs/documentation.md; sourceTree = "<group>"; };
@@ -30,6 +45,8 @@
 		101FEA3C221B4EE400C70FE6 /* StubKitExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StubKitExample.h; sourceTree = "<group>"; };
 		101FEA3D221B4EE400C70FE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		101FEA42221B4EE400C70FE6 /* StubKitExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StubKitExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		104B768A2299B12500B25EFB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		104B768C2299B13C00B25EFB /* DummyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTests.swift; sourceTree = "<group>"; };
 		1054B197221F435100F7224B /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		1054B1A2221F4EC100F7224B /* StubKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StubKit.framework; path = "DerivedData/StubKitExample/Build/Products/Debug-iphonesimulator/StubKit/StubKit.framework"; sourceTree = "<group>"; };
 		15E889CDDEE965D3C70C01AF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -73,6 +90,15 @@
 			path = StubKitExample;
 			sourceTree = "<group>";
 		};
+		104B76892299B12500B25EFB /* StubKitExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				104B768A2299B12500B25EFB /* Info.plist */,
+				104B768C2299B13C00B25EFB /* DummyTests.swift */,
+			);
+			path = StubKitExampleTests;
+			sourceTree = "<group>";
+		};
 		34F9EBBBE49770C035348730 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +116,7 @@
 				10067935222BE178007386A7 /* documentation.md */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				101FEA3B221B4EE400C70FE6 /* StubKitExample */,
+				104B76892299B12500B25EFB /* StubKitExampleTests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				929275516752F211D58FF670 /* Pods */,
 				34F9EBBBE49770C035348730 /* Frameworks */,
@@ -166,7 +193,7 @@
 				A98B1629D39345B0E88A6503 /* [CP] Check Pods Manifest.lock */,
 				101FEA3E221B4EE400C70FE6 /* Sources */,
 				101FEA3F221B4EE400C70FE6 /* Frameworks */,
-				101FEA40221B4EE400C70FE6 /* Resources */,
+				104B76862299B0FD00B25EFB /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -194,6 +221,7 @@
 					};
 					101FEA41221B4EE400C70FE6 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -219,13 +247,6 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		101FEA38221B4EE400C70FE6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		101FEA40221B4EE400C70FE6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -294,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				104B768D2299B13C00B25EFB /* DummyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +410,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -405,6 +428,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.polaczyk.StubKitExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -417,6 +441,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
