@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
+#if canImport(XCTest)
 import XCTest
 
 public func SKTVerify<I>(_ sequence: AbstractSetupSequence<I>, file: StaticString = #file, line: UInt = #line) {
@@ -54,3 +54,4 @@ extension AbstractSetupSequence {
         return self
     }
 }
+#endif
