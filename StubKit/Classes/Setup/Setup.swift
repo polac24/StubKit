@@ -75,18 +75,20 @@ public func setupStubSequence<I,O>(of stub: inout (I) throws -> (O), for predica
 
 func setupStubSequence<I,O,T:SetupSequence<I,O>>(of stub: inout (I) -> (O), type: T.Type) -> T {
     let sequence = T()
-    let fallback = stub
+    /// next element in a chain of responsibility
+    let next = stub
     stub = { arg in
-        return sequence.nextValue(fallback: fallback, fallbackArg: arg)
+        return sequence.accept(next: next, argument: arg)
     }
     return sequence
 }
 
 func setupStubSequence<I,O,T:SetupThrowableSequence<I,O>>(of stub: inout (I) throws -> (O), type: T.Type ) -> T {
     let sequence = T()
-    let fallback = stub
+    /// next element in a chain of responsibility
+    let next = stub
     stub = { arg in
-        return try sequence.nextValue(fallback: fallback, fallbackArg: arg)
+        return try sequence.nextValue(next: next, argument: arg)
     }
     return sequence
 }
