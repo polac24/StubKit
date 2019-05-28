@@ -88,20 +88,27 @@ public class SetupSequence<I,O>: AbstractSetupSequence<I> {
         super.init()
     }
     
-    func nextValue(fallback: (I) ->(O), fallbackArg: I) -> O {
-        guard filters.allSatisfy({$0(fallbackArg)}) else {
-            return fallback(fallbackArg)
+    /// Represents next element in a chain of responsibility
+    /// that may provide value to return if given sequence is not
+    ///
+    /// - Parameters:
+    ///   - next: represents next element in a chain of responsibility that may provide value to return if given sequence didn't specify one for given argument
+    ///   - argument: received argument
+    /// - Returns: object to return as a body of a stub
+    func accept(next: (I) ->(O), argument: I) -> O {
+        guard filters.allSatisfy({$0(argument)}) else {
+            return next(argument)
         }
-        callbacks.forEach({$0(fallbackArg)})
+        callbacks.forEach({$0(argument)})
         filteredCount += 1
         defer {
-            postCallbacks.forEach({$0(fallbackArg)})
+            postCallbacks.forEach({$0(argument)})
         }
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
-            return fallback(fallbackArg)
+            return next(argument)
         }
-        _ = fallback(fallbackArg)
+        _ = next(argument)
         defer {
             count += 1
         }
@@ -133,22 +140,29 @@ public class SetupThrowableSequence<I,O>: AbstractSetupSequence<I> {
         super.init()
     }
     
-    func nextValue(fallback: (I) throws ->(O), fallbackArg: I) throws -> O {
-        guard filters.allSatisfy({$0(fallbackArg)}) else {
-            return try fallback(fallbackArg)
+    /// Represents next element in a chain of responsibility
+    /// that may provide value to return if given sequence is not
+    ///
+    /// - Parameters:
+    ///   - next: represents next element in a chain of responsibility that may provide value to return if given sequence didn't specify one for given argument
+    ///   - argument: received argument
+    /// - Returns: object to return as a body of a stub
+    func nextValue(next: (I) throws ->(O), argument: I) throws -> O {
+        guard filters.allSatisfy({$0(argument)}) else {
+            return try next(argument)
         }
-        callbacks.forEach({$0(fallbackArg)})
+        callbacks.forEach({$0(argument)})
         filteredCount += 1
         defer {
-            postCallbacks.forEach({$0(fallbackArg)})
+            postCallbacks.forEach({$0(argument)})
         }
         let valuesIndex = returnIndex(count: count)
         guard values.count > valuesIndex else {
-            return try fallback(fallbackArg)
+            return try next(argument)
         }
         defer {
             count += 1
-            _ = try? fallback(fallbackArg)
+            _ = try? next(argument)
         }
         switch values[valuesIndex] {
         case .error(let error):
