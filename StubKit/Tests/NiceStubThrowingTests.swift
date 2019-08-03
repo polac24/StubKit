@@ -98,8 +98,5 @@ class NiceStubThrowingTests: XCTestCase {
     func testtakeAutoclosureStringDoesntCrash() throws {
         _ = try testMock.takeAutoclosureStringThrowing("C")
     }
-    func testtakeAutoclosureStringWithOtherDoesntCrash() throws {
-        _ = try testMock.takeAutoclosureStringWithOtherThrowing("D", other: "Other")
-    }
 }
 

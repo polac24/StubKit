@@ -41,8 +41,8 @@ protocol TestProtocolGlobal {
     func takeNonscaping(_: (Int) -> (String))
     func returnFunction() -> ((Int) -> (String))
     func takeAutoclosureString(_: @autoclosure () -> (String))
-    func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
 // Not supported
+//    func takeAutoclosureStringWithOther(_: @autoclosure () -> (String), other: String)
 //    func takeVarArgs(_: Int...)
 //    func takeVarArgsAndOther(_: Int..., other: String)
 }

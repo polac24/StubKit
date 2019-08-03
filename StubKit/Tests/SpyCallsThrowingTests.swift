@@ -175,18 +175,5 @@ class SpyCallsThrowingTests: XCTestCase {
         XCTAssertEqual(args.count, 1)
         XCTAssertEqual(args[0], "C")
     }
-    func testtakeAutoclosureStringWithOtherSpiesAllowsToSpyNonAutoclosure() throws {
-        let args = spyCalls(of: &testMock.takeAutoclosureStringWithOtherThrowingAction)
-        _ = try testMock.takeAutoclosureStringWithOtherThrowing("D", other: "Other")
-        XCTAssertEqual(args.count, 1)
-        XCTAssertEqual(args[0]?.1, "Other")
-    }
-    func testtakeAutoclosureStringWithOtherSpiesAllowsToSpyAutoclosure() throws {
-        let args = spyCalls(of: &testMock.takeAutoclosureStringWithOtherThrowingAction, transform: { ($0.0(),$0.1)})
-        _ = try testMock.takeAutoclosureStringWithOtherThrowing("D", other: "Other")
-        XCTAssertEqual(args.count, 1)
-        XCTAssertEqual(args[0]?.0, "D")
-        XCTAssertEqual(args[0]?.1, "Other")
-    }
 }
 

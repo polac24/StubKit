@@ -107,13 +107,6 @@ class TestStrictStubMockGlobal: TestProtocolGlobal {
     func takeAutoclosureString(_ closure: @autoclosure () -> (String)) {
         return takeAutoclosureStringAction(closure())
     }
-    lazy var takeAutoclosureStringWithOtherAction = strictStub(of: takeAutoclosureStringWithOther)
-    // Temporary workaround for https://bugs.swift.org/browse/SR-9991
-    func takeAutoclosureStringWithOther(_ closure: @autoclosure () -> (String), other: String) {
-        return withoutActuallyEscaping(closure) {
-            takeAutoclosureStringWithOtherAction(($0, other))
-        }
-    }
     // not supported. For more details, see https://forums.swift.org/t/array-splatting-for-variadic-parameters/7175
     /*lazy var takeVarArgsAction = strictStub(of: takeVarArgs)
     func takeVarArgs(_ arg: Int...) {
