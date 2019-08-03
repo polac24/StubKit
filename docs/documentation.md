@@ -566,8 +566,6 @@ waitForExpectations(timeout: timeout) // ✅
 
 ### `@autoclosure`
 
-> Support for @autoclosure in Swift 5.0 will change so this documentation is a subject to change
-
 ```swift
 protocol Database {
     func addUser(name: @autoclosure () -> String)
@@ -575,10 +573,13 @@ protocol Database {
 class DatabaseMock: Database {
     lazy var addUserAction = stub(of: addUser)
     func addUser(name: @autoclosure () -> String) {
-        return addUserAction(name())
+        return addUserAction({[arg = name()] in arg})
     }
 }
 ```
+
+> Xcode 11+ compiler supports @autoclosure argument only when there is only one argument
+
 
 ### `@escaping`
 
@@ -720,4 +721,5 @@ try DatabaseMock<String>().add(user: 123) as Int // crashes (generic `T` and ret
 
 - Thread safe - StubKit is thread unsafe
 - Variadic functions
+- Functions that take multiple arguments, where at least one contains `@autoclosure`  modifier
 
